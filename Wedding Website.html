@@ -147,6 +147,7 @@ section { position: relative; overflow: hidden; }
 
 /* HERO */
 #hero {
+  position: relative; overflow: hidden;
   min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; background: var(--bg);
 }
@@ -318,6 +319,40 @@ section { position: relative; overflow: hidden; }
 footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: center; }
 .footer-names { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--primary-deep); }
 .footer-sub { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text2); margin-top: 0.5rem; }
+
+/* RESPONSIVE GRIDS */
+.bio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; }
+.attire-grid { display: grid; grid-template-columns: 1fr 1fr; }
+@media (max-width: 600px) {
+  .attire-grid { grid-template-columns: 1fr; }
+  .attire-grid > div:first-child { border-right: none !important; border-bottom: 1px solid var(--border); }
+}
+
+/* MOBILE TUNING */
+@media (max-width: 768px) {
+  nav { padding: 0 1.5rem; }
+  .section-inner { padding: 4.5rem 1.5rem; }
+}
+@media (max-width: 640px) {
+  nav { padding: 0 1.25rem; }
+  .section-inner { padding: 4rem 1.25rem; }
+  .hero-names { letter-spacing: 0.02em; }
+  .hero-date { font-size: 0.75rem; letter-spacing: 0.2em; }
+  .hero-venue { font-size: 1.05rem; }
+  .countdown { gap: 1.1rem; margin-top: 1.75rem; }
+  .countdown-num { font-size: 2.1rem; }
+  .countdown-label { font-size: 0.6rem; }
+  .footer-names { font-size: 1.6rem; }
+  footer { padding: 2.5rem 1.25rem; }
+  .section-title { font-size: clamp(1.8rem, 7vw, 2.6rem); }
+}
+@media (max-width: 480px) {
+  nav { padding: 0 1rem; height: 56px; }
+  .section-inner { padding: 3.5rem 1rem; }
+  .countdown { gap: 0.7rem; }
+  .countdown-num { font-size: 1.7rem; }
+  .countdown-label { font-size: 0.55rem; letter-spacing: 0.1em; }
+}
 </style>
 </head>
 <body class="theme-marigold">
@@ -326,6 +361,169 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 3
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
+// ─── WATERCOLOR FLORA HELPERS ────────────────────────────────────────────────
+function DelphiniumSpike({ x, y, len, dir = 1 }) {
+  return (
+    <g>
+      <path d={`M${x} ${y-22} Q${x+dir*4} ${y+len*5} ${x-dir*5} ${y+len*10}`}
+        stroke="#4a6e2c" strokeWidth="1.4" fill="none" opacity="0.55"/>
+      {Array.from({length:len}).map((_,j) => {
+        const dy = y + j*9;
+        const dx = x + ((j%2===0?2:-2) + dir*j*0.4);
+        const tone = j<2 ? '#a0c0e8' : j<5 ? '#5278b8' : '#2e509c';
+        const halo = j<2 ? '#d0e0f2' : j<5 ? '#a8c0e0' : '#7898c8';
+        return (
+          <g key={j}>
+            <circle cx={dx} cy={dy} r="6.5" fill={halo} opacity="0.32" filter="url(#wc-soft)"/>
+            <ellipse cx={dx-2.6} cy={dy} rx="2.4" ry="1.7" fill={halo} opacity="0.88"/>
+            <ellipse cx={dx+2.6} cy={dy} rx="2.4" ry="1.7" fill={halo} opacity="0.88"/>
+            <ellipse cx={dx} cy={dy-2} rx="2.4" ry="1.7" fill={halo} opacity="0.88"/>
+            <ellipse cx={dx} cy={dy+2} rx="2.4" ry="1.7" fill={halo} opacity="0.88"/>
+            <ellipse cx={dx} cy={dy} rx="4.6" ry="3.2" fill={tone} opacity="0.92"/>
+            <circle cx={dx-1} cy={dy-0.8} r="1.4" fill="#fff8d0" opacity="0.85"/>
+          </g>
+        );
+      })}
+    </g>
+  );
+}
+
+function WCRose({ cx, cy, r = 14, hue = 'pink' }) {
+  const palettes = {
+    pink:  ['#f0b8ce','#e0709c','#a83458','#7c1840'],
+    coral: ['#f5b8a8','#e8826a','#a84228','#7c2010'],
+    cream: ['#fff0d0','#f0d8a8','#c89048','#a06820'],
+    red:   ['#e87080','#c83040','#8c1820','#5c0810'],
+  };
+  const p = palettes[hue] || palettes.pink;
+  return (
+    <g transform={`translate(${cx},${cy})`}>
+      <ellipse rx={r*1.35} ry={r*1.1} fill={p[0]} opacity="0.5" filter="url(#wc-soft)"/>
+      {[18,90,162,234,306].map(deg => (
+        <ellipse key={deg}
+          cx={r*0.5*Math.cos((deg-90)*Math.PI/180)}
+          cy={r*0.5*Math.sin((deg-90)*Math.PI/180)}
+          rx={r*0.55} ry={r*0.42}
+          fill={p[1]} opacity="0.85"
+          transform={`rotate(${deg})`}/>
+      ))}
+      {[54,126,198,270,342].map(deg => (
+        <ellipse key={deg}
+          cx={r*0.28*Math.cos((deg-90)*Math.PI/180)}
+          cy={r*0.28*Math.sin((deg-90)*Math.PI/180)}
+          rx={r*0.36} ry={r*0.26}
+          fill={p[2]} opacity="0.82"
+          transform={`rotate(${deg})`}/>
+      ))}
+      <ellipse rx={r*0.22} ry={r*0.16} fill={p[3]} opacity="0.95"/>
+      <ellipse cx={-r*0.08} cy={-r*0.08} rx={r*0.07} ry={r*0.05} fill="#fff" opacity="0.55"/>
+    </g>
+  );
+}
+
+function WCMarigold({ cx, cy, r = 10 }) {
+  return (
+    <g transform={`translate(${cx},${cy})`}>
+      <circle r={r*1.2} fill="#fcd070" opacity="0.45" filter="url(#wc-soft)"/>
+      {Array.from({length:10}).map((_,i)=>{
+        const a = i*36;
+        return <ellipse key={i}
+          cx={r*0.55*Math.cos(a*Math.PI/180)}
+          cy={r*0.55*Math.sin(a*Math.PI/180)}
+          rx={r*0.42} ry={r*0.3}
+          fill="#e89020" opacity="0.85"
+          transform={`rotate(${a})`}/>;
+      })}
+      {Array.from({length:8}).map((_,i)=>{
+        const a = i*45 + 22;
+        return <ellipse key={i}
+          cx={r*0.32*Math.cos(a*Math.PI/180)}
+          cy={r*0.32*Math.sin(a*Math.PI/180)}
+          rx={r*0.32} ry={r*0.22}
+          fill="#f8b438" opacity="0.9"
+          transform={`rotate(${a})`}/>;
+      })}
+      <circle r={r*0.22} fill="#a85808" opacity="0.85"/>
+    </g>
+  );
+}
+
+function WCWhiteBloom({ cx, cy, r = 8 }) {
+  return (
+    <g transform={`translate(${cx},${cy})`}>
+      {[0,72,144,216,288].map(deg => (
+        <ellipse key={deg}
+          cx={r*0.5*Math.cos(deg*Math.PI/180)}
+          cy={r*0.5*Math.sin(deg*Math.PI/180)}
+          rx={r*0.4} ry={r*0.3}
+          fill="#fff8ee" opacity="0.95"
+          transform={`rotate(${deg+90})`}/>
+      ))}
+      <circle r={r*0.22} fill="#f8c850" opacity="0.95"/>
+      <circle r={r*0.1} fill="#a86810" opacity="0.7"/>
+    </g>
+  );
+}
+
+function WCBougainvillea({ cx, cy, r = 12, color = '#e8408c' }) {
+  return (
+    <g transform={`translate(${cx},${cy})`}>
+      <circle r={r*1.1} fill={color} opacity="0.28" filter="url(#wc-soft)"/>
+      {[0,72,144,216,288].map((deg,i) => (
+        <path key={i}
+          d={`M0 0 L${r*0.55} ${-r*0.45} L${r*0.7} 0 L${r*0.5} ${r*0.3} Z`}
+          fill={color} opacity={0.85 - i*0.05}
+          transform={`rotate(${deg})`}/>
+      ))}
+      <circle r="1.6" fill="#fbe070"/>
+      {[0,120,240].map((deg,i) => (
+        <circle key={i}
+          cx={r*0.55*Math.cos(deg*Math.PI/180)}
+          cy={r*0.55*Math.sin(deg*Math.PI/180)}
+          r="1.2" fill="#fbe070"/>
+      ))}
+    </g>
+  );
+}
+
+function WCLeaf({ cx, cy, len = 22, rotate = 0, color = '#5a8038' }) {
+  return (
+    <g transform={`translate(${cx},${cy}) rotate(${rotate})`}>
+      <path d={`M0 0 Q${len*0.36} ${-len*0.45} 0 ${-len} Q${-len*0.36} ${-len*0.45} 0 0Z`}
+        fill={color} opacity="0.88" filter="url(#wc-edge)"/>
+      <path d={`M0 -2 L0 ${-len+2}`} stroke="#365528" strokeWidth="0.6" opacity="0.55"/>
+      {[0.25,0.5,0.75].map((t,i) => {
+        const dy = -len*t;
+        const side = i%2===0 ? 1 : -1;
+        return <path key={i}
+          d={`M0 ${dy} Q${side*len*0.1} ${dy-len*0.04} ${side*len*0.2} ${dy-len*0.08}`}
+          stroke="#365528" strokeWidth="0.45" fill="none" opacity="0.4"/>;
+      })}
+    </g>
+  );
+}
+
+function Bird({ x, y, size = 9 }) {
+  return (
+    <path d={`M${x} ${y} q${size*0.4} ${-size*0.55} ${size*0.8} 0 q${size*0.4} ${-size*0.55} ${size*0.8} 0`}
+      stroke="#5a6878" strokeWidth="1.3" fill="none" opacity="0.55" strokeLinecap="round"/>
+  );
+}
+
+function Butterfly({ x, y, size = 11, color = '#c89878' }) {
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <ellipse cx={-size*0.32} cy={-size*0.12} rx={size*0.42} ry={size*0.32} fill={color} opacity="0.7"/>
+      <ellipse cx={size*0.32}  cy={-size*0.12} rx={size*0.42} ry={size*0.32} fill={color} opacity="0.7"/>
+      <ellipse cx={-size*0.25} cy={size*0.22}  rx={size*0.3}  ry={size*0.22} fill={color} opacity="0.6"/>
+      <ellipse cx={size*0.25}  cy={size*0.22}  rx={size*0.3}  ry={size*0.22} fill={color} opacity="0.6"/>
+      <ellipse cx="0" cy="0" rx="1.2" ry={size*0.5} fill="#3a2818"/>
+      <circle cx={-size*0.32} cy={-size*0.12} r={size*0.07} fill="#fff" opacity="0.5"/>
+      <circle cx={size*0.32}  cy={-size*0.12} r={size*0.07} fill="#fff" opacity="0.5"/>
+    </g>
+  );
+}
+
 // ─── OLEANDER WATERCOLOR LANDSCAPE ───────────────────────────────────────────
 function OleanderLandscape() {
   return (
@@ -333,212 +531,567 @@ function OleanderLandscape() {
       style={{position:'absolute',inset:0,width:'100%',height:'100%'}}
       preserveAspectRatio="xMidYMid slice">
       <defs>
-        {/* Crisp watercolor edge — less displacement, more definition */}
         <filter id="wc-edge" x="-5%" y="-5%" width="110%" height="110%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.03 0.02" numOctaves="3" seed="12" result="n"/>
-          <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G"/>
+          <feTurbulence type="fractalNoise" baseFrequency="0.025 0.018" numOctaves="3" seed="9" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="wc-rough" x="-3%" y="-3%" width="106%" height="106%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="5" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="wc-soft" x="-5%" y="-5%" width="110%" height="110%">
+          <feGaussianBlur stdDeviation="3"/>
         </filter>
         <filter id="wc-mist" x="-10%" y="-10%" width="120%" height="120%">
           <feGaussianBlur stdDeviation="14"/>
         </filter>
-        <filter id="wc-soft" x="-5%" y="-5%" width="110%" height="110%">
-          <feGaussianBlur stdDeviation="4"/>
-        </filter>
-        <filter id="wc-sharp" x="-2%" y="-2%" width="104%" height="104%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" seed="7" result="n"/>
-          <feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+        <filter id="wc-paper" x="0%" y="0%" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="7" result="t"/>
+          <feColorMatrix in="t" values="0 0 0 0 0.92  0 0 0 0 0.85  0 0 0 0 0.72  0 0 0 0.45 0"/>
         </filter>
 
-        {/* Golden-hour Karjat sky */}
-        <linearGradient id="karjat-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ddd0f0" stopOpacity="0.95"/>
-          <stop offset="35%" stopColor="#ecd8e8" stopOpacity="0.9"/>
-          <stop offset="70%" stopColor="#f5e0c8" stopOpacity="0.88"/>
-          <stop offset="100%" stopColor="#f8e8b0" stopOpacity="0.82"/>
+        <linearGradient id="sky-wash" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#fdf2e0"/>
+          <stop offset="40%" stopColor="#fae6d4"/>
+          <stop offset="78%" stopColor="#f3dac2"/>
+          <stop offset="100%" stopColor="#edd0b8"/>
         </linearGradient>
-        {/* River gradient */}
-        <linearGradient id="ulhas" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#c0d8f0" stopOpacity="0.6"/>
-          <stop offset="30%" stopColor="#d8e8ff" stopOpacity="0.75"/>
-          <stop offset="60%" stopColor="#c8d8f8" stopOpacity="0.7"/>
-          <stop offset="100%" stopColor="#b8d0e8" stopOpacity="0.55"/>
+        <radialGradient id="sun-glow" cx="50%" cy="100%" r="70%">
+          <stop offset="0%" stopColor="#fae0a0" stopOpacity="0.7"/>
+          <stop offset="40%" stopColor="#f8d490" stopOpacity="0.32"/>
+          <stop offset="100%" stopColor="#f0c870" stopOpacity="0"/>
+        </radialGradient>
+
+        <linearGradient id="mtn-far" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#a8b8d0" stopOpacity="0.55"/>
+          <stop offset="100%" stopColor="#c0c8d8" stopOpacity="0.3"/>
         </linearGradient>
-        {/* Deep Sahyadri forest */}
-        <linearGradient id="forest-deep" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#2d5a3a" stopOpacity="0.75"/>
-          <stop offset="100%" stopColor="#3d7a4a" stopOpacity="0.55"/>
+        <linearGradient id="mtn-mid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#7088a0" stopOpacity="0.65"/>
+          <stop offset="100%" stopColor="#9aa8bc" stopOpacity="0.45"/>
         </linearGradient>
-        <linearGradient id="forest-mid" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#3a6840" stopOpacity="0.65"/>
-          <stop offset="100%" stopColor="#5a9060" stopOpacity="0.5"/>
+        <linearGradient id="mtn-near" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#4a7050" stopOpacity="0.78"/>
+          <stop offset="100%" stopColor="#7a9876" stopOpacity="0.55"/>
         </linearGradient>
-        <linearGradient id="mesa-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#7080a0" stopOpacity="0.55"/>
-          <stop offset="60%" stopColor="#8898b8" stopOpacity="0.45"/>
-          <stop offset="100%" stopColor="#607888" stopOpacity="0.4"/>
+
+        <linearGradient id="estate-wall" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#f8e2bc"/>
+          <stop offset="50%" stopColor="#ecd09c"/>
+          <stop offset="100%" stopColor="#d4b074"/>
         </linearGradient>
-        <linearGradient id="mesa-face" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#505870" stopOpacity="0.6"/>
-          <stop offset="100%" stopColor="#708098" stopOpacity="0.4"/>
+        <linearGradient id="estate-wall-shade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#d4ad74"/>
+          <stop offset="100%" stopColor="#a8835c"/>
         </linearGradient>
+        <linearGradient id="dome-tile" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#d8744c"/>
+          <stop offset="60%" stopColor="#b8583a"/>
+          <stop offset="100%" stopColor="#8c4028"/>
+        </linearGradient>
+        <linearGradient id="roof-tile" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#d4744c"/>
+          <stop offset="100%" stopColor="#9c4828"/>
+        </linearGradient>
+        <linearGradient id="pool-water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#a8c8e0" stopOpacity="0.85"/>
+          <stop offset="100%" stopColor="#7898b8" stopOpacity="0.6"/>
+        </linearGradient>
+
+        <radialGradient id="canopy-green" cx="50%" cy="40%" r="65%">
+          <stop offset="0%" stopColor="#84ad6e" stopOpacity="0.92"/>
+          <stop offset="55%" stopColor="#4a7038" stopOpacity="0.82"/>
+          <stop offset="100%" stopColor="#2c4220" stopOpacity="0.6"/>
+        </radialGradient>
+
+        <pattern id="checker-tile" x="0" y="0" width="40" height="20" patternUnits="userSpaceOnUse">
+          <rect width="20" height="20" fill="#e8d4ac" opacity="0.7"/>
+          <rect x="20" width="20" height="20" fill="#c8a878" opacity="0.7"/>
+        </pattern>
       </defs>
 
-      {/* ── SKY ── */}
-      <rect width="1440" height="900" fill="url(#karjat-sky)"/>
-
-      {/* Golden hour glow at horizon */}
-      <ellipse cx="720" cy="520" rx="600" ry="160" fill="#f8d890" opacity="0.2" filter="url(#wc-mist)"/>
-      <ellipse cx="300" cy="480" rx="250" ry="100" fill="#f0c080" opacity="0.12" filter="url(#wc-mist)"/>
-      <ellipse cx="1200" cy="460" rx="220" ry="90" fill="#e8c8a0" opacity="0.1" filter="url(#wc-mist)"/>
+      {/* ── PAPER + SKY ── */}
+      <rect width="1440" height="900" fill="url(#sky-wash)"/>
+      <rect width="1440" height="900" fill="url(#sun-glow)"/>
 
       {/* Soft clouds */}
-      <ellipse cx="200" cy="130" rx="240" ry="55" fill="white" opacity="0.2" filter="url(#wc-mist)"/>
-      <ellipse cx="820" cy="95" rx="280" ry="50" fill="white" opacity="0.18" filter="url(#wc-mist)"/>
-      <ellipse cx="1280" cy="145" rx="180" ry="45" fill="white" opacity="0.14" filter="url(#wc-mist)"/>
+      <ellipse cx="200" cy="150" rx="240" ry="50" fill="white" opacity="0.4" filter="url(#wc-mist)"/>
+      <ellipse cx="850" cy="120" rx="280" ry="45" fill="white" opacity="0.36" filter="url(#wc-mist)"/>
+      <ellipse cx="1280" cy="180" rx="220" ry="48" fill="white" opacity="0.4" filter="url(#wc-mist)"/>
+      <ellipse cx="500" cy="220" rx="180" ry="38" fill="white" opacity="0.3" filter="url(#wc-mist)"/>
 
-      {/* ── SAHYADRI MOUNTAINS — flat-topped mesas (killas/forts), very distinctive ── */}
-      {/* Far range — lightest, most blue */}
-      <path d="M -20 460 Q 60 390 140 400 Q 200 380 260 350 Q 310 320 360 340 Q 410 318 450 290 Q 480 275 510 295 Q 540 278 570 260 Q 600 245 640 270 Q 680 252 720 235 Q 760 218 800 240 Q 840 222 880 210 Q 920 195 960 218 Q 1000 200 1040 220 Q 1080 205 1120 225 Q 1160 208 1200 230 Q 1240 215 1280 238 Q 1320 222 1360 242 L 1460 265 L 1460 500 L-20 500Z"
-        fill="url(#mesa-fill)" filter="url(#wc-sharp)"/>
-
-      {/* FLAT-TOPPED MESA 1 — left, iconic Sahyadri shape */}
-      <path d="M 80 440 L 80 335 L 85 325 L 220 325 L 225 335 L 225 440Z"
-        fill="#6070a0" opacity="0.45" filter="url(#wc-edge)"/>
-      {/* Mesa top plateau */}
-      <path d="M 75 338 L 230 338 L 228 328 L 78 328Z" fill="#808ab8" opacity="0.5"/>
-      {/* Rocky face texture */}
-      <path d="M 85 350 Q 100 345 120 352 Q 140 348 160 354 Q 180 350 200 355 Q 215 348 225 352"
-        stroke="#5060808" strokeWidth="1" fill="none" opacity="0.3"/>
-      <path d="M 88 370 Q 110 365 135 372 Q 155 368 180 373 Q 200 368 222 372"
-        stroke="#506080" strokeWidth="1" fill="none" opacity="0.25"/>
-      {/* Forest on mesa top */}
-      {[90,108,126,144,162,180,198,216].map((x,i)=>(
-        <path key={i} d={`M${x} 328 Q${x+4} ${316+i%2*4} ${x+8} 328`}
-          fill="#3a6040" opacity="0.55"/>
+      {/* Distant birds */}
+      {[[180,220,9],[218,202,8],[258,224,7],[298,212,9],[346,228,8],[388,210,7],
+        [560,180,8],[600,164,7],[640,180,9],[680,172,7],
+        [820,260,7],[860,250,6],[900,266,8]].map(([x,y,s],i)=>(
+        <Bird key={i} x={x} y={y} size={s}/>
       ))}
 
-      {/* FLAT-TOPPED MESA 2 — center-right, taller */}
-      <path d="M 820 450 L 820 295 L 826 282 L 980 282 L 986 295 L 986 450Z"
-        fill="#5868a0" opacity="0.5" filter="url(#wc-edge)"/>
-      <path d="M 814 298 L 992 298 L 988 284 L 818 284Z" fill="#7880c0" opacity="0.5"/>
-      {/* Sheer cliff face */}
-      <path d="M 820 310 L 820 380" stroke="#48588a" strokeWidth="2" opacity="0.3"/>
-      <path d="M 860 295 L 860 410" stroke="#48588a" strokeWidth="1.5" opacity="0.2"/>
-      <path d="M 940 295 L 940 420" stroke="#48588a" strokeWidth="1.5" opacity="0.2"/>
-      <path d="M 986 310 L 986 390" stroke="#48588a" strokeWidth="2" opacity="0.3"/>
-      {/* Forest on top */}
-      {[830,848,866,884,902,920,938,956,974].map((x,i)=>(
-        <path key={i} d={`M${x} 284 Q${x+4} ${270+i%3*4} ${x+8} 284`}
-          fill="#3a6040" opacity="0.6"/>
+      {/* ── DISTANT SAHYADRI ── */}
+      <path d="M -20 540 Q 60 490 140 510 Q 220 480 300 500 Q 380 470 460 488 Q 540 460 620 478 Q 700 452 780 470 Q 860 448 940 466 Q 1020 444 1100 462 Q 1180 444 1260 458 Q 1340 442 1420 456 L 1460 462 L 1460 700 L -20 700Z"
+        fill="url(#mtn-far)" filter="url(#wc-rough)" opacity="0.65"/>
+
+      {/* ── MID MOUNTAINS ── */}
+      <path d="M -20 600 Q 80 540 180 570 Q 280 525 380 555 Q 480 510 580 540 Q 680 500 780 530 Q 880 495 980 525 Q 1080 490 1180 520 Q 1280 490 1380 518 L 1460 525 L 1460 720 L -20 720Z"
+        fill="url(#mtn-mid)" filter="url(#wc-rough)"/>
+
+      {/* Sunlit ridge highlights */}
+      {[[120,545],[300,532],[520,515],[760,510],[980,512],[1180,508],[1340,510]].map(([x,y],i)=>(
+        <path key={i} d={`M${x-30} ${y+10} Q${x} ${y-4} ${x+30} ${y+10}`}
+          stroke="#f5e0c0" strokeWidth="2" fill="none" opacity="0.4" strokeLinecap="round"/>
       ))}
 
-      {/* FLAT-TOPPED MESA 3 — far right */}
-      <path d="M 1240 450 L 1240 345 L 1246 332 L 1380 332 L 1386 345 L 1386 450Z"
-        fill="#6070a0" opacity="0.42" filter="url(#wc-edge)"/>
-      <path d="M 1234 348 L 1392 348 L 1388 334 L 1238 334Z" fill="#7880b8" opacity="0.48"/>
-      {[1250,1268,1286,1304,1322,1340,1358,1376].map((x,i)=>(
-        <path key={i} d={`M${x} 334 Q${x+4} ${320+i%2*5} ${x+8} 334`}
-          fill="#3a6040" opacity="0.55"/>
-      ))}
+      {/* Valley mist */}
+      <path d="M -20 600 Q 200 588 400 600 Q 600 590 800 600 Q 1000 592 1200 600 Q 1300 596 1460 600 L 1460 660 L-20 660Z"
+        fill="white" opacity="0.4" filter="url(#wc-mist)"/>
 
-      {/* ── VALLEY MIST between peaks — very Sahyadri ── */}
-      <path d="M -20 420 Q 150 410 300 420 Q 400 415 500 425 Q 600 418 700 422 L 700 480 L-20 480Z"
-        fill="white" opacity="0.22" filter="url(#wc-mist)"/>
-      <path d="M 1000 415 Q 1100 408 1200 418 Q 1300 412 1460 420 L 1460 480 L 1000 480Z"
-        fill="white" opacity="0.2" filter="url(#wc-mist)"/>
-      {/* Deep valley mist layer */}
-      <path d="M -20 455 Q 300 445 600 455 Q 800 448 1000 455 Q 1200 450 1460 458 L 1460 495 L-20 495Z"
-        fill="white" opacity="0.18" filter="url(#wc-mist)"/>
+      {/* ── NEAR HILLS, dense forest ── */}
+      <path d="M -20 680 Q 120 630 260 660 Q 400 624 540 654 Q 680 620 820 650 Q 960 624 1100 652 Q 1240 626 1380 654 L 1460 660 L 1460 800 L -20 800Z"
+        fill="url(#mtn-near)" filter="url(#wc-edge)"/>
 
-      {/* ── DEEP FOREST MIDGROUND — dense Sahyadri treeline ── */}
-      <path d="M -20 560 Q 80 520 160 538 Q 240 512 320 530 Q 400 508 480 525 Q 560 505 640 522 Q 720 502 800 518 Q 880 500 960 516 Q 1040 498 1120 515 Q 1200 500 1280 518 Q 1360 505 1460 522 L 1460 650 L-20 650Z"
-        fill="url(#forest-deep)" filter="url(#wc-edge)"/>
-      {/* Second forest layer */}
-      <path d="M -20 595 Q 100 568 220 582 Q 340 560 460 576 Q 580 558 700 572 Q 820 555 940 570 Q 1060 554 1180 568 Q 1300 552 1460 568 L 1460 670 L-20 670Z"
-        fill="url(#forest-mid)" filter="url(#wc-edge)"/>
-
-      {/* ── ULHAS RIVER — winding, prominent ── */}
-      {/* River body — wide, winding */}
-      <path d="M -20 695 Q 120 675 280 688 Q 400 680 520 692 Q 640 682 760 690 Q 880 682 1000 692 Q 1120 685 1240 695 Q 1360 688 1460 696 L 1460 730 Q 1360 722 1240 728 Q 1120 720 1000 728 Q 880 720 760 726 Q 640 718 520 726 Q 400 718 280 724 Q 120 718 -20 728Z"
-        fill="url(#ulhas)" filter="url(#wc-sharp)"/>
-      {/* River shimmer highlights */}
-      {[80,200,340,480,600,740,880,1020,1160,1300].map((x,i)=>(
-        <path key={i}
-          d={`M${x} ${706+i%3*4} Q${x+50} ${702+i%2*3} ${x+100} ${706+i%3*4}`}
-          stroke="white" strokeWidth={i%2===0?1.5:1} fill="none" opacity="0.35"/>
-      ))}
-      {/* River bank reflection */}
-      <path d="M -20 728 Q 200 740 460 732 Q 700 742 960 733 Q 1200 742 1460 734"
-        stroke="#a0c0e0" strokeWidth="1.5" fill="none" opacity="0.3"/>
-
-      {/* ── TALL TROPICAL TREES — Karjat-specific silhouettes ── */}
-      {/* Left bank trees */}
-      <g filter="url(#wc-edge)">
-        {/* Tall slim trees */}
-        {[30,58,90,118].map((x,i)=>(
+      {/* Treeline detail */}
+      {Array.from({length:48}).map((_,i)=>{
+        const x = -20 + i*32;
+        const y = 650 + (i%5)*4 - (i%3)*3;
+        const r = 10 + (i%4)*3;
+        return (
           <g key={i}>
-            <rect x={x} y={570+i%2*15} width={8+i%2*4} height={130-i%2*20} fill="#2d5030" opacity="0.7"/>
-            <ellipse cx={x+6} cy={570+i%2*15} rx={30+i*5} ry={45+i%2*10} fill="#3a6838" opacity="0.6"/>
-            <ellipse cx={x+4} cy={580+i%2*15} rx={24+i*4} ry={35} fill="#2d5a30" opacity="0.45"/>
+            <ellipse cx={x} cy={y} rx={r} ry={r*1.2} fill="#345428" opacity="0.55"/>
+            <ellipse cx={x-2} cy={y+r*0.2} rx={r*0.7} ry={r*0.85} fill="#4a7038" opacity="0.4"/>
           </g>
-        ))}
-        {/* Wide banyan-style */}
-        <ellipse cx="175" cy="595" rx="70" ry="55" fill="#2a5028" opacity="0.65"/>
-        <ellipse cx="160" cy="615" rx="55" ry="42" fill="#3a6838" opacity="0.5"/>
-        <rect x="170" y="625" width="10" height="80" fill="#2a4025" opacity="0.65"/>
-        {/* Hanging roots suggestion */}
-        {[155,163,177,185].map((x,i)=>(
-          <path key={i} d={`M${x} 635 Q${x+2} 650 ${x+1} 665`}
-            stroke="#2a4025" strokeWidth="2" fill="none" opacity="0.4"/>
-        ))}
-      </g>
+        );
+      })}
 
-      {/* Right bank trees */}
-      <g filter="url(#wc-edge)">
-        {[1300,1332,1362,1395,1420].map((x,i)=>(
-          <g key={i}>
-            <rect x={x} y={568+i%2*12} width={7+i%2*5} height={125-i%3*15} fill="#2d5030" opacity="0.65"/>
-            <ellipse cx={x+5} cy={568+i%2*12} rx={28+i%3*8} ry={42+i%2*8} fill="#3a6838" opacity="0.58"/>
-          </g>
-        ))}
-        <ellipse cx="1270" cy="588" rx="65" ry="52" fill="#2a5028" opacity="0.6"/>
-        <rect x="1264" y="618" width="12" height="90" fill="#2a4025" opacity="0.6"/>
-      </g>
+      {/* ── REFLECTING POOL in front of estate ── */}
+      <ellipse cx="720" cy="785" rx="280" ry="22" fill="#7898b0" opacity="0.4" filter="url(#wc-soft)"/>
+      <rect x="450" y="772" width="540" height="22" fill="url(#pool-water)" filter="url(#wc-rough)"/>
+      <rect x="450" y="772" width="540" height="3" fill="#5a7898" opacity="0.55"/>
+      {[480,580,680,780,880].map((x,i)=>(
+        <path key={i} d={`M${x} ${780+i%2*4} Q${x+30} ${778+i%2*3} ${x+60} ${780+i%2*4}`}
+          stroke="white" strokeWidth="1" fill="none" opacity="0.35"/>
+      ))}
+      <path d="M 540 794 L 540 800 L 580 800 L 580 794Z" fill="#c8a878" opacity="0.28"/>
+      <path d="M 860 794 L 860 800 L 900 800 L 900 794Z" fill="#c8a878" opacity="0.28"/>
+      <path d="M 690 794 L 690 800 L 750 800 L 750 794Z" fill="#a85838" opacity="0.32"/>
 
-      {/* ── OLEANDER FLOWER CLUSTERS — pink blooms along riverbank ── */}
-      {[[110,745],[240,750],[400,742],[560,748],[700,744],[860,750],[1020,743],[1180,748],[1340,745]].map(([x,y],i) => (
-        <g key={i}>
-          {[0,1,2,3,4].map(j => {
-            const angle = (j/5)*Math.PI*2;
-            return <ellipse key={j}
-              cx={x + 12*Math.cos(angle)} cy={y + 8*Math.sin(angle)}
-              rx="10" ry="7"
-              fill={j%2===0?'#e878a8':'#f5a8c5'}
-              opacity="0.65"
-              transform={`rotate(${j*72},${x+12*Math.cos(angle)},${y+8*Math.sin(angle)})`}/>;
-          })}
-          <circle cx={x} cy={y} r="4" fill="#f8d050" opacity="0.75"/>
-          {/* Stems */}
-          <path d={`M${x} ${y+4} L${x-3} ${y+18} M${x} ${y+4} L${x+4} ${y+20}`}
-            stroke="#4a7030" strokeWidth="1.5" fill="none" opacity="0.5"/>
+      {/* Cypresses flanking estate */}
+      {[[395,12],[440,15],[1000,15],[1045,12]].map(([x,h],i)=>(
+        <g key={i} filter="url(#wc-rough)">
+          <path d={`M${x-h-2} 770 Q${x-h-3} 700 ${x-6} 660 Q${x-2} 600 ${x} 540 Q${x+2} 600 ${x+6} 660 Q${x+h+3} 700 ${x+h+2} 770Z`}
+            fill="#28401e" opacity="0.85"/>
+          <path d={`M${x-h*0.6} 770 Q${x-h*0.7} 710 ${x-3} 670 Q${x-1} 612 ${x+1} 612 Q${x+3} 670 ${x+h*0.7} 710 Q${x+h*0.6} 770 ${x+h*0.6} 770Z`}
+            fill="#3a5a2c" opacity="0.55"/>
+          <path d={`M${x} 540 L${x} 535`} stroke="#28401e" strokeWidth="1.5"/>
         </g>
       ))}
 
-      {/* ── FOREGROUND GRASSY BANK ── */}
-      <path d="M -20 800 Q 200 775 400 792 Q 600 778 720 795 Q 900 778 1100 792 Q 1300 778 1460 795 L 1460 900 L-20 900Z"
-        fill="#8a9850" opacity="0.45" filter="url(#wc-edge)"/>
-      <path d="M -20 840 Q 300 822 600 838 Q 900 822 1200 838 Q 1380 826 1460 840 L 1460 900 L-20 900Z"
-        fill="#a0a860" opacity="0.35"/>
+      {/* Olive/topiary trees */}
+      {[480,520,920,960].map((x,i)=>(
+        <g key={i}>
+          <ellipse cx={x} cy={695} rx="26" ry="32" fill="#4a6838" opacity="0.85" filter="url(#wc-edge)"/>
+          <ellipse cx={x-3} cy={690} rx="20" ry="26" fill="#5e7d44" opacity="0.7"/>
+          <ellipse cx={x-6} cy={685} rx="12" ry="16" fill="#7a9858" opacity="0.5"/>
+          <rect x={x-3} y={720} width="6" height="48" fill="#3a2818" opacity="0.7"/>
+        </g>
+      ))}
 
-      {/* Grass strokes */}
-      {Array.from({length:50}).map((_,i) => {
-        const x = 10 + i*29; const y = 832 + (i%4)*10;
-        return <path key={i} d={`M${x} ${y+14} Q${x+3} ${y} ${x+7} ${y+10}`}
-          stroke="#607040" strokeWidth="1.5" fill="none" opacity="0.45"/>;
+      {/* ═══════ ESTATE BUILDING ═══════ */}
+      {/* Plinth */}
+      <g filter="url(#wc-edge)">
+        <rect x="370" y="752" width="700" height="22" fill="#e0c894" opacity="0.92"/>
+        <rect x="358" y="745" width="724" height="9" fill="#c8a878" opacity="0.85"/>
+        <rect x="370" y="772" width="700" height="3" fill="#a8855c" opacity="0.6"/>
+      </g>
+      {[420,500,580,660,740,820,900,980,1060].map((x,i)=>(
+        <path key={i} d={`M${x} 752 L${x} 772`} stroke="#a8855c" strokeWidth="0.6" opacity="0.5"/>
+      ))}
+
+      {/* === FAR LEFT WING === */}
+      <g filter="url(#wc-edge)">
+        <rect x="378" y="678" width="132" height="74" fill="url(#estate-wall)"/>
+        {[394,430,466].map((ax,i)=>(
+          <g key={i}>
+            <path d={`M${ax} 752 L${ax} 712 Q${ax+14} 696 ${ax+28} 712 L${ax+28} 752Z`} fill="#4a3018" opacity="0.6"/>
+            <path d={`M${ax+3} 752 L${ax+3} 714 Q${ax+14} 700 ${ax+25} 714 L${ax+25} 752Z`} fill="#1c100a" opacity="0.85"/>
+            <rect x={ax+12} y="694" width="4" height="6" fill="#a07a48" opacity="0.75"/>
+          </g>
+        ))}
+        <path d="M 372 684 L 384 666 L 502 666 L 514 684Z" fill="url(#roof-tile)"/>
+        <rect x="372" y="684" width="142" height="6" fill="#7a3818" opacity="0.55"/>
+      </g>
+      {[386,402,418,434,450,466,482,498].map((x,i)=>(
+        <path key={i} d={`M${x} 684 L${x+4} 668`} stroke="#7a3818" strokeWidth="0.7" opacity="0.55"/>
+      ))}
+
+      {/* === STEPPED LEFT WING === */}
+      <g filter="url(#wc-edge)">
+        <rect x="510" y="640" width="120" height="112" fill="url(#estate-wall)"/>
+        {[520,572].map((ax,i)=>(
+          <g key={i}>
+            <path d={`M${ax} 752 L${ax} 700 Q${ax+22} 680 ${ax+44} 700 L${ax+44} 752Z`} fill="#4a3018" opacity="0.6"/>
+            <path d={`M${ax+4} 752 L${ax+4} 702 Q${ax+22} 685 ${ax+40} 702 L${ax+40} 752Z`} fill="#1c100a" opacity="0.85"/>
+          </g>
+        ))}
+        <rect x="538" y="660" width="20" height="22" fill="#3a2418" opacity="0.7"/>
+        <rect x="582" y="660" width="20" height="22" fill="#3a2418" opacity="0.7"/>
+        <rect x="538" y="660" width="20" height="2" fill="#a08850" opacity="0.7"/>
+        <rect x="582" y="660" width="20" height="2" fill="#a08850" opacity="0.7"/>
+        <path d="M 504 646 L 514 624 L 626 624 L 636 646Z" fill="url(#roof-tile)"/>
+        <rect x="504" y="646" width="132" height="6" fill="#7a3818" opacity="0.55"/>
+      </g>
+      {[514,532,550,568,586,604,622].map((x,i)=>(
+        <path key={i} d={`M${x} 646 L${x+4} 628`} stroke="#7a3818" strokeWidth="0.7" opacity="0.55"/>
+      ))}
+
+      {/* === CENTRAL TOWER (FOCAL POINT) === */}
+      <g>
+        <rect x="630" y="600" width="180" height="152" fill="url(#estate-wall)" filter="url(#wc-edge)"/>
+        <rect x="800" y="600" width="10" height="152" fill="#a8855c" opacity="0.45"/>
+        <rect x="630" y="600" width="6" height="152" fill="#fff5dc" opacity="0.4"/>
+
+        {/* Grand entrance arch */}
+        <path d="M 686 752 L 686 668 Q 720 624 754 668 L 754 752Z" fill="#5a3a1e" opacity="0.7" filter="url(#wc-edge)"/>
+        <path d="M 692 752 L 692 670 Q 720 630 748 670 L 748 752Z" fill="#1a0e08" opacity="0.92"/>
+        {/* Door panels */}
+        <rect x="704" y="702" width="32" height="50" fill="#5a3a1e" opacity="0.55"/>
+        <path d="M 720 702 L 720 752" stroke="#a07a48" strokeWidth="1" opacity="0.6"/>
+        <circle cx="714" cy="724" r="1.5" fill="#c89048"/>
+        <circle cx="726" cy="724" r="1.5" fill="#c89048"/>
+        {/* Keystone */}
+        <rect x="715" y="624" width="10" height="10" fill="#a07a48" opacity="0.85"/>
+        <circle cx="720" cy="630" r="2" fill="#7a5828" opacity="0.85"/>
+
+        {/* Lower-story side windows */}
+        <rect x="650" y="690" width="14" height="32" fill="#3a2418" opacity="0.75"/>
+        <path d="M 650 690 Q 657 682 664 690" fill="#3a2418" opacity="0.75"/>
+        <rect x="776" y="690" width="14" height="32" fill="#3a2418" opacity="0.75"/>
+        <path d="M 776 690 Q 783 682 790 690" fill="#3a2418" opacity="0.75"/>
+
+        {/* Cornice band + balustrade */}
+        <rect x="624" y="600" width="192" height="6" fill="#c8a070" opacity="0.85"/>
+        <rect x="620" y="594" width="200" height="6" fill="#a88050" opacity="0.85"/>
+        {Array.from({length:18}).map((_,i)=>(
+          <rect key={i} x={624+i*10.5} y="582" width="3" height="14" fill="#d8b888" opacity="0.85"/>
+        ))}
+        <rect x="624" y="578" width="192" height="4" fill="#b89060" opacity="0.85"/>
+
+        {/* Upper story */}
+        <rect x="640" y="500" width="160" height="78" fill="url(#estate-wall)" filter="url(#wc-edge)"/>
+        <rect x="790" y="500" width="10" height="78" fill="#a8855c" opacity="0.45"/>
+        {[652,696,740].map((wx,i)=>(
+          <g key={i}>
+            <path d={`M${wx} 568 L${wx} 522 Q${wx+14} 510 ${wx+28} 522 L${wx+28} 568Z`} fill="#4a3018" opacity="0.55"/>
+            <path d={`M${wx+2} 568 L${wx+2} 524 Q${wx+14} 514 ${wx+26} 524 L${wx+26} 568Z`} fill="#1a0e08" opacity="0.85"/>
+            <path d={`M${wx+14} 514 L${wx+14} 568`} stroke="#d8b888" strokeWidth="0.6" opacity="0.5"/>
+            <path d={`M${wx+2} 540 L${wx+26} 540`} stroke="#d8b888" strokeWidth="0.6" opacity="0.5"/>
+            <rect x={wx-2} y="568" width="32" height="3" fill="#a07a48" opacity="0.85"/>
+            <rect x={wx-2} y="571" width="32" height="2" fill="#8a6838"/>
+            {[wx,wx+5,wx+10,wx+15,wx+20,wx+25].map((rx,j)=>(
+              <rect key={j} x={rx} y={573} width="1.5" height="6" fill="#a08458" opacity="0.85"/>
+            ))}
+          </g>
+        ))}
+
+        {/* Pediment */}
+        <rect x="630" y="494" width="180" height="6" fill="#c8a070" opacity="0.9"/>
+        <rect x="624" y="488" width="192" height="6" fill="#a88050" opacity="0.85"/>
+        <path d="M 624 488 L 720 416 L 816 488 Z" fill="url(#roof-tile)" filter="url(#wc-edge)"/>
+        <path d="M 624 488 L 816 488" stroke="#7a3818" strokeWidth="1.5" opacity="0.8"/>
+        <path d="M 624 488 L 720 416" stroke="#7a3818" strokeWidth="1.2" opacity="0.5"/>
+        <path d="M 720 416 L 816 488" stroke="#7a3818" strokeWidth="1.2" opacity="0.5"/>
+        {[450,464,478].map((y,i)=>(
+          <path key={i} d={`M ${648+i*12} ${y+6} L ${792-i*12} ${y+6}`}
+            stroke="#7a3818" strokeWidth="0.6" opacity="0.45"/>
+        ))}
+        {/* Oculus */}
+        <circle cx="720" cy="465" r="14" fill="#1a0e08" opacity="0.85"/>
+        <circle cx="720" cy="465" r="14" stroke="#a07a48" strokeWidth="2" fill="none" opacity="0.85"/>
+        <path d="M 706 465 L 734 465 M 720 451 L 720 479" stroke="#a07a48" strokeWidth="0.8" opacity="0.7"/>
+
+        {/* Cupola: drum + dome + finial */}
+        <rect x="700" y="380" width="40" height="36" fill="url(#estate-wall-shade)"/>
+        <rect x="700" y="378" width="40" height="4" fill="#a88050"/>
+        <rect x="700" y="412" width="40" height="4" fill="#a88050"/>
+        {[706,720,734].map((wx,i)=>(
+          <path key={i} d={`M${wx-3} 408 L${wx-3} 392 Q${wx} 388 ${wx+3} 392 L${wx+3} 408Z`} fill="#1a0e08" opacity="0.85"/>
+        ))}
+        <path d="M 698 380 Q 720 320 742 380Z" fill="url(#dome-tile)" filter="url(#wc-edge)"/>
+        <path d="M 720 320 L 720 380" stroke="#7a3818" strokeWidth="0.8" opacity="0.55"/>
+        <path d="M 706 326 Q 706 354 706 380" stroke="#7a3818" strokeWidth="0.6" opacity="0.4"/>
+        <path d="M 734 326 Q 734 354 734 380" stroke="#7a3818" strokeWidth="0.6" opacity="0.4"/>
+        <path d="M 706 332 Q 716 326 726 330" stroke="#f0a878" strokeWidth="2" fill="none" opacity="0.6" strokeLinecap="round"/>
+        {/* Finial */}
+        <rect x="717" y="305" width="6" height="16" fill="#a88040" opacity="0.85"/>
+        <circle cx="720" cy="304" r="4" fill="#c89048" opacity="0.9"/>
+        <path d="M 720 295 L 720 285 M 715 290 L 725 290" stroke="#a88040" strokeWidth="1.5" opacity="0.85"/>
+
+        {/* Wall stippling */}
+        {Array.from({length:24}).map((_,i)=>{
+          const x = 642 + i*7;
+          const y = 712 + (i%5)*7;
+          return <circle key={i} cx={x} cy={y} r="0.9" fill="#a07a48" opacity="0.25"/>;
+        })}
+      </g>
+
+      {/* === STEPPED RIGHT WING === */}
+      <g filter="url(#wc-edge)">
+        <rect x="810" y="640" width="120" height="112" fill="url(#estate-wall)"/>
+        {[820,872].map((ax,i)=>(
+          <g key={i}>
+            <path d={`M${ax} 752 L${ax} 700 Q${ax+22} 680 ${ax+44} 700 L${ax+44} 752Z`} fill="#4a3018" opacity="0.6"/>
+            <path d={`M${ax+4} 752 L${ax+4} 702 Q${ax+22} 685 ${ax+40} 702 L${ax+40} 752Z`} fill="#1c100a" opacity="0.85"/>
+          </g>
+        ))}
+        <rect x="838" y="660" width="20" height="22" fill="#3a2418" opacity="0.7"/>
+        <rect x="882" y="660" width="20" height="22" fill="#3a2418" opacity="0.7"/>
+        <rect x="838" y="660" width="20" height="2" fill="#a08850" opacity="0.7"/>
+        <rect x="882" y="660" width="20" height="2" fill="#a08850" opacity="0.7"/>
+        <path d="M 804 646 L 814 624 L 926 624 L 936 646Z" fill="url(#roof-tile)"/>
+        <rect x="804" y="646" width="132" height="6" fill="#7a3818" opacity="0.55"/>
+      </g>
+      {[814,832,850,868,886,904,922].map((x,i)=>(
+        <path key={i} d={`M${x} 646 L${x+4} 628`} stroke="#7a3818" strokeWidth="0.7" opacity="0.55"/>
+      ))}
+
+      {/* === FAR RIGHT WING === */}
+      <g filter="url(#wc-edge)">
+        <rect x="930" y="678" width="132" height="74" fill="url(#estate-wall)"/>
+        {[946,982,1018].map((ax,i)=>(
+          <g key={i}>
+            <path d={`M${ax} 752 L${ax} 712 Q${ax+14} 696 ${ax+28} 712 L${ax+28} 752Z`} fill="#4a3018" opacity="0.6"/>
+            <path d={`M${ax+3} 752 L${ax+3} 714 Q${ax+14} 700 ${ax+25} 714 L${ax+25} 752Z`} fill="#1c100a" opacity="0.85"/>
+            <rect x={ax+12} y="694" width="4" height="6" fill="#a07a48" opacity="0.75"/>
+          </g>
+        ))}
+        <path d="M 924 684 L 936 666 L 1054 666 L 1066 684Z" fill="url(#roof-tile)"/>
+        <rect x="924" y="684" width="142" height="6" fill="#7a3818" opacity="0.55"/>
+      </g>
+      {[938,954,970,986,1002,1018,1034,1050].map((x,i)=>(
+        <path key={i} d={`M${x} 684 L${x+4} 668`} stroke="#7a3818" strokeWidth="0.7" opacity="0.55"/>
+      ))}
+
+      {/* ── COURTYARD CHECKERED TILE ── */}
+      <g filter="url(#wc-rough)" opacity="0.88">
+        <path d="M 540 800 L 900 800 L 920 868 L 520 868 Z" fill="url(#checker-tile)"/>
+        <path d="M 540 800 L 900 800 L 920 868 L 520 868 Z" stroke="#8a6838" strokeWidth="1.5" fill="none" opacity="0.7"/>
+      </g>
+
+      {/* ── THREE-TIER FOUNTAIN ── */}
+      <g filter="url(#wc-edge)">
+        <ellipse cx="720" cy="845" rx="58" ry="14" fill="#c8a878" opacity="0.85"/>
+        <ellipse cx="720" cy="843" rx="42" ry="9" fill="#a8c0d8" opacity="0.85"/>
+        <ellipse cx="720" cy="843" rx="42" ry="9" stroke="#7898b0" strokeWidth="1" fill="none" opacity="0.7"/>
+        <rect x="710" y="828" width="20" height="14" fill="#c8a878"/>
+        <ellipse cx="720" cy="826" rx="32" ry="8" fill="#c8a878" opacity="0.85"/>
+        <ellipse cx="720" cy="825" rx="22" ry="5" fill="#a8c0d8" opacity="0.9"/>
+        <rect x="713" y="816" width="14" height="10" fill="#c8a878"/>
+        <ellipse cx="720" cy="814" rx="20" ry="5" fill="#c8a878" opacity="0.9"/>
+        <ellipse cx="720" cy="813" rx="14" ry="3" fill="#a8c0d8" opacity="0.9"/>
+        <rect x="717" y="804" width="6" height="10" fill="#c8a878"/>
+        <circle cx="720" cy="803" r="3" fill="#d8b888"/>
+        <path d="M 712 814 Q 706 822 700 826" stroke="#a8c8e0" strokeWidth="1.5" fill="none" opacity="0.8" strokeLinecap="round"/>
+        <path d="M 728 814 Q 734 822 740 826" stroke="#a8c8e0" strokeWidth="1.5" fill="none" opacity="0.8" strokeLinecap="round"/>
+        <path d="M 705 826 Q 695 836 690 842" stroke="#a8c8e0" strokeWidth="1.4" fill="none" opacity="0.8" strokeLinecap="round"/>
+        <path d="M 735 826 Q 745 836 750 842" stroke="#a8c8e0" strokeWidth="1.4" fill="none" opacity="0.8" strokeLinecap="round"/>
+      </g>
+
+      {/* Topiary spheres in stone planters */}
+      {[600,840].map((x,i)=>(
+        <g key={i}>
+          <rect x={x-22} y="838" width="44" height="20" fill="#c8a878" opacity="0.9" filter="url(#wc-rough)"/>
+          <rect x={x-26} y="833" width="52" height="8" fill="#a07a48" opacity="0.85"/>
+          <circle cx={x} cy="822" r="20" fill="#3a5828" opacity="0.85" filter="url(#wc-edge)"/>
+          <ellipse cx={x-3} cy="817" rx="14" ry="11" fill="#5a7d40" opacity="0.6"/>
+          <ellipse cx={x-6} cy="813" rx="7" ry="5" fill="#7a9858" opacity="0.5"/>
+        </g>
+      ))}
+
+      {/* Lavender + flower beds across foreground (skip courtyard area) */}
+      {Array.from({length:20}).map((_,i)=>{
+        const x = 30 + i*72;
+        if (x > 460 && x < 980) return null;
+        const y = 870 + (i%3)*4;
+        const c = i%4===0 ? '#b890c8' : i%4===1 ? '#e898b8' : i%4===2 ? '#a8a8d8' : '#d870b8';
+        return (
+          <g key={i}>
+            <ellipse cx={x} cy={y} rx="26" ry="9" fill={c} opacity="0.55" filter="url(#wc-edge)"/>
+            <ellipse cx={x-4} cy={y-5} rx="20" ry="7" fill={c} opacity="0.45"/>
+            <circle cx={x-10} cy={y-3} r="2.2" fill={c} opacity="0.85"/>
+            <circle cx={x+8} cy={y-4} r="2" fill={c} opacity="0.8"/>
+            <circle cx={x+2} cy={y-6} r="1.8" fill={c} opacity="0.75"/>
+          </g>
+        );
       })}
 
-      {/* ── PAPER WASH OVERLAY — lighter to keep it crisper ── */}
-      <rect width="1440" height="900" fill="var(--bg)" opacity="0.22"/>
+      {/* Grass tufts */}
+      {Array.from({length:80}).map((_,i)=>{
+        const x = -10 + i*19;
+        const y = 880 + (i%4)*5;
+        return <path key={i} d={`M${x} ${y+12} Q${x+2} ${y} ${x+5} ${y+10}`}
+          stroke="#5a7038" strokeWidth="1.3" fill="none" opacity="0.5"/>;
+      })}
+
+      {/* Soft ground shadow under building */}
+      <ellipse cx="720" cy="775" rx="380" ry="10" fill="#3a2818" opacity="0.18" filter="url(#wc-mist)"/>
+
+      {/* ═══════════ TOP-LEFT CANOPY ═══════════ */}
+      <g filter="url(#wc-edge)">
+        <ellipse cx="-20" cy="-30" rx="320" ry="240" fill="url(#canopy-green)"/>
+        <ellipse cx="140" cy="0" rx="240" ry="190" fill="#588c44" opacity="0.78"/>
+        <ellipse cx="80" cy="120" rx="210" ry="150" fill="#487038" opacity="0.7"/>
+        <ellipse cx="240" cy="80" rx="170" ry="120" fill="#6a9a55" opacity="0.65"/>
+        <ellipse cx="40" cy="190" rx="180" ry="120" fill="#3a6628" opacity="0.72"/>
+        <ellipse cx="200" cy="200" rx="140" ry="110" fill="#5a8842" opacity="0.6"/>
+        {[[300,40],[290,80],[278,125],[262,170],[238,210],[210,245],[170,275],[125,295],[80,310],[35,300]].map(([x,y],i)=>(
+          <g key={i}>
+            <ellipse cx={x} cy={y} rx={20-i*0.8} ry={15-i*0.6} fill="#557d40" opacity="0.7"/>
+            <ellipse cx={x-6} cy={y+5} rx={14-i*0.6} ry={10-i*0.5} fill="#3d5e2a" opacity="0.55"/>
+            <ellipse cx={x+5} cy={y-3} rx={12-i*0.5} ry={8-i*0.4} fill="#7ea860" opacity="0.5"/>
+          </g>
+        ))}
+      </g>
+
+      <WCLeaf cx={220} cy={70} len={28} rotate={-30}/>
+      <WCLeaf cx={250} cy={40} len={22} rotate={-50} color="#688f48"/>
+      <WCLeaf cx={185} cy={130} len={32} rotate={-15} color="#4a7038"/>
+      <WCLeaf cx={275} cy={110} len={26} rotate={-70} color="#5e8a40"/>
+      <WCLeaf cx={155} cy={180} len={28} rotate={-25} color="#6a9a55"/>
+      <WCLeaf cx={245} cy={170} len={24} rotate={-45} color="#3d5e2a"/>
+      <WCLeaf cx={115} cy={210} len={26} rotate={-10}/>
+      <WCLeaf cx={210} cy={235} len={24} rotate={-35} color="#5e8a40"/>
+      <WCLeaf cx={70} cy={235} len={22} rotate={-5}/>
+      <WCLeaf cx={170} cy={275} len={20} rotate={-30} color="#487038"/>
+
+      <WCRose cx={170} cy={90} r={16} hue="pink"/>
+      <WCRose cx={230} cy={150} r={13} hue="red"/>
+      <WCRose cx={120} cy={150} r={14} hue="cream"/>
+      <WCRose cx={200} cy={200} r={12} hue="coral"/>
+      <WCRose cx={90} cy={230} r={11} hue="pink"/>
+      <WCRose cx={250} cy={110} r={10} hue="cream"/>
+
+      <WCMarigold cx={140} cy={120} r={9}/>
+      <WCMarigold cx={210} cy={110} r={8}/>
+      <WCMarigold cx={180} cy={170} r={9}/>
+      <WCMarigold cx={260} cy={180} r={8}/>
+      <WCMarigold cx={100} cy={185} r={7}/>
+
+      <WCWhiteBloom cx={155} cy={70} r={9}/>
+      <WCWhiteBloom cx={195} cy={130} r={8}/>
+      <WCWhiteBloom cx={250} cy={210} r={9}/>
+      <WCWhiteBloom cx={130} cy={195} r={8}/>
+      <WCWhiteBloom cx={75} cy={170} r={7}/>
+
+      <WCBougainvillea cx={245} cy={75} r={11}/>
+      <WCBougainvillea cx={130} cy={250} r={10}/>
+      <WCBougainvillea cx={220} cy={250} r={9}/>
+
+      <DelphiniumSpike x={70} y={180} len={13} dir={1}/>
+      <DelphiniumSpike x={130} y={210} len={11} dir={-1}/>
+      <DelphiniumSpike x={185} y={245} len={12} dir={1}/>
+      <DelphiniumSpike x={240} y={275} len={10} dir={-1}/>
+      <DelphiniumSpike x={290} y={260} len={9} dir={1}/>
+      <DelphiniumSpike x={30} y={245} len={10} dir={-1}/>
+      <DelphiniumSpike x={100} y={285} len={8} dir={1}/>
+      <DelphiniumSpike x={210} y={310} len={8} dir={-1}/>
+
+      <Butterfly x={285} y={195} size={10} color="#c8a878"/>
+      <Butterfly x={155} y={295} size={9} color="#b890c8"/>
+
+      {/* ═══════════ TOP-RIGHT CANOPY ═══════════ */}
+      <g filter="url(#wc-edge)">
+        <ellipse cx="1460" cy="-30" rx="340" ry="250" fill="url(#canopy-green)"/>
+        <ellipse cx="1300" cy="0" rx="260" ry="200" fill="#588c44" opacity="0.78"/>
+        <ellipse cx="1360" cy="130" rx="220" ry="160" fill="#487038" opacity="0.7"/>
+        <ellipse cx="1200" cy="90" rx="180" ry="130" fill="#6a9a55" opacity="0.65"/>
+        <ellipse cx="1410" cy="200" rx="190" ry="130" fill="#3a6628" opacity="0.72"/>
+        <ellipse cx="1240" cy="210" rx="150" ry="115" fill="#5a8842" opacity="0.6"/>
+        {[[1140,40],[1150,80],[1162,125],[1178,170],[1202,210],[1230,245],[1270,275],[1315,295],[1360,310],[1405,300]].map(([x,y],i)=>(
+          <g key={i}>
+            <ellipse cx={x} cy={y} rx={20-i*0.8} ry={15-i*0.6} fill="#557d40" opacity="0.7"/>
+            <ellipse cx={x+6} cy={y+5} rx={14-i*0.6} ry={10-i*0.5} fill="#3d5e2a" opacity="0.55"/>
+            <ellipse cx={x-5} cy={y-3} rx={12-i*0.5} ry={8-i*0.4} fill="#7ea860" opacity="0.5"/>
+          </g>
+        ))}
+      </g>
+
+      <WCLeaf cx={1220} cy={70} len={28} rotate={30}/>
+      <WCLeaf cx={1190} cy={40} len={22} rotate={50} color="#688f48"/>
+      <WCLeaf cx={1255} cy={130} len={32} rotate={15} color="#4a7038"/>
+      <WCLeaf cx={1165} cy={110} len={26} rotate={70} color="#5e8a40"/>
+      <WCLeaf cx={1285} cy={180} len={28} rotate={25} color="#6a9a55"/>
+      <WCLeaf cx={1195} cy={170} len={24} rotate={45} color="#3d5e2a"/>
+      <WCLeaf cx={1325} cy={210} len={26} rotate={10}/>
+      <WCLeaf cx={1230} cy={235} len={24} rotate={35} color="#5e8a40"/>
+      <WCLeaf cx={1370} cy={235} len={22} rotate={5}/>
+      <WCLeaf cx={1270} cy={275} len={20} rotate={30} color="#487038"/>
+      <WCLeaf cx={1130} cy={210} len={22} rotate={50}/>
+
+      <WCRose cx={1270} cy={90} r={16} hue="pink"/>
+      <WCRose cx={1210} cy={150} r={13} hue="red"/>
+      <WCRose cx={1320} cy={150} r={14} hue="cream"/>
+      <WCRose cx={1240} cy={200} r={12} hue="coral"/>
+      <WCRose cx={1350} cy={230} r={11} hue="pink"/>
+      <WCRose cx={1190} cy={110} r={10} hue="cream"/>
+      <WCRose cx={1130} cy={185} r={11} hue="coral"/>
+
+      <WCMarigold cx={1300} cy={120} r={9}/>
+      <WCMarigold cx={1230} cy={110} r={8}/>
+      <WCMarigold cx={1260} cy={170} r={9}/>
+      <WCMarigold cx={1180} cy={180} r={8}/>
+      <WCMarigold cx={1340} cy={185} r={7}/>
+      <WCMarigold cx={1395} cy={150} r={8}/>
+
+      <WCWhiteBloom cx={1285} cy={70} r={9}/>
+      <WCWhiteBloom cx={1245} cy={130} r={8}/>
+      <WCWhiteBloom cx={1190} cy={210} r={9}/>
+      <WCWhiteBloom cx={1310} cy={195} r={8}/>
+      <WCWhiteBloom cx={1365} cy={170} r={7}/>
+
+      <WCBougainvillea cx={1195} cy={75} r={11}/>
+      <WCBougainvillea cx={1310} cy={250} r={10}/>
+      <WCBougainvillea cx={1220} cy={250} r={9}/>
+      <WCBougainvillea cx={1140} cy={140} r={10}/>
+
+      <DelphiniumSpike x={1370} y={180} len={13} dir={-1}/>
+      <DelphiniumSpike x={1310} y={215} len={11} dir={1}/>
+      <DelphiniumSpike x={1255} y={250} len={12} dir={-1}/>
+      <DelphiniumSpike x={1200} y={285} len={10} dir={1}/>
+      <DelphiniumSpike x={1148} y={305} len={9} dir={-1}/>
+      <DelphiniumSpike x={1410} y={245} len={10} dir={1}/>
+      <DelphiniumSpike x={1100} y={260} len={8} dir={-1}/>
+      <DelphiniumSpike x={1340} y={310} len={8} dir={1}/>
+
+      <Butterfly x={1155} y={190} size={10} color="#c8a878"/>
+      <Butterfly x={1290} y={285} size={9} color="#b890c8"/>
+
+      {/* ── BOTTOM-CORNER FLORAL FRAMES ── */}
+      <g>
+        <ellipse cx="40" cy="870" rx="60" ry="28" fill="#588c44" opacity="0.7" filter="url(#wc-edge)"/>
+        <WCLeaf cx={20} cy={865} len={26} rotate={-50}/>
+        <WCLeaf cx={70} cy={855} len={22} rotate={-15} color="#4a7038"/>
+        <WCRose cx={45} cy={865} r={11} hue="pink"/>
+        <WCMarigold cx={20} cy={875} r={7}/>
+        <WCWhiteBloom cx={75} cy={870} r={6}/>
+        <WCBougainvillea cx={55} cy={845} r={8}/>
+      </g>
+      <g>
+        <ellipse cx="1400" cy="870" rx="60" ry="28" fill="#588c44" opacity="0.7" filter="url(#wc-edge)"/>
+        <WCLeaf cx={1420} cy={865} len={26} rotate={50}/>
+        <WCLeaf cx={1370} cy={855} len={22} rotate={15} color="#4a7038"/>
+        <WCRose cx={1395} cy={865} r={11} hue="pink"/>
+        <WCMarigold cx={1420} cy={875} r={7}/>
+        <WCWhiteBloom cx={1365} cy={870} r={6}/>
+        <WCBougainvillea cx={1385} cy={845} r={8}/>
+      </g>
+
+      {/* Floating petals scattered through middle */}
+      {[[420,360,'#e898b8'],[520,440,'#fae0a0'],[820,420,'#b890c8'],[940,380,'#fff5e0'],[480,520,'#e878a0']].map(([x,y,c],i)=>(
+        <ellipse key={i} cx={x} cy={y} rx="3" ry="2" fill={c} opacity="0.65" transform={`rotate(${i*40},${x},${y})`}/>
+      ))}
+
+      {/* ── PAPER GRAIN + soft wash ── */}
+      <rect width="1440" height="900" fill="white" opacity="0.07" filter="url(#wc-paper)"/>
+      <rect width="1440" height="900" fill="var(--bg)" opacity="0.1"/>
     </svg>
   );
 }
@@ -886,35 +1439,57 @@ function GaneshaSection() {
 
 // ─── OUR STORY ────────────────────────────────────────────────────────────────
 function CoupleIntro() {
+  // Edit the bios below — placeholder copy, ready to swap with your real story.
+  const people = [
+    {
+      name: 'Anjani',
+      tagline: 'The Bride',
+      base: 'Houston, Texas',
+      paragraphs: [
+        "A consultant by profession and an adventurer at heart, Anjani lights up every room she walks into. She grew up surrounded by Telugu traditions, family dinners that ran late into the night, and a love for travel that has never quite settled.",
+        "Whether she's flying cross-country to see Varun Ram, exploring a new city, or hosting friends for dinner, she does it all with warmth, grace, and a smile that makes everyone feel right at home.",
+      ],
+      tags: ['Consultant','Telugu roots','Wanderer at heart'],
+    },
+    {
+      name: 'Varun Ram',
+      tagline: 'The Groom',
+      base: 'New Jersey',
+      paragraphs: [
+        "Steady, kind, and quietly hilarious — Varun Ram is the calm in every storm. He calls New Jersey home, where life moves at its own perfect pace: family dinners, long drives, and slow Sundays that stretch on forever.",
+        "Once a quiet observer, now Anjani's biggest cheerleader. He's the friend who shows up first, the partner who remembers the small things, and — as of January 2026 — engaged to the love of his life.",
+      ],
+      tags: ['New Jersey','Family-first','Steady soul'],
+    },
+  ];
   return (
     <section id="intro">
       <div className="wc-blob" style={{width:500,height:500,top:'-80px',left:'-100px',background:'var(--rose)',opacity:0.1}}/>
       <div className="wc-blob" style={{width:400,height:400,bottom:'-60px',right:'-80px',background:'var(--gold)',opacity:0.08}}/>
       <div className="section-inner">
-        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'4rem',alignItems:'center'}}>
-          <div>
-            <div className="section-eyebrow">The Couple</div>
-            <div className="section-title" style={{marginBottom:'1.5rem'}}>Anjani &amp; Varun Ram</div>
-            <p style={{fontSize:'1.05rem',lineHeight:1.9,color:'var(--text2)',marginBottom:'1rem'}}>
-              Two people, one app, a lifetime of love. Anjani, a brilliant consultant from Houston, and Varun Ram, her perfect match from New Jersey — found each other on Dil Mil and fell in love before the first date was even over.
-            </p>
-            <p style={{fontSize:'1rem',lineHeight:1.9,color:'var(--text2)',marginBottom:'1.5rem'}}>
-              She flew Houston to New Jersey every other week. He was always there waiting. Mexico City, London, and everywhere in between — they built a life one adventure at a time, until a cold London morning changed everything.
-            </p>
-            <div style={{display:'flex',gap:'2rem',flexWrap:'wrap'}}>
-              {[['Houston ↔ NJ','Their commute of love'],['Mexico City','First big adventure'],['London','Where he proposed']].map(([place,desc],i) => (
-                <div key={i} style={{textAlign:'center'}}>
-                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.1rem',color:'var(--primary-deep)',fontWeight:600}}>{place}</div>
-                  <div style={{fontSize:'0.72rem',color:'var(--gold)',letterSpacing:'0.08em'}}>{desc}</div>
-                </div>
+        <div className="section-eyebrow">About Us</div>
+        <div className="section-title">Meet the Couple</div>
+        <div className="section-subtitle" style={{marginBottom:'3rem'}}>Two stories, one journey — a little about each of us before we say "I do."</div>
+        <div className="bio-grid">
+          {people.map((p,i)=>(
+            <div key={i} style={{background:'linear-gradient(160deg,var(--bg),var(--bg2))',border:'1px solid var(--border)',borderRadius:20,padding:'2.25rem 1.75rem',display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center'}}>
+              <div style={{aspectRatio:'1',width:'72%',maxWidth:240,borderRadius:'50%',background:'linear-gradient(135deg,var(--bg2),var(--bg))',border:'2px solid var(--border)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'0.5rem',marginBottom:'1.5rem'}}>
+                <svg width="44" height="44" viewBox="0 0 44 44"><rect width="44" height="44" rx="5" fill="none" stroke="var(--border)" strokeWidth="1.5"/><circle cx="14" cy="14" r="5" stroke="var(--gold)" strokeWidth="1.2" fill="none"/><path d="M4 36 L14 22 L22 28 L30 18 L40 36" stroke="var(--primary)" strokeWidth="1.5" fill="none"/></svg>
+                <span style={{fontSize:'0.65rem',color:'var(--text2)',letterSpacing:'0.1em',textTransform:'uppercase'}}>Photo coming soon</span>
+              </div>
+              <div style={{fontSize:'0.7rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'var(--gold)',marginBottom:'0.4rem'}}>{p.tagline}</div>
+              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'2.4rem',color:'var(--primary-deep)',lineHeight:1.1,marginBottom:'0.3rem'}}>{p.name}</div>
+              <div style={{fontFamily:"'Cormorant Garamond',serif",fontStyle:'italic',fontSize:'1rem',color:'var(--rose)',marginBottom:'1.5rem'}}>📍 {p.base}</div>
+              {p.paragraphs.map((para,j)=>(
+                <p key={j} style={{fontSize:'0.95rem',lineHeight:1.8,color:'var(--text2)',marginBottom:'0.9rem'}}>{para}</p>
               ))}
+              <div style={{display:'flex',gap:'0.5rem',flexWrap:'wrap',justifyContent:'center',marginTop:'0.75rem'}}>
+                {p.tags.map((t,j)=>(
+                  <span key={j} style={{fontSize:'0.7rem',padding:'0.3rem 0.8rem',borderRadius:20,background:'var(--mandala)',color:'var(--gold)',letterSpacing:'0.05em'}}>{t}</span>
+                ))}
+              </div>
             </div>
-          </div>
-          <div style={{aspectRatio:'3/4',borderRadius:'20px',background:'linear-gradient(135deg,var(--bg2),var(--bg))',border:'2px solid var(--border)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'0.75rem'}}>
-            <svg width="52" height="52" viewBox="0 0 52 52"><rect width="52" height="52" rx="6" fill="none" stroke="var(--border)" strokeWidth="1.5"/><circle cx="18" cy="16" r="7" stroke="var(--gold)" strokeWidth="1.2" fill="none"/><path d="M4 44 L18 26 L28 34 L36 22 L48 44" stroke="var(--primary)" strokeWidth="1.5" fill="none"/></svg>
-            <span style={{fontSize:'0.75rem',color:'var(--text2)',letterSpacing:'0.1em',textTransform:'uppercase'}}>Couple photo</span>
-            <span style={{fontSize:'0.65rem',color:'var(--text2)',opacity:0.6}}>(coming soon)</span>
-          </div>
+          ))}
         </div>
       </div>
     </section>
@@ -1082,7 +1657,6 @@ function OleanderFarms() {
 function Travel() {
   const cards = [
     { tag:'International Flights', title:'Mumbai Airports', body:'Chhatrapati Shivaji Maharaj International Airport (BOM) in Andheri, and the new Navi Mumbai International Airport (NMIA) — both are approximately 90 minutes from Oleander Farms.' },
-    { tag:'Domestic Flights', title:'Pune Airport', body:'Pune Airport (PNQ) is another great option, about 2 hours from Karjat. Ideal for guests flying in from other Indian cities.' },
     { tag:'By Train', title:'Karjat Railway Station', body:'Karjat is on the Central Railway line from Mumbai CST and Pune. Direct trains run frequently — a scenic, easy ride with the station just minutes from the venue.' },
     { tag:'Accommodation', title:'All Taken Care Of!', body:'No need to book hotels — all accommodations for wedding guests are being provided by us at Oleander Farms. If you have not received your room details, please reach out to us directly.' },
     { tag:'Good to Know', title:'Weather in December', body:'December in Karjat is absolutely gorgeous — dry season, clear skies, and temperatures around 22–28°C (72–82°F). Perfect weather for an outdoor celebration!' },
@@ -1156,7 +1730,7 @@ function Gallery() {
 // ─── CLOTHING GUIDE ─────────────────────────────────────────────────────────
 function Clothing() {
   const events = [
-    { day:'December 11 · Mehndi & Welcome', bg:'linear-gradient(135deg,#fff8e8,#fef0f5)',
+    { day:'December 11 · Welcome & Mehndi', bg:'linear-gradient(135deg,#fff8e8,#fef0f5)',
       men:['Kurta pajama in bright colors','Nehru jacket over kurta','Indo-western welcome'],
       menColors:['#e8a030','#9b59b6','#27ae60'],
       women:['Salwar kameez / churidar','Anarkali suits','Bright lehengas'],
@@ -1166,12 +1740,18 @@ function Clothing() {
       menColors:['#c8913a','#7c4d9e','#d4648c'],
       women:['Lehenga choli','Embroidered saree','Sequins & glam welcome!'],
       womenColors:['#d4648c','#c8913a','#7c4d9e'] },
-    { day:'December 12 · Snatakam & Wedding Ceremony', bg:'linear-gradient(135deg,#fff4e0,#ffe8e8)',
+    { day:'December 12 · Snatakam (Morning)', bg:'linear-gradient(135deg,#fff8e8,#fef0e8)',
+      note:'A sacred Telugu ritual — traditional South Indian attire honors the moment.',
+      men:['Dhoti / veshti with angavastram','White or cream silk kurta','Pancha kattu (traditional drape)'],
+      menColors:['#c8913a','#e8d090','#e07830'],
+      women:['Pattu saree (Kanjeevaram silk)','Half-saree / langa voni','Cream, red, or gold silk'],
+      womenColors:['#e87090','#c8913a','#e8a030'] },
+    { day:'December 12 · Wedding Ceremony (Sunset)', bg:'linear-gradient(135deg,#fff4e0,#ffe8e8)',
       note:'Please avoid white & black as per Hindu tradition.',
-      men:['Traditional dhoti kurta','Silk sherwani','Angavastram draped'],
-      menColors:['#c8913a','#7c4d9e','#e07830'],
-      women:['Silk saree (Kanjeevaram / Banarasi)','Traditional lehenga','Pattu pavadai'],
-      womenColors:['#e87090','#c8913a','#7c4d9e'] },
+      men:['Sherwani in jewel tones','Silk kurta with embroidery','Bandhgala / Indo-western fusion'],
+      menColors:['#7c4d9e','#c8913a','#e07830'],
+      women:['Silk lehenga choli','Banarasi or Kanjeevaram saree','Heavily embellished elegance'],
+      womenColors:['#d4648c','#c8913a','#7c4d9e'] },
   ];
   return (
     <section id="clothing">
@@ -1187,7 +1767,7 @@ function Clothing() {
                 <div style={{fontSize:'0.72rem',letterSpacing:'0.15em',textTransform:'uppercase',color:'var(--gold)',fontWeight:500}}>{ev.day}</div>
                 {ev.note && <div style={{fontSize:'0.78rem',color:'var(--rose)',fontStyle:'italic'}}>⚠ {ev.note}</div>}
               </div>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr'}}>
+              <div className="attire-grid">
                 {[{label:'👔 Men',items:ev.men,colors:ev.menColors},{label:'👗 Women',items:ev.women,colors:ev.womenColors}].map((col,j)=>(
                   <div key={j} style={{padding:'1.5rem 2rem',borderRight:j===0?'1px solid var(--border)':'none'}}>
                     <div style={{fontSize:'0.7rem',letterSpacing:'0.12em',textTransform:'uppercase',color:'var(--text2)',marginBottom:'0.75rem'}}>{col.label}</div>
@@ -1249,14 +1829,44 @@ function FAQ() {
 }
 
 // ─── RSVP ─────────────────────────────────────────────────────────────────────
+// Replace the entries below with your real guest list. One entry per "head of party".
+// `count` is the total people in that party — they'll be RSVP'd for both Dec 11 & Dec 12.
+const PARTY_LIST = /*EDITME-PARTIES-BEGIN*/[
+  { id:'sample-rao',     name:'The Rao Family',       count:4 },
+  { id:'sample-doe',     name:'Jane Doe',             count:1 },
+  { id:'sample-smith',   name:'John & Mary Smith',    count:2 },
+  { id:'sample-patel',   name:'The Patel Family',     count:5 },
+  { id:'sample-kumar',   name:'Priya Kumar',          count:2 },
+  { id:'sample-iyer',    name:'The Iyer Family',      count:3 },
+]/*EDITME-PARTIES-END*/;
+
+const RSVP_CONTACT = /*EDITME-CONTACT-BEGIN*/{
+  email: 'anjani.varunram.wedding@example.com',
+  phone: '+1 (555) 555-5555',
+}/*EDITME-CONTACT-END*/;
+
 function RSVP() {
-  const [form, setForm] = useState({name:'',email:'',guests:'1',attending:'yes',diet:'',events:[]});
+  const [search, setSearch] = useState('');
+  const [party, setParty] = useState(null);
+  const [attendance, setAttendance] = useState('all'); // 'all' | 'partial' | 'none'
+  const [partial, setPartial] = useState(1);
+  const [names, setNames] = useState('');
+  const [diet, setDiet] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const set = (k,v) => setForm(f => ({...f, [k]:v}));
-  const toggleEvent = (e) => {
-    setForm(f => ({...f, events: f.events.includes(e) ? f.events.filter(x=>x!==e) : [...f.events,e]}));
-  };
+
+  const matches = (!party && search.trim())
+    ? PARTY_LIST.filter(p => p.name.toLowerCase().includes(search.toLowerCase().trim())).slice(0, 8)
+    : [];
+
+  const select = (p) => { setParty(p); setPartial(p.count); setSearch(''); };
+  const reset = () => { setParty(null); setAttendance('all'); setPartial(1); setNames(''); setDiet(''); };
   const submit = (e) => { e.preventDefault(); setSubmitted(true); };
+
+  const attendingCount = !party ? 0
+    : attendance === 'all' ? party.count
+    : attendance === 'partial' ? partial
+    : 0;
+
   return (
     <section id="rsvp">
       <div className="wc-blob" style={{width:500,height:500,top:'-100px',left:'-100px',background:'var(--gold)',opacity:0.07}}/>
@@ -1265,63 +1875,133 @@ function RSVP() {
           <div style={{flex:'1',minWidth:280}}>
             <div className="section-eyebrow">You're Invited</div>
             <div className="section-title">RSVP</div>
-            <div className="section-subtitle">Please let us know if you can make it by <strong>September 1, 2026</strong>. We can't wait to celebrate with you!</div>
+            <div className="section-subtitle">
+              Please find your name below and let us know if you can make it by <strong>September 1, 2026</strong>. All guests are RSVP'd for both the Dec 11 &amp; Dec 12 celebrations.
+            </div>
             <div style={{marginTop:'2rem',fontFamily:'Cormorant Garamond, serif',fontSize:'1.6rem',color:'var(--gold)',lineHeight:1.4}}>
               "The joy of celebrating<br/><em>with the people you love</em><br/>is the greatest gift of all."
             </div>
           </div>
           <div style={{flex:'1.2',minWidth:300}}>
             {submitted ? (
-              <div className="rsvp-success">
-                <div className="big-check">🎉</div>
-                <div style={{fontFamily:'Cormorant Garamond, serif',fontSize:'2rem',color:'var(--primary-deep)'}}>See you there!</div>
-                <div style={{color:'var(--text2)',marginTop:'0.5rem',fontSize:'0.9rem'}}>Thank you, we've received your RSVP and can't wait to celebrate with you!</div>
+              <div className="rsvp-success" style={{padding:'2.5rem 1.5rem'}}>
+                <div className="big-check">{attendingCount > 0 ? '🎉' : '💌'}</div>
+                <div style={{fontFamily:'Cormorant Garamond, serif',fontSize:'2.1rem',color:'var(--primary-deep)'}}>{attendingCount > 0 ? 'See you there!' : "You'll be missed."}</div>
+                <div style={{color:'var(--text2)',marginTop:'0.75rem',fontSize:'0.95rem',lineHeight:1.7,maxWidth:420,margin:'0.75rem auto 0'}}>
+                  {attendingCount > 0 ? (
+                    <>We've recorded <strong>{attendingCount}</strong> {attendingCount===1?'guest':'guests'} from <strong>{party.name}</strong> for both the Dec 11 &amp; Dec 12 celebrations. We can't wait to celebrate with you!</>
+                  ) : (
+                    <>Thank you for letting us know, <strong>{party.name}</strong>. We'll miss you, but we deeply appreciate your blessings from afar.</>
+                  )}
+                </div>
+                <button onClick={()=>{setSubmitted(false); reset();}} style={{marginTop:'1.75rem',padding:'0.6rem 1.6rem',borderRadius:24,border:'1px solid var(--border)',background:'transparent',cursor:'pointer',color:'var(--text2)',fontSize:'0.85rem',fontFamily:"'DM Sans',sans-serif"}}>Submit another RSVP</button>
               </div>
             ) : (
               <form className="rsvp-form" onSubmit={submit}>
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Full Name</label>
-                    <input required value={form.name} onChange={e=>set('name',e.target.value)} placeholder="Your name"/>
-                  </div>
-                  <div className="form-group">
-                    <label>Email</label>
-                    <input type="email" required value={form.email} onChange={e=>set('email',e.target.value)} placeholder="your@email.com"/>
-                  </div>
-                </div>
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Attending?</label>
-                    <select value={form.attending} onChange={e=>set('attending',e.target.value)}>
-                      <option value="yes">Joyfully Accept!</option>
-                      <option value="no">Regretfully Decline</option>
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label>Number of Guests</label>
-                    <select value={form.guests} onChange={e=>set('guests',e.target.value)}>
-                      {['1','2','3','4'].map(n => <option key={n} value={n}>{n}</option>)}
-                    </select>
-                  </div>
-                </div>
-                {form.attending === 'yes' && (
-                  <div className="form-group">
-                    <label>Which events will you attend?</label>
-                    <div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',marginTop:'0.25rem'}}>
-                      {['Mehndi & Sangeet (Dec 11)','Wedding Ceremony (Dec 12)'].map(ev => (
-                        <label key={ev} style={{display:'flex',alignItems:'center',gap:'0.4rem',cursor:'pointer',fontSize:'0.85rem',color:'var(--text2)'}}>
-                          <input type="checkbox" checked={form.events.includes(ev)} onChange={()=>toggleEvent(ev)}/>
-                          {ev}
-                        </label>
-                      ))}
+                {!party ? (
+                  <>
+                    <div className="form-group">
+                      <label>Step 1 — Find your name</label>
+                      <input
+                        autoFocus
+                        value={search}
+                        onChange={e=>setSearch(e.target.value)}
+                        placeholder="Type your name or family name..."
+                      />
                     </div>
-                  </div>
+                    {matches.length > 0 && (
+                      <div style={{border:'1px solid var(--border)',borderRadius:8,background:'var(--bg2)',marginTop:'-0.5rem',marginBottom:'1rem',maxHeight:280,overflowY:'auto'}}>
+                        {matches.map(p => (
+                          <button
+                            key={p.id} type="button" onClick={()=>select(p)}
+                            style={{display:'flex',width:'100%',justifyContent:'space-between',alignItems:'center',padding:'0.8rem 1rem',background:'none',border:'none',borderBottom:'1px solid var(--border)',cursor:'pointer',textAlign:'left',color:'var(--text)'}}>
+                            <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.05rem'}}>{p.name}</span>
+                            <span style={{fontSize:'0.72rem',color:'var(--gold)',letterSpacing:'0.05em'}}>{p.count} {p.count===1?'seat':'seats'}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {search.trim() && matches.length === 0 && (
+                      <div style={{padding:'0.85rem 1rem',background:'var(--bg2)',borderRadius:8,fontSize:'0.85rem',color:'var(--text2)',marginBottom:'1rem',lineHeight:1.6}}>
+                        No matches yet — try just your last name, or scroll down to contact us if you can't find your party.
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <div style={{padding:'1.25rem 1.5rem',background:'linear-gradient(135deg,var(--bg2),var(--bg))',border:'1px solid var(--border)',borderRadius:12,marginBottom:'1.5rem'}}>
+                      <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:'1rem',flexWrap:'wrap'}}>
+                        <div>
+                          <div style={{fontSize:'0.7rem',letterSpacing:'0.15em',textTransform:'uppercase',color:'var(--gold)'}}>Hello</div>
+                          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.6rem',color:'var(--primary-deep)',marginTop:'0.2rem',lineHeight:1.2}}>{party.name}</div>
+                          <div style={{fontSize:'0.85rem',color:'var(--text2)',marginTop:'0.5rem',lineHeight:1.6}}>
+                            We've reserved <strong style={{color:'var(--primary-deep)'}}>{party.count} {party.count===1?'seat':'seats'}</strong> for you across both Dec 11 &amp; Dec 12.
+                          </div>
+                        </div>
+                        <button type="button" onClick={reset} style={{background:'none',border:'none',color:'var(--text2)',fontSize:'0.78rem',cursor:'pointer',textDecoration:'underline'}}>change</button>
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label>Will you be joining us?</label>
+                      <div style={{display:'flex',flexDirection:'column',gap:'0.5rem',marginTop:'0.4rem'}}>
+                        {[
+                          ['all', `Joyfully accept — all ${party.count} of us will be there ✨`],
+                          ['partial', 'Some of us can make it'],
+                          ['none', 'Regretfully decline 💌'],
+                        ].map(([val,label]) => (
+                          <label key={val} style={{display:'flex',alignItems:'center',gap:'0.6rem',padding:'0.75rem 1rem',border:`1px solid ${attendance===val?'var(--primary)':'var(--border)'}`,borderRadius:8,cursor:'pointer',background:attendance===val?'var(--bg2)':'transparent',transition:'all 0.15s'}}>
+                            <input type="radio" name="attend" value={val} checked={attendance===val} onChange={()=>setAttendance(val)}/>
+                            <span style={{fontSize:'0.9rem',color:'var(--text)'}}>{label}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    {attendance === 'partial' && (
+                      <div className="form-group">
+                        <label>How many of you can attend?</label>
+                        <select value={partial} onChange={e=>setPartial(parseInt(e.target.value,10))}>
+                          {Array.from({length:party.count},(_,i)=>i+1).map(n => (
+                            <option key={n} value={n}>{n} of {party.count}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {attendance !== 'none' && (
+                      <>
+                        <div className="form-group">
+                          <label>Names of attendees {attendance==='partial' && <span style={{textTransform:'none',letterSpacing:0,color:'var(--gold)'}}>(so we know who to expect)</span>}</label>
+                          <textarea
+                            value={names}
+                            onChange={e=>setNames(e.target.value)}
+                            placeholder={attendance==='partial' ? 'e.g. Priya, Raj' : 'Optional — full names of all attendees, one per line'}
+                            rows={3}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Dietary requirements / allergies</label>
+                          <textarea
+                            value={diet}
+                            onChange={e=>setDiet(e.target.value)}
+                            placeholder="Vegetarian, vegan, allergies, or any other notes"
+                            rows={2}
+                          />
+                        </div>
+                      </>
+                    )}
+
+                    <button type="submit" className="btn-primary" style={{marginTop:'0.5rem'}}>
+                      {attendance==='none' ? 'Send our regrets 💌' : 'Send RSVP 🪷'}
+                    </button>
+                  </>
                 )}
-                <div className="form-group">
-                  <label>Dietary Requirements</label>
-                  <input value={form.diet} onChange={e=>set('diet',e.target.value)} placeholder="Vegetarian, allergies, etc."/>
+
+                <div style={{marginTop:'2rem',padding:'1.1rem 1.25rem',background:'var(--bg2)',border:'1px solid var(--border)',borderRadius:8,fontSize:'0.82rem',color:'var(--text2)',lineHeight:1.7}}>
+                  <strong style={{color:'var(--primary-deep)',fontFamily:"'Cormorant Garamond',serif",fontSize:'1rem'}}>Can't find your name, or have an issue?</strong><br/>
+                  Reach us at <a href={`mailto:${RSVP_CONTACT.email}`} style={{color:'var(--gold)',textDecoration:'none',borderBottom:'1px dotted var(--gold)'}}>{RSVP_CONTACT.email}</a> or <a href={`tel:${RSVP_CONTACT.phone.replace(/\s/g,'')}`} style={{color:'var(--gold)',textDecoration:'none',borderBottom:'1px dotted var(--gold)'}}>{RSVP_CONTACT.phone}</a>.
                 </div>
-                <button type="submit" className="btn-primary">Send RSVP 🪷</button>
               </form>
             )}
           </div>
