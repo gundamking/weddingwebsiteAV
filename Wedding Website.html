@@ -149,7 +149,32 @@ section { position: relative; overflow: hidden; }
 #hero {
   position: relative; overflow: hidden;
   min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; background: var(--bg);
+  text-align: center;
+  background-color: var(--bg);
+  background-image: url(uploads/hero-desktop.png);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.hero-card {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 0 1.5rem;
+  max-width: 880px;
+}
+.hero-card, .hero-card * {
+  text-shadow:
+    0 0 8px rgba(253,246,240,1),
+    0 0 16px rgba(253,246,240,0.95),
+    0 0 28px rgba(253,246,240,0.85),
+    0 1px 3px rgba(60,40,80,0.25);
+}
+.hero-card .hero-names {
+  text-shadow:
+    0 0 12px rgba(253,246,240,1),
+    0 0 24px rgba(253,246,240,0.95),
+    0 0 40px rgba(253,246,240,0.85),
+    0 2px 5px rgba(60,40,80,0.3);
 }
 .hero-names {
   font-family: 'Cormorant Garamond', serif;
@@ -1379,9 +1404,8 @@ function Countdown() {
 function Hero() {
   return (
     <section id="hero">
-      <OleanderLandscape/>
       <Petals/>
-      <div style={{position:'relative',zIndex:1,textAlign:'center',padding:'0 2rem'}}>
+      <div className="hero-card">
         <div style={{display:'flex',gap:'1.2rem',justifyContent:'center',flexWrap:'wrap',marginBottom:'1.5rem'}}>
           <span style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'0.95rem',color:'var(--gold)',letterSpacing:'0.05em'}}>ॐ गं गणपतये नमः</span>
           <span style={{color:'var(--gold)',opacity:0.4}}>·</span>
@@ -1395,9 +1419,6 @@ function Hero() {
         <div className="hero-date">December 11–12, 2026</div>
         <div className="hero-venue">Oleander Farms, Karjat, Maharashtra</div>
         <Countdown/>
-        <div style={{marginTop:'2rem',fontSize:'0.8rem',color:'var(--text2)',letterSpacing:'0.1em'}}>
-          Two souls, one journey &nbsp;·&nbsp; A love story that began with a swipe ✨
-        </div>
       </div>
       <div className="scroll-cue">↓</div>
     </section>
