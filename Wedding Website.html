@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Varun Ram & Anjani — December 11–12, 2026</title>
+<title>Anjani & Varun Ram — December 11–12, 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Noto+Serif+Telugu:wght@300;400&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet"/>
@@ -84,6 +84,48 @@ body.theme-midnight nav { background: rgba(14,10,26,0.9); }
   position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; mix-blend-mode: multiply;
 }
 body.theme-midnight .wc-blob { mix-blend-mode: screen; }
+
+
+/* COLORED SECTION BACKGROUNDS */
+#intro { background: linear-gradient(135deg, #f9eef8 0%, #fdf0e8 100%); }
+#story { background: linear-gradient(160deg, #fdf6f0 0%, #f0eeff 100%); }
+#celebrations { background: linear-gradient(135deg, #fff8e8 0%, #fef0f5 100%); }
+#oleander { background: linear-gradient(160deg, #f0faf0 0%, #e8f4ff 100%); }
+#travel { background: linear-gradient(135deg, #fff4e8 0%, #f8eeff 100%); }
+#clothing { background: linear-gradient(160deg, #fff0f5 0%, #fffae8 100%); }
+#gallery { background: linear-gradient(135deg, #f0f8ff 0%, #fff0f8 100%); }
+#faq { background: linear-gradient(160deg, #f8fff0 0%, #f0f4ff 100%); }
+#rsvp { background: linear-gradient(135deg, #fffae8 0%, #f8f0ff 100%); }
+body.theme-midnight #intro, body.theme-midnight #story, body.theme-midnight #celebrations,
+body.theme-midnight #oleander, body.theme-midnight #travel, body.theme-midnight #clothing,
+body.theme-midnight #gallery, body.theme-midnight #faq, body.theme-midnight #rsvp { background: var(--bg2); }
+
+/* EVENT CARDS 2x2 */
+.event-card { border: none; border-radius: 16px; padding: 2rem; position: relative; overflow: hidden;
+  background: white; box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  transition: transform 0.2s, box-shadow 0.2s; }
+.event-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+
+/* GALLERY LIGHTBOX */
+.gallery-item { cursor: pointer; border-radius: 8px; overflow: hidden; aspect-ratio: 1;
+  transition: transform 0.2s, box-shadow 0.2s; }
+.gallery-item:hover { transform: scale(1.03); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+.gallery-item.tall { grid-row: span 2; aspect-ratio: unset; }
+.lightbox-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:999;
+  display:flex; align-items:center; justify-content:center; padding:2rem; cursor:pointer; }
+.lightbox-close { position:fixed; top:1.5rem; right:2rem; color:white; font-size:2.5rem;
+  cursor:pointer; line-height:1; z-index:1000; }
+
+/* STORY TRAVEL THEME */
+.story-path-container { position:relative; margin-top:3rem; }
+.story-items { display:flex; flex-direction:column; gap:0; position:relative; z-index:1; }
+.story-item { display:grid; grid-template-columns:52px 1fr; gap:0 1.5rem; padding-bottom:3.5rem; align-items:start; }
+.story-dot { width:52px; height:52px; border-radius:50%; background:var(--gold-light); border:2px solid var(--gold);
+  display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+.story-img-placeholder { margin-top:0.75rem; height:90px; border-radius:8px;
+  background:linear-gradient(135deg, var(--bg2), var(--bg)); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center; gap:0.5rem;
+  font-size:0.7rem; color:var(--text2); letter-spacing:0.05em; }
 
 /* SECTIONS */
 section { position: relative; overflow: hidden; }
@@ -733,7 +775,7 @@ function Nav({ sections }) {
   const [open, setOpen] = useState(false);
   return (
     <nav>
-      <div className="nav-logo">V ♥ A</div>
+      <div className="nav-logo">A ♥ V</div>
       <ul className="nav-links">
         {sections.map(s => <li key={s.id}><a href={`#${s.id}`}>{s.label}</a></li>)}
       </ul>
@@ -753,7 +795,7 @@ function Nav({ sections }) {
 function Countdown() {
   const [time, setTime] = useState({days:0,hours:0,mins:0,secs:0});
   useEffect(() => {
-    const target = new Date('2026-12-11T00:00:00');
+    const target = new Date('2026-12-12T06:00:00'); // Muhurtum
     const tick = () => {
       const now = new Date(), diff = target - now;
       if (diff <= 0) { setTime({days:0,hours:0,mins:0,secs:0}); return; }
@@ -793,9 +835,9 @@ function Hero() {
           <span style={{fontFamily:"'Noto Serif Telugu',serif",fontSize:'0.95rem',color:'var(--gold)',opacity:0.85}}>ఓం గం గణపతయే నమః</span>
         </div>
         <div className="hero-names">
-          Varun Ram
-          <span className="hero-amp">&</span>
           Anjani
+          <span className="hero-amp">&</span>
+          Varun Ram
         </div>
         <div className="hero-date">December 11–12, 2026</div>
         <div className="hero-venue">Oleander Farms, Karjat, Maharashtra</div>
@@ -834,7 +876,7 @@ function GaneshaSection() {
             <span style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'1.8rem',color:'var(--gold)'}}>ॐ</span>
           </div>
           <div style={{fontFamily:'Cormorant Garamond, serif',fontStyle:'italic',fontSize:'1.1rem',color:'var(--text2)',maxWidth:500,textAlign:'center',margin:'0 auto'}}>
-            With the blessings of our families and Lord Ganesha, Varun Ram &amp; Anjani welcome you to celebrate their sacred union.
+            With the blessings of our families and Lord Ganesha, Anjani &amp; Varun Ram welcome you to celebrate their sacred union.
           </div>
         </div>
       </div>
@@ -843,33 +885,81 @@ function GaneshaSection() {
 }
 
 // ─── OUR STORY ────────────────────────────────────────────────────────────────
+function CoupleIntro() {
+  return (
+    <section id="intro">
+      <div className="wc-blob" style={{width:500,height:500,top:'-80px',left:'-100px',background:'var(--rose)',opacity:0.1}}/>
+      <div className="wc-blob" style={{width:400,height:400,bottom:'-60px',right:'-80px',background:'var(--gold)',opacity:0.08}}/>
+      <div className="section-inner">
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'4rem',alignItems:'center'}}>
+          <div>
+            <div className="section-eyebrow">The Couple</div>
+            <div className="section-title" style={{marginBottom:'1.5rem'}}>Anjani &amp; Varun Ram</div>
+            <p style={{fontSize:'1.05rem',lineHeight:1.9,color:'var(--text2)',marginBottom:'1rem'}}>
+              Two people, one app, a lifetime of love. Anjani, a brilliant consultant from Houston, and Varun Ram, her perfect match from New Jersey — found each other on Dil Mil and fell in love before the first date was even over.
+            </p>
+            <p style={{fontSize:'1rem',lineHeight:1.9,color:'var(--text2)',marginBottom:'1.5rem'}}>
+              She flew Houston to New Jersey every other week. He was always there waiting. Mexico City, London, and everywhere in between — they built a life one adventure at a time, until a cold London morning changed everything.
+            </p>
+            <div style={{display:'flex',gap:'2rem',flexWrap:'wrap'}}>
+              {[['Houston ↔ NJ','Their commute of love'],['Mexico City','First big adventure'],['London','Where he proposed']].map(([place,desc],i) => (
+                <div key={i} style={{textAlign:'center'}}>
+                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.1rem',color:'var(--primary-deep)',fontWeight:600}}>{place}</div>
+                  <div style={{fontSize:'0.72rem',color:'var(--gold)',letterSpacing:'0.08em'}}>{desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{aspectRatio:'3/4',borderRadius:'20px',background:'linear-gradient(135deg,var(--bg2),var(--bg))',border:'2px solid var(--border)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'0.75rem'}}>
+            <svg width="52" height="52" viewBox="0 0 52 52"><rect width="52" height="52" rx="6" fill="none" stroke="var(--border)" strokeWidth="1.5"/><circle cx="18" cy="16" r="7" stroke="var(--gold)" strokeWidth="1.2" fill="none"/><path d="M4 44 L18 26 L28 34 L36 22 L48 44" stroke="var(--primary)" strokeWidth="1.5" fill="none"/></svg>
+            <span style={{fontSize:'0.75rem',color:'var(--text2)',letterSpacing:'0.1em',textTransform:'uppercase'}}>Couple photo</span>
+            <span style={{fontSize:'0.65rem',color:'var(--text2)',opacity:0.6}}>(coming soon)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function OurStory() {
   const events = [
-    { emoji:'📱', year:'2024', heading:'A Swipe That Changed Everything', text:"It began on Dil Mil — a single match that set everything in motion. Neither of them knew it then, but they'd already found the one." },
-    { emoji:'☕', year:'First Date', heading:'Love at First Sight (Literally)', text:"After their very first date together, both Varun and Anjani realized something extraordinary had happened. No second date needed to confirm — they'd already fallen." },
-    { emoji:'✈️', year:'2024–2025', heading:'Houston to New Jersey, Every Other Week', text:"Anjani, a consultant based in Houston, would fly into NJ every other week. Those stolen evenings — dinners, walks, laughter — became the rhythm of their love story." },
-    { emoji:'🌎', year:'Adventures', heading:'Mexico City & Beyond', text:"They explored Mexico City together, and kept adding pins to their map across the US. Travel became their love language." },
-    { emoji:'💍', year:'January 26, 2026', heading:'London. A Ring. Forever.', text:"On a crisp morning in London, Varun got down on one knee. With the city as their witness, Anjani said yes — and the greatest adventure of their lives began." },
-    { emoji:'🌸', year:'December 2026', heading:'Oleander Farms, Texas', text:"Surrounded by 200 acres of breathtaking nature, their family, and their dearest friends, Varun & Anjani will say their vows under the open sky." },
+    { emoji:'📱', year:'2024', heading:'A Swipe That Changed Everything', place:'New Jersey', text:"It began on Dil Mil — a single match that set everything in motion. Neither of them knew it then, but they'd already found the one." },
+    { emoji:'☕', year:'First Date', heading:'Love at First Sight', place:'New Jersey', text:"After their very first date, both Anjani and Varun Ram realized something extraordinary had happened. No second date needed to confirm — they'd already fallen." },
+    { emoji:'✈️', year:'2024–2025', heading:'Houston ↔ New Jersey', place:'Houston & NJ', text:"Anjani, a consultant based in Houston, would fly into NJ every other week. Those stolen evenings — dinners, walks, laughter — became the rhythm of their love story." },
+    { emoji:'🌮', year:'Adventures', heading:'Mexico City & Beyond', place:'Mexico City', text:"They explored Mexico City together, then kept adding pins across the US. Travel became their love language — and they were fluent." },
+    { emoji:'💍', year:'Jan 26, 2026', heading:'London. A Ring. Forever.', place:'London, UK', text:"On a crisp morning in London, Varun Ram got down on one knee. With the city as their witness, Anjani said yes — and the greatest adventure of their lives began." },
+    { emoji:'🌸', year:'Dec 2026', heading:'Oleander Farms, Karjat', place:'Karjat, Maharashtra', text:"200 breathtaking acres in the Sahyadri foothills, their family, their friends, and an open sky — the perfect stage for a love story's greatest chapter." },
   ];
   return (
     <section id="story">
-      <div className="wc-blob" style={{width:500,height:500,top:'-100px',right:'-100px',background:'var(--rose)',opacity:0.08}}/>
       <div className="section-inner">
         <div className="section-eyebrow">How It Happened</div>
         <div className="section-title">Our Story</div>
         <div className="section-subtitle">From a dating app to a London proposal — a love built on spontaneity, distance, and a whole lot of travel.</div>
-        <div className="story-timeline">
-          {events.map((e,i) => (
-            <div key={i} className="story-item">
-              <div className="story-dot">{e.emoji}</div>
-              <div className="story-content">
-                <div className="story-year">{e.year}</div>
-                <div className="story-heading">{e.heading}</div>
-                <div className="story-text">{e.text}</div>
+        <div className="story-path-container">
+          <svg style={{position:'absolute',top:0,left:26,width:'calc(100% - 26px)',height:'100%',pointerEvents:'none'}} viewBox="0 0 600 900" preserveAspectRatio="none">
+            <path d="M 26 60 C 400 60 100 210 400 250 C 600 280 100 410 400 450 C 600 480 100 610 400 650 C 600 680 100 780 400 820"
+              stroke="var(--gold)" strokeWidth="1.5" fill="none" strokeDasharray="8 5" opacity="0.35"/>
+          </svg>
+          <div className="story-items">
+            {events.map((e,i) => (
+              <div key={i} className="story-item">
+                <div className="story-dot" style={{background:i===5?'var(--primary)':i===4?'#ffe0e8':i===2?'#e8f0ff':'var(--gold-light)',border:`2px solid ${i===5?'var(--primary-deep)':i===4?'var(--rose)':'var(--gold)'}`}}>{e.emoji}</div>
+                <div className="story-content">
+                  <div className="story-year" style={{display:'flex',gap:'0.75rem',alignItems:'center'}}>
+                    <span>{e.year}</span>
+                    <span style={{fontSize:'0.65rem',padding:'0.15rem 0.6rem',borderRadius:'20px',background:'var(--mandala)',color:'var(--gold)'}}>{e.place}</span>
+                  </div>
+                  <div className="story-heading">{e.heading}</div>
+                  <div className="story-text">{e.text}</div>
+                  <div className="story-img-placeholder">
+                    <svg width="28" height="28" viewBox="0 0 28 28"><rect width="28" height="28" rx="3" fill="none" stroke="var(--border)" strokeWidth="1"/><circle cx="9" cy="9" r="3" stroke="var(--gold)" strokeWidth="0.8" fill="none"/><path d="M3 22 L9 14 L14 18 L18 13 L25 22" stroke="var(--primary)" strokeWidth="1" fill="none"/></svg>
+                    <span>Photo placeholder</span>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -879,43 +969,51 @@ function OurStory() {
 // ─── CELEBRATIONS ─────────────────────────────────────────────────────────────
 function Celebrations() {
   const events = [
-    {
-      day: 'Day One · December 11, 2026',
-      name: 'Mehndi & Sangeet',
-      type: 'Henna · Music · Dance',
-      details: [
-        { icon:'🕓', text:'5:00 PM – Mehndi begins. Henna artists will be available for guests.' },
-        { icon:'🎶', text:'7:00 PM – Sangeet night. Music, dance performances, and celebrations.' },
-        { icon:'👗', text:'Dress Code: Festive Indian attire — bright colors encouraged!' },
-        { icon:'📍', text:'Oleander Farms · Pavilion & Lawn' },
-      ]
-    },
-    {
-      day: 'Day Two · December 12, 2026',
-      name: 'Wedding Ceremony',
-      type: 'Hindu Vivah Ceremony',
-      details: [
-        { icon:'🕙', text:'10:00 AM – Baraat procession.' },
-        { icon:'🙏', text:'11:00 AM – Sacred Hindu wedding ceremony under the mandap.' },
-        { icon:'🌿', text:'1:00 PM – Reception & lunch. Celebrate with family and friends.' },
-        { icon:'📍', text:'Oleander Farms · Grand Lawn & Lake View' },
-      ]
-    }
+    { cardBg:'linear-gradient(135deg,#fff8e8,#fef0f5)', accent:'#e8a030', icon:'🌸',
+      day:'December 11, 2026 · Afternoon', name:'Welcome Lunch & Mehndi', type:'Arrival · Henna · Celebration',
+      details:[
+        {icon:'🍽️', text:'Afternoon — Welcome lunch for all arriving guests.'},
+        {icon:'🌺', text:'Post-lunch — Mehndi begins. Henna artists available for all.'},
+        {icon:'👗', text:'Dress Code: Bright festive Indian attire!'},
+        {icon:'📍', text:'Oleander Farms · Dining Pavilion & Lawn'},
+      ]},
+    { cardBg:'linear-gradient(135deg,#f0e8ff,#ffe8f5)', accent:'#9b59b6', icon:'🎶',
+      day:'December 11, 2026 · Evening', name:'Sangeet Night', type:'Music · Dance · Joy',
+      details:[
+        {icon:'🎵', text:'Evening — Sangeet with performances from family and friends.'},
+        {icon:'💃', text:'Dance the night away under the stars.'},
+        {icon:'👗', text:'Dress Code: Festive & glam — sequins welcome!'},
+        {icon:'📍', text:'Oleander Farms · Grand Lawn & Stage'},
+      ]},
+    { cardBg:'linear-gradient(135deg,#e8fff4,#e8f4ff)', accent:'#27ae60', icon:'🙏',
+      day:'December 12, 2026 · Morning', name:'Snatakam & Brunch', type:'Sacred Ritual · Brunch',
+      details:[
+        {icon:'🪔', text:'Morning — Snatakam: a sacred Telugu pre-wedding ritual.'},
+        {icon:'🍳', text:'Late morning — Celebratory brunch with family.'},
+        {icon:'👗', text:'Dress Code: Traditional Indian attire — sarees & dhotis.'},
+        {icon:'📍', text:'Oleander Farms · Mandap & Dining Area'},
+      ]},
+    { cardBg:'linear-gradient(135deg,#fff4e0,#ffe8e8)', accent:'#e07830', icon:'💍',
+      day:'December 12, 2026 · Sunset', name:'Wedding Ceremony', type:'Hindu Vivah · Sunset',
+      details:[
+        {icon:'🌅', text:'Sunset — Sacred Hindu wedding ceremony under the open sky.'},
+        {icon:'🔥', text:'Saptapadi — seven sacred vows around the sacred fire.'},
+        {icon:'👗', text:'Dress Code: Elegant Indian attire. Avoid white & black.'},
+        {icon:'📍', text:'Oleander Farms · Lake View Mandap'},
+      ]},
   ];
   return (
     <section id="celebrations">
       <div className="wc-blob" style={{width:450,height:450,bottom:'-100px',left:'-80px',background:'var(--gold)',opacity:0.09}}/>
       <div className="section-inner">
         <div className="section-eyebrow">The Celebrations</div>
-        <div className="section-title">Join Us for Two Days of Joy</div>
-        <div className="section-subtitle">A traditional Hindu wedding filled with color, music, devotion, and love — stretched across two unforgettable days.</div>
+        <div className="section-title">Two Days of Joy</div>
+        <div className="section-subtitle">A traditional Hindu wedding filled with color, music, devotion, and love across two unforgettable days.</div>
         <div className="event-cards">
           {events.map((e,i) => (
-            <div key={i} className="event-card">
-              <div style={{position:'absolute',top:0,right:0,width:120,height:120,overflow:'hidden',borderRadius:'0 12px 0 0',opacity:0.05}}>
-                <MandalaBg size={120} opacity={1}/>
-              </div>
-              <div className="event-day">{e.day}</div>
+            <div key={i} className="event-card" style={{background:e.cardBg,borderTop:`4px solid ${e.accent}`}}>
+              <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>{e.icon}</div>
+              <div className="event-day" style={{color:e.accent}}>{e.day}</div>
               <div className="event-name">{e.name}</div>
               <div className="event-type">{e.type}</div>
               {e.details.map((d,j) => (
@@ -945,6 +1043,10 @@ function OleanderFarms() {
       <div className="section-inner">
         <div className="section-eyebrow">The Venue</div>
         <div className="section-title">Oleander Farms</div>
+            <div style={{display:'flex',gap:'1rem',flexWrap:'wrap',marginTop:'0.75rem',marginBottom:'0.5rem'}}>
+              <a href="https://oleanderkarjat.com" target="_blank" rel="noopener" style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',fontSize:'0.8rem',padding:'0.4rem 1rem',borderRadius:'20px',background:'var(--primary)',color:'white',textDecoration:'none',fontFamily:"'DM Sans',sans-serif"}}>🌿 Visit Website</a>
+              <a href="https://oleanderkarjat.com/amenities" target="_blank" rel="noopener" style={{display:'inline-flex',alignItems:'center',gap:'0.4rem',fontSize:'0.8rem',padding:'0.4rem 1rem',borderRadius:'20px',background:'var(--gold)',color:'white',textDecoration:'none',fontFamily:"'DM Sans',sans-serif"}}>✨ View Amenities</a>
+            </div>
         <div className="farm-grid">
           <div>
             <div className="section-subtitle" style={{marginTop:0}}>A breathtaking 200-acre sanctuary nestled in the Sahyadri foothills of Karjat, Maharashtra — just a short drive from Mumbai. Lush tropical forests, a shimmering lake, misty mountains, and open skies set the stage for a celebration of love unlike any other.</div>
@@ -979,9 +1081,10 @@ function OleanderFarms() {
 // ─── TRAVEL & STAY ────────────────────────────────────────────────────────────
 function Travel() {
   const cards = [
-    { tag:'Flying In', title:'Nearest Airports', body:'Chhatrapati Shivaji Maharaj International Airport (BOM), Mumbai, is the closest major hub — approximately 90 minutes from Oleander Farms. Pune Airport (PNQ) is also a convenient option.' },
-    { tag:'By Train', title:'Karjat Railway Station', body:'Karjat is well-connected by the Central Railway line from Mumbai CST. The Karjat station is just minutes from the venue — a scenic and easy option for many guests.' },
-    { tag:'Accommodation', title:'On-Site & Nearby Stays', body:'Oleander Farms offers accommodation on the property. Additional rooms have been blocked at nearby resorts. Details and booking links will be shared with your invitation.' },
+    { tag:'International Flights', title:'Mumbai Airports', body:'Chhatrapati Shivaji Maharaj International Airport (BOM) in Andheri, and the new Navi Mumbai International Airport (NMIA) — both are approximately 90 minutes from Oleander Farms.' },
+    { tag:'Domestic Flights', title:'Pune Airport', body:'Pune Airport (PNQ) is another great option, about 2 hours from Karjat. Ideal for guests flying in from other Indian cities.' },
+    { tag:'By Train', title:'Karjat Railway Station', body:'Karjat is on the Central Railway line from Mumbai CST and Pune. Direct trains run frequently — a scenic, easy ride with the station just minutes from the venue.' },
+    { tag:'Accommodation', title:'All Taken Care Of!', body:'No need to book hotels — all accommodations for wedding guests are being provided by us at Oleander Farms. If you have not received your room details, please reach out to us directly.' },
     { tag:'Good to Know', title:'Weather in December', body:'December in Karjat is absolutely gorgeous — dry season, clear skies, and temperatures around 22–28°C (72–82°F). Perfect weather for an outdoor celebration!' },
   ];
   return (
@@ -1005,27 +1108,43 @@ function Travel() {
 
 // ─── GALLERY ──────────────────────────────────────────────────────────────────
 function Gallery() {
+  const [lightbox, setLightbox] = useState(null);
   const photos = [
-    {label:'London Proposal', tall:true},
-    {label:'Mexico City'},
-    {label:'Together'},
-    {label:'Family'},
-    {label:'Adventures'},
+    {label:'London Proposal 💍', tall:true},
+    {label:'Mexico City 🌮'},
+    {label:'Together ♥'},
+    {label:'Family 🌸'},
+    {label:'Adventures ✈️'},
     {label:'The Couple', tall:true},
-    {label:'Friends'},
+    {label:'Friends 🎉'},
   ];
   return (
     <section id="gallery">
       <div className="wc-blob" style={{width:500,height:500,top:'50%',left:'50%',transform:'translate(-50%,-50%)',background:'var(--rose)',opacity:0.06}}/>
+      {lightbox !== null && (
+        <div className="lightbox-overlay" onClick={()=>setLightbox(null)}>
+          <span className="lightbox-close">×</span>
+          <div style={{background:'white',borderRadius:16,padding:'2rem',textAlign:'center',maxWidth:460}} onClick={e=>e.stopPropagation()}>
+            <div style={{width:320,height:280,background:'linear-gradient(135deg,var(--bg2),var(--bg))',borderRadius:8,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'0.75rem',margin:'0 auto 1rem'}}>
+              <svg width="44" height="44" viewBox="0 0 44 44"><rect width="44" height="44" rx="5" fill="none" stroke="var(--border)" strokeWidth="1.5"/><circle cx="14" cy="14" r="5" stroke="var(--gold)" strokeWidth="1.2" fill="none"/><path d="M4 36 L14 22 L22 28 L30 18 L40 36" stroke="var(--primary)" strokeWidth="1.5" fill="none"/></svg>
+              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.3rem',color:'var(--primary-deep)'}}>{photos[lightbox].label}</div>
+              <div style={{fontSize:'0.75rem',color:'var(--text2)',opacity:0.6}}>Photo coming soon — check back closer to the date!</div>
+            </div>
+            <button onClick={()=>setLightbox(null)} style={{padding:'0.5rem 1.5rem',borderRadius:'20px',border:'1px solid var(--border)',background:'none',cursor:'pointer',color:'var(--text2)',fontSize:'0.85rem'}}>Close</button>
+          </div>
+        </div>
+      )}
       <div className="section-inner">
         <div className="section-eyebrow">Memories</div>
         <div className="section-title">Our Gallery</div>
-        <div className="section-subtitle">Photos coming soon — check back closer to the wedding date!</div>
+        <div className="section-subtitle">Photos coming soon — click any photo to preview.</div>
         <div className="gallery-grid">
           {photos.map((p,i) => (
-            <div key={i} className={`gallery-placeholder ${p.tall?'tall':''}`}>
-              <svg width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" rx="4" fill="none" stroke="var(--border)" strokeWidth="1.5"/><circle cx="14" cy="14" r="5" stroke="var(--gold)" strokeWidth="1" fill="none"/><path d="M4 30 L14 18 L22 26 L28 20 L36 30" stroke="var(--primary)" strokeWidth="1.5" fill="none"/></svg>
-              <span style={{fontFamily:'monospace',fontSize:'0.65rem',textAlign:'center'}}>{p.label}</span>
+            <div key={i} className={`gallery-item ${p.tall?'tall':''}`} onClick={()=>setLightbox(i)}>
+              <div className="gallery-placeholder" style={{height:'100%',minHeight:160}}>
+                <svg width="36" height="36" viewBox="0 0 36 36"><rect width="36" height="36" rx="4" fill="none" stroke="var(--border)" strokeWidth="1.5"/><circle cx="12" cy="12" r="4" stroke="var(--gold)" strokeWidth="1" fill="none"/><path d="M4 28 L12 18 L18 22 L24 16 L32 28" stroke="var(--primary)" strokeWidth="1.5" fill="none"/></svg>
+                <span style={{fontSize:'0.68rem',textAlign:'center',padding:'0 0.5rem'}}>{p.label}</span>
+              </div>
             </div>
           ))}
         </div>
@@ -1034,33 +1153,61 @@ function Gallery() {
   );
 }
 
-// ─── WEDDING PARTY ────────────────────────────────────────────────────────────
-function WeddingParty() {
-  const people = [
-    {initials:'V',name:'Varun Ram Khandavalli',role:'Groom'},
-    {initials:'A',name:'Anjani Agarwal',role:'Bride'},
-    {initials:'B',name:'Best Man',role:"Groom's Side"},
-    {initials:'M',name:'Maid of Honor',role:"Bride's Side"},
-    {initials:'G',name:'Groomsman',role:"Groom's Side"},
-    {initials:'B',name:'Bridesmaid',role:"Bride's Side"},
+// ─── CLOTHING GUIDE ─────────────────────────────────────────────────────────
+function Clothing() {
+  const events = [
+    { day:'December 11 · Mehndi & Welcome', bg:'linear-gradient(135deg,#fff8e8,#fef0f5)',
+      men:['Kurta pajama in bright colors','Nehru jacket over kurta','Indo-western welcome'],
+      menColors:['#e8a030','#9b59b6','#27ae60'],
+      women:['Salwar kameez / churidar','Anarkali suits','Bright lehengas'],
+      womenColors:['#e87090','#9b59b6','#e8a030'] },
+    { day:'December 11 · Sangeet Evening', bg:'linear-gradient(135deg,#f0e8ff,#ffe8f5)',
+      men:['Sherwani or embroidered kurta','Dhoti kurta','Indo-western fusion'],
+      menColors:['#c8913a','#7c4d9e','#d4648c'],
+      women:['Lehenga choli','Embroidered saree','Sequins & glam welcome!'],
+      womenColors:['#d4648c','#c8913a','#7c4d9e'] },
+    { day:'December 12 · Snatakam & Wedding Ceremony', bg:'linear-gradient(135deg,#fff4e0,#ffe8e8)',
+      note:'Please avoid white & black as per Hindu tradition.',
+      men:['Traditional dhoti kurta','Silk sherwani','Angavastram draped'],
+      menColors:['#c8913a','#7c4d9e','#e07830'],
+      women:['Silk saree (Kanjeevaram / Banarasi)','Traditional lehenga','Pattu pavadai'],
+      womenColors:['#e87090','#c8913a','#7c4d9e'] },
   ];
   return (
-    <section id="party">
+    <section id="clothing">
+      <div className="wc-blob" style={{width:400,height:400,top:'-60px',right:'-80px',background:'var(--rose)',opacity:0.09}}/>
       <div className="section-inner">
-        <div className="section-eyebrow">The People We Love</div>
-        <div className="section-title">Wedding Party</div>
-        <div className="section-subtitle">The wonderful people standing beside us as we take our vows.</div>
-        <div className="party-grid">
-          {people.map((p,i) => (
-            <div key={i} className="party-card">
-              <div className="party-avatar">{p.initials}</div>
-              <div className="party-name">{p.name}</div>
-              <div className="party-role">{p.role}</div>
+        <div className="section-eyebrow">What to Wear</div>
+        <div className="section-title">Dress to Celebrate</div>
+        <div className="section-subtitle">We want everyone dressed in the spirit of the occasion. Here's your guide for each event.</div>
+        <div style={{display:'flex',flexDirection:'column',gap:'1.5rem',marginTop:'3rem'}}>
+          {events.map((ev,i) => (
+            <div key={i} style={{borderRadius:16,overflow:'hidden',background:'white',boxShadow:'0 4px 20px rgba(0,0,0,0.07)'}}>
+              <div style={{padding:'1rem 2rem',background:ev.bg,borderBottom:'1px solid var(--border)',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:'0.5rem'}}>
+                <div style={{fontSize:'0.72rem',letterSpacing:'0.15em',textTransform:'uppercase',color:'var(--gold)',fontWeight:500}}>{ev.day}</div>
+                {ev.note && <div style={{fontSize:'0.78rem',color:'var(--rose)',fontStyle:'italic'}}>⚠ {ev.note}</div>}
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr'}}>
+                {[{label:'👔 Men',items:ev.men,colors:ev.menColors},{label:'👗 Women',items:ev.women,colors:ev.womenColors}].map((col,j)=>(
+                  <div key={j} style={{padding:'1.5rem 2rem',borderRight:j===0?'1px solid var(--border)':'none'}}>
+                    <div style={{fontSize:'0.7rem',letterSpacing:'0.12em',textTransform:'uppercase',color:'var(--text2)',marginBottom:'0.75rem'}}>{col.label}</div>
+                    <div style={{display:'flex',flexDirection:'column',gap:'0.4rem',marginBottom:'1rem'}}>
+                      {col.items.map((item,k)=>(
+                        <div key={k} style={{display:'flex',gap:'0.6rem',alignItems:'center'}}>
+                          <div style={{width:9,height:9,borderRadius:'50%',background:col.colors[k]||'var(--gold)',flexShrink:0}}/>
+                          <span style={{fontSize:'0.87rem',color:'var(--text2)'}}>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{height:90,borderRadius:8,background:'linear-gradient(135deg,var(--bg),var(--bg2))',border:'1px solid var(--border)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.7rem',color:'var(--text2)',gap:'0.5rem'}}>
+                      <svg width="22" height="22" viewBox="0 0 22 22"><rect width="22" height="22" rx="3" fill="none" stroke="var(--border)" strokeWidth="1"/><circle cx="7" cy="7" r="3" stroke="var(--gold)" strokeWidth="0.8" fill="none"/><path d="M2 18 L7 11 L12 15 L16 9 L20 18" stroke="var(--primary)" strokeWidth="1" fill="none"/></svg>
+                      Attire inspiration
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
-        </div>
-        <div style={{marginTop:'2rem',fontFamily:'Cormorant Garamond, serif',fontStyle:'italic',color:'var(--text2)',fontSize:'1rem'}}>
-          Full wedding party details coming soon!
         </div>
       </div>
     </section>
@@ -1071,12 +1218,14 @@ function WeddingParty() {
 function FAQ() {
   const [open, setOpen] = useState(null);
   const faqs = [
-    {q:'What should I wear?', a:'Day 1 (Mehndi & Sangeet): Bright, festive Indian attire — lehengas, salwar kameez, sherwanis, or colorful western wear are all welcome! Day 2 (Wedding Ceremony): Traditional Indian attire preferred — sarees, lehengas, sherwanis. Please avoid white and black, as per Indian tradition.'},
+    {q:'Are accommodations provided?', a:'Yes! All accommodations for wedding guests are provided by us at Oleander Farms. You do not need to book a hotel. If you have not received your room details, please reach out to Anjani or Varun Ram directly.'},
+    {q:'What should I wear?', a:'Check the Attire Guide section for full details! In short: bright festive Indian attire for Day 1 events — lehengas, salwar kameez, sherwanis, or colorful western wear are all welcome! Day 2 (Wedding Ceremony): Traditional Indian attire preferred — sarees, lehengas, sherwanis. Please avoid white and black, as per Indian tradition.'},
     {q:'Will both days be outdoors?', a:'The events will make the most of Oleander Farms\' stunning natural setting in Karjat. Parts of both days will be outdoors, so we recommend comfortable footwear for the lawns and light layers for the cool December evenings.'},
     {q:'Are children welcome?', a:'Children are warmly welcome at both celebrations!'},
     {q:'Is there a registry?', a:'Your presence is truly the only gift we need. If you\'d like to give something, we\'d appreciate contributions to our travel fund — more details to follow.'},
     {q:'Can I take photos?', a:'Please enjoy taking photos throughout the celebrations! We do ask that during the sacred ceremony moments, you put phones away and be fully present with us.'},
-    {q:'What is the nearest airport?', a:'Mumbai CSIA (BOM) is the closest international hub, about 90 minutes from the venue. Karjat is also directly accessible by train from Mumbai CST. We will be arranging transport for guests — details to follow.'},
+    {q:'What is the nearest airport?', a:'Mumbai CSIA (BOM) and the new Navi Mumbai International Airport (NMIA) are both about 90 minutes away. Karjat is also accessible by train from Mumbai CST. Transport will be arranged for all guests.'},
+    {q:"I haven't received accommodation details — what do I do?", a:'Please reach out to Anjani or Varun Ram directly and we will sort it out right away! All guests are hosted at Oleander Farms.'},
   ];
   return (
     <section id="faq">
@@ -1186,15 +1335,12 @@ function RSVP() {
 function Footer() {
   return (
     <footer>
-      <div style={{position:'relative',display:'inline-block',marginBottom:'1rem'}}>
-        <MandalaBg size={120} opacity={0.12}/>
-        <div style={{position:'relative',fontFamily:'Cormorant Garamond, serif',fontSize:'2rem',color:'var(--gold)'}}>🪷</div>
-      </div>
-      <div className="footer-names">Varun Ram & Anjani</div>
+      <div style={{marginBottom:'1rem',fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'3.5rem',color:'var(--gold)',lineHeight:1}}>ॐ</div>
+      <div className="footer-names">Anjani & Varun Ram</div>
       <div style={{display:'flex',justifyContent:'center',gap:'1.5rem',margin:'0.4rem 0',flexWrap:'wrap',opacity:0.7}}>
-        <span style={{fontFamily:"'Noto Serif Telugu',serif",fontSize:'1.1rem',color:'var(--primary-deep)'}}>వరుణ్ &amp; అంజని</span>
+        <span style={{fontFamily:"'Noto Serif Telugu',serif",fontSize:'1.1rem',color:'var(--primary-deep)'}}>అంజని &amp; వరుణ్</span>
         <span style={{color:'var(--border)'}}>·</span>
-        <span style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'1.1rem',color:'var(--primary-deep)'}}>वरुण &amp; अंजनि</span>
+        <span style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'1.1rem',color:'var(--primary-deep)'}}>अंजनि &amp; वरुण</span>
       </div>
       <div className="footer-sub">December 11–12, 2026 · Oleander Farms, Karjat, Maharashtra</div>
       <div style={{marginTop:'1rem',fontSize:'0.75rem',color:'var(--text2)',opacity:0.6}}>
@@ -1219,9 +1365,9 @@ function App() {
   }, [t.theme]);
 
   const sections = [
-    {id:'ganesha',label:'Blessings'},{id:'story',label:'Our Story'},
-    {id:'celebrations',label:'Celebrations'},{id:'oleander',label:'The Venue'},
-    {id:'party',label:'Wedding Party'},{id:'travel',label:'Travel'},
+    {id:'ganesha',label:'Blessings'},{id:'intro',label:'About Us'},{id:'story',label:'Our Story'},
+    {id:'celebrations',label:'Celebrations'},{id:'oleander',label:'Venue'},
+    {id:'travel',label:'Travel'},{id:'clothing',label:'Attire'},
     {id:'gallery',label:'Gallery'},{id:'faq',label:'FAQ'},{id:'rsvp',label:'RSVP'},
   ];
 
@@ -1230,11 +1376,12 @@ function App() {
       <Nav sections={sections}/>
       <Hero showPetals={t.showPetals}/>
       <GaneshaSection/>
+      <CoupleIntro/>
       <OurStory/>
       <Celebrations/>
       <OleanderFarms/>
-      <WeddingParty/>
       <Travel/>
+      <Clothing/>
       <Gallery/>
       <FAQ/>
       <RSVP/>
