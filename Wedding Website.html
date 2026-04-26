@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Varun Ram & Anjani — December 11–12, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Noto+Serif+Telugu:wght@300;400&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+/* THEME VARS - Marigold & Lavender (default) */
+body.theme-marigold {
+  --bg: #fdf6f0;
+  --bg2: #f9eef8;
+  --text: #2d1f3a;
+  --text2: #6b4e7a;
+  --primary: #b07ec8;
+  --primary-deep: #7c4d9e;
+  --gold: #c8913a;
+  --gold-light: #e8bf7a;
+  --saffron: #e07830;
+  --rose: #d4648c;
+  --cream: #fdf6f0;
+  --border: rgba(176,126,200,0.25);
+  --mandala: rgba(200,145,58,0.12);
+}
+body.theme-crimson {
+  --bg: #fdf0f2;
+  --bg2: #f8e8ec;
+  --text: #2a1018;
+  --text2: #7a3048;
+  --primary: #c85878;
+  --primary-deep: #9c2848;
+  --gold: #c8a040;
+  --gold-light: #e8d080;
+  --saffron: #e06820;
+  --rose: #e87098;
+  --cream: #fdf0f2;
+  --border: rgba(200,88,120,0.25);
+  --mandala: rgba(200,160,64,0.12);
+}
+body.theme-midnight {
+  --bg: #0e0a1a;
+  --bg2: #16102a;
+  --text: #f0e8ff;
+  --text2: #c8b8e8;
+  --primary: #a888d8;
+  --primary-deep: #d4b0ff;
+  --gold: #e8c060;
+  --gold-light: #f0d898;
+  --saffron: #f09040;
+  --rose: #e888b8;
+  --cream: #1a142e;
+  --border: rgba(168,136,216,0.3);
+  --mandala: rgba(232,192,96,0.1);
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3rem; height: 64px;
+  background: rgba(253,246,240,0.85); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s;
+}
+body.theme-midnight nav { background: rgba(14,10,26,0.9); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; letter-spacing: 0.08em; color: var(--primary-deep); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-mobile-btn { display: none; background: none; border: none; cursor: pointer; font-size: 1.4rem; color: var(--text2); }
+@media(max-width:768px){ .nav-links { display: none; } .nav-mobile-btn { display: block; } }
+
+/* WATERCOLOR BLOBS */
+.wc-blob {
+  position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; mix-blend-mode: multiply;
+}
+body.theme-midnight .wc-blob { mix-blend-mode: screen; }
+
+/* SECTIONS */
+section { position: relative; overflow: hidden; }
+.section-inner { max-width: 1100px; margin: 0 auto; padding: 6rem 2rem; position: relative; z-index: 1; }
+
+/* DIVIDER - mehndi style */
+.mehndi-divider {
+  display: flex; align-items: center; gap: 1rem; margin: 2rem 0;
+}
+.mehndi-divider::before, .mehndi-divider::after {
+  content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.mehndi-divider span { color: var(--gold); font-size: 1.2rem; }
+
+/* SECTION TITLE */
+.section-eyebrow { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 3.5rem); color: var(--primary-deep); line-height: 1.15; }
+.section-subtitle { font-size: 1rem; color: var(--text2); line-height: 1.8; max-width: 600px; margin-top: 1rem; }
+
+/* HERO */
+#hero {
+  min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; background: var(--bg);
+}
+.hero-names {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-weight: 300; letter-spacing: 0.03em;
+  color: var(--primary-deep);
+  line-height: 1;
+}
+.hero-amp {
+  display: block; font-style: italic; font-size: 0.55em;
+  color: var(--gold); margin: 0.1em 0;
+}
+.hero-date { font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text2); margin-top: 1.5rem; }
+.hero-venue { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--rose); margin-top: 0.4rem; }
+.countdown { display: flex; gap: 2rem; justify-content: center; margin-top: 2.5rem; }
+.countdown-unit { text-align: center; }
+.countdown-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; color: var(--primary-deep); line-height: 1; }
+.countdown-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text2); }
+.scroll-cue { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); color: var(--gold); font-size: 1.5rem; animation: bobble 2s ease-in-out infinite; }
+@keyframes bobble { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+/* PETAL ANIMATION */
+.petal { position: absolute; pointer-events: none; border-radius: 50% 0 50% 0; opacity: 0.6; animation: fall linear infinite; top: -40px; }
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0.8; }
+  80% { opacity: 0.6; }
+  100% { transform: translateY(102vh) rotate(780deg) translateX(var(--drift, 60px)); opacity: 0; }
+}
+
+/* GANESHA */
+#ganesha { background: var(--bg2); }
+.ganesha-inner { display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: center; width: 100%; }
+.ganesha-title {
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem, 2vw, 1.4rem);
+  letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.ganesha-devanagari {
+  font-family: 'Tiro Devanagari Hindi', serif; font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--primary-deep);
+  margin-bottom: 0.3rem; text-shadow: 0 0 30px var(--gold-light); text-align: center;
+}
+.ganesha-telugu {
+  font-family: 'Noto Serif Telugu', serif; font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  color: var(--gold); opacity: 0.8; margin-bottom: 1rem;
+}
+.ganesha-subtitle { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; color: var(--text2); max-width: 500px; }
+
+/* STORY */
+#story { background: var(--bg); }
+.story-timeline { display: flex; flex-direction: column; gap: 0; margin-top: 3rem; max-width: 700px; }
+.story-item { display: flex; gap: 2rem; padding-bottom: 3rem; position: relative; }
+.story-item::before { content: ''; position: absolute; left: 19px; top: 40px; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--gold), transparent); }
+.story-item:last-child::before { display: none; }
+.story-dot { width: 40px; height: 40px; border-radius: 50%; background: var(--gold-light); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+.story-content { padding-top: 0.5rem; }
+.story-year { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+.story-heading { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--primary-deep); margin: 0.25rem 0 0.5rem; }
+.story-text { font-size: 0.9rem; color: var(--text2); line-height: 1.8; }
+
+/* CELEBRATIONS */
+#celebrations { background: var(--bg2); }
+.event-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
+@media(max-width:640px){ .event-cards { grid-template-columns: 1fr; } }
+.event-card {
+  border: 1px solid var(--border); border-radius: 12px; padding: 2rem;
+  background: linear-gradient(135deg, var(--bg), var(--bg2));
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.event-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px var(--border); }
+.event-day { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+.event-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--primary-deep); margin: 0.3rem 0; }
+.event-type { font-style: italic; color: var(--text2); font-size: 0.9rem; margin-bottom: 1.2rem; }
+.event-detail { display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.75rem; }
+.event-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.1rem; }
+.event-detail-text { font-size: 0.85rem; color: var(--text2); line-height: 1.5; }
+
+/* OLEANDER */
+#oleander { background: var(--bg); }
+.farm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; align-items: start; }
+@media(max-width:768px){ .farm-grid { grid-template-columns: 1fr; } }
+.farm-img-placeholder {
+  aspect-ratio: 4/3; border-radius: 12px; overflow: hidden;
+  background: linear-gradient(135deg, var(--bg2), var(--bg));
+  border: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.75rem; color: var(--text2); font-size: 0.8rem; letter-spacing: 0.1em;
+  position: relative;
+}
+.farm-features { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+.farm-feature { display: flex; gap: 1rem; align-items: flex-start; }
+.farm-feature-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--mandala); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+.farm-feature-text h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--primary-deep); }
+.farm-feature-text p { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+
+/* GALLERY */
+#gallery { background: var(--bg2); }
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
+@media(max-width:640px){ .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+.gallery-placeholder {
+  aspect-ratio: 1; border-radius: 8px;
+  background: linear-gradient(135deg, var(--bg), var(--bg2));
+  border: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.4rem; font-size: 0.7rem; color: var(--text2); letter-spacing: 0.1em;
+}
+.gallery-placeholder.tall { grid-row: span 2; aspect-ratio: unset; }
+
+/* RSVP */
+#rsvp { background: var(--bg); }
+.rsvp-form { max-width: 560px; margin-top: 3rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+@media(max-width:480px){ .form-row { grid-template-columns: 1fr; } }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+.form-group label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); }
+.form-group input, .form-group select, .form-group textarea {
+  padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg2); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  outline: none; transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); }
+.btn-primary {
+  display: inline-block; padding: 0.9rem 2.5rem;
+  background: linear-gradient(135deg, var(--primary-deep), var(--primary));
+  color: white; border: none; border-radius: 50px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+.rsvp-success { text-align: center; padding: 3rem; }
+.rsvp-success .big-check { font-size: 3rem; margin-bottom: 1rem; }
+
+/* FAQ */
+#faq { background: var(--bg2); }
+.faq-list { max-width: 700px; margin-top: 2.5rem; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-q {
+  width: 100%; text-align: left; padding: 1.25rem 0; background: none; border: none; cursor: pointer;
+  font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--primary-deep);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.faq-q:hover { color: var(--gold); }
+.faq-a { font-size: 0.9rem; color: var(--text2); line-height: 1.8; padding-bottom: 1.25rem; }
+
+/* WEDDING PARTY */
+#party { background: var(--bg); }
+.party-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+.party-card { text-align: center; }
+.party-avatar {
+  width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 0.75rem;
+  background: linear-gradient(135deg, var(--primary), var(--rose));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: white;
+  border: 3px solid var(--gold-light);
+}
+.party-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--primary-deep); }
+.party-role { font-size: 0.75rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* TRAVEL */
+#travel { background: var(--bg2); }
+.travel-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
+@media(max-width:640px){ .travel-cards { grid-template-columns: 1fr; } }
+.travel-card { border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; background: var(--bg); }
+.travel-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--primary-deep); margin-bottom: 0.5rem; }
+.travel-card p { font-size: 0.85rem; color: var(--text2); line-height: 1.7; }
+.travel-tag { display: inline-block; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.7rem; border-radius: 20px; background: var(--mandala); color: var(--gold); margin-bottom: 0.75rem; }
+
+/* FOOTER */
+footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: center; }
+.footer-names { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--primary-deep); }
+.footer-sub { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text2); margin-top: 0.5rem; }
+</style>
+</head>
+<body class="theme-marigold">
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// ─── OLEANDER WATERCOLOR LANDSCAPE ───────────────────────────────────────────
+function OleanderLandscape() {
+  return (
+    <svg viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg"
+      style={{position:'absolute',inset:0,width:'100%',height:'100%'}}
+      preserveAspectRatio="xMidYMid slice">
+      <defs>
+        {/* Crisp watercolor edge — less displacement, more definition */}
+        <filter id="wc-edge" x="-5%" y="-5%" width="110%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.03 0.02" numOctaves="3" seed="12" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="wc-mist" x="-10%" y="-10%" width="120%" height="120%">
+          <feGaussianBlur stdDeviation="14"/>
+        </filter>
+        <filter id="wc-soft" x="-5%" y="-5%" width="110%" height="110%">
+          <feGaussianBlur stdDeviation="4"/>
+        </filter>
+        <filter id="wc-sharp" x="-2%" y="-2%" width="104%" height="104%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" seed="7" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+
+        {/* Golden-hour Karjat sky */}
+        <linearGradient id="karjat-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ddd0f0" stopOpacity="0.95"/>
+          <stop offset="35%" stopColor="#ecd8e8" stopOpacity="0.9"/>
+          <stop offset="70%" stopColor="#f5e0c8" stopOpacity="0.88"/>
+          <stop offset="100%" stopColor="#f8e8b0" stopOpacity="0.82"/>
+        </linearGradient>
+        {/* River gradient */}
+        <linearGradient id="ulhas" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#c0d8f0" stopOpacity="0.6"/>
+          <stop offset="30%" stopColor="#d8e8ff" stopOpacity="0.75"/>
+          <stop offset="60%" stopColor="#c8d8f8" stopOpacity="0.7"/>
+          <stop offset="100%" stopColor="#b8d0e8" stopOpacity="0.55"/>
+        </linearGradient>
+        {/* Deep Sahyadri forest */}
+        <linearGradient id="forest-deep" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#2d5a3a" stopOpacity="0.75"/>
+          <stop offset="100%" stopColor="#3d7a4a" stopOpacity="0.55"/>
+        </linearGradient>
+        <linearGradient id="forest-mid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#3a6840" stopOpacity="0.65"/>
+          <stop offset="100%" stopColor="#5a9060" stopOpacity="0.5"/>
+        </linearGradient>
+        <linearGradient id="mesa-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#7080a0" stopOpacity="0.55"/>
+          <stop offset="60%" stopColor="#8898b8" stopOpacity="0.45"/>
+          <stop offset="100%" stopColor="#607888" stopOpacity="0.4"/>
+        </linearGradient>
+        <linearGradient id="mesa-face" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#505870" stopOpacity="0.6"/>
+          <stop offset="100%" stopColor="#708098" stopOpacity="0.4"/>
+        </linearGradient>
+      </defs>
+
+      {/* ── SKY ── */}
+      <rect width="1440" height="900" fill="url(#karjat-sky)"/>
+
+      {/* Golden hour glow at horizon */}
+      <ellipse cx="720" cy="520" rx="600" ry="160" fill="#f8d890" opacity="0.2" filter="url(#wc-mist)"/>
+      <ellipse cx="300" cy="480" rx="250" ry="100" fill="#f0c080" opacity="0.12" filter="url(#wc-mist)"/>
+      <ellipse cx="1200" cy="460" rx="220" ry="90" fill="#e8c8a0" opacity="0.1" filter="url(#wc-mist)"/>
+
+      {/* Soft clouds */}
+      <ellipse cx="200" cy="130" rx="240" ry="55" fill="white" opacity="0.2" filter="url(#wc-mist)"/>
+      <ellipse cx="820" cy="95" rx="280" ry="50" fill="white" opacity="0.18" filter="url(#wc-mist)"/>
+      <ellipse cx="1280" cy="145" rx="180" ry="45" fill="white" opacity="0.14" filter="url(#wc-mist)"/>
+
+      {/* ── SAHYADRI MOUNTAINS — flat-topped mesas (killas/forts), very distinctive ── */}
+      {/* Far range — lightest, most blue */}
+      <path d="M -20 460 Q 60 390 140 400 Q 200 380 260 350 Q 310 320 360 340 Q 410 318 450 290 Q 480 275 510 295 Q 540 278 570 260 Q 600 245 640 270 Q 680 252 720 235 Q 760 218 800 240 Q 840 222 880 210 Q 920 195 960 218 Q 1000 200 1040 220 Q 1080 205 1120 225 Q 1160 208 1200 230 Q 1240 215 1280 238 Q 1320 222 1360 242 L 1460 265 L 1460 500 L-20 500Z"
+        fill="url(#mesa-fill)" filter="url(#wc-sharp)"/>
+
+      {/* FLAT-TOPPED MESA 1 — left, iconic Sahyadri shape */}
+      <path d="M 80 440 L 80 335 L 85 325 L 220 325 L 225 335 L 225 440Z"
+        fill="#6070a0" opacity="0.45" filter="url(#wc-edge)"/>
+      {/* Mesa top plateau */}
+      <path d="M 75 338 L 230 338 L 228 328 L 78 328Z" fill="#808ab8" opacity="0.5"/>
+      {/* Rocky face texture */}
+      <path d="M 85 350 Q 100 345 120 352 Q 140 348 160 354 Q 180 350 200 355 Q 215 348 225 352"
+        stroke="#5060808" strokeWidth="1" fill="none" opacity="0.3"/>
+      <path d="M 88 370 Q 110 365 135 372 Q 155 368 180 373 Q 200 368 222 372"
+        stroke="#506080" strokeWidth="1" fill="none" opacity="0.25"/>
+      {/* Forest on mesa top */}
+      {[90,108,126,144,162,180,198,216].map((x,i)=>(
+        <path key={i} d={`M${x} 328 Q${x+4} ${316+i%2*4} ${x+8} 328`}
+          fill="#3a6040" opacity="0.55"/>
+      ))}
+
+      {/* FLAT-TOPPED MESA 2 — center-right, taller */}
+      <path d="M 820 450 L 820 295 L 826 282 L 980 282 L 986 295 L 986 450Z"
+        fill="#5868a0" opacity="0.5" filter="url(#wc-edge)"/>
+      <path d="M 814 298 L 992 298 L 988 284 L 818 284Z" fill="#7880c0" opacity="0.5"/>
+      {/* Sheer cliff face */}
+      <path d="M 820 310 L 820 380" stroke="#48588a" strokeWidth="2" opacity="0.3"/>
+      <path d="M 860 295 L 860 410" stroke="#48588a" strokeWidth="1.5" opacity="0.2"/>
+      <path d="M 940 295 L 940 420" stroke="#48588a" strokeWidth="1.5" opacity="0.2"/>
+      <path d="M 986 310 L 986 390" stroke="#48588a" strokeWidth="2" opacity="0.3"/>
+      {/* Forest on top */}
+      {[830,848,866,884,902,920,938,956,974].map((x,i)=>(
+        <path key={i} d={`M${x} 284 Q${x+4} ${270+i%3*4} ${x+8} 284`}
+          fill="#3a6040" opacity="0.6"/>
+      ))}
+
+      {/* FLAT-TOPPED MESA 3 — far right */}
+      <path d="M 1240 450 L 1240 345 L 1246 332 L 1380 332 L 1386 345 L 1386 450Z"
+        fill="#6070a0" opacity="0.42" filter="url(#wc-edge)"/>
+      <path d="M 1234 348 L 1392 348 L 1388 334 L 1238 334Z" fill="#7880b8" opacity="0.48"/>
+      {[1250,1268,1286,1304,1322,1340,1358,1376].map((x,i)=>(
+        <path key={i} d={`M${x} 334 Q${x+4} ${320+i%2*5} ${x+8} 334`}
+          fill="#3a6040" opacity="0.55"/>
+      ))}
+
+      {/* ── VALLEY MIST between peaks — very Sahyadri ── */}
+      <path d="M -20 420 Q 150 410 300 420 Q 400 415 500 425 Q 600 418 700 422 L 700 480 L-20 480Z"
+        fill="white" opacity="0.22" filter="url(#wc-mist)"/>
+      <path d="M 1000 415 Q 1100 408 1200 418 Q 1300 412 1460 420 L 1460 480 L 1000 480Z"
+        fill="white" opacity="0.2" filter="url(#wc-mist)"/>
+      {/* Deep valley mist layer */}
+      <path d="M -20 455 Q 300 445 600 455 Q 800 448 1000 455 Q 1200 450 1460 458 L 1460 495 L-20 495Z"
+        fill="white" opacity="0.18" filter="url(#wc-mist)"/>
+
+      {/* ── DEEP FOREST MIDGROUND — dense Sahyadri treeline ── */}
+      <path d="M -20 560 Q 80 520 160 538 Q 240 512 320 530 Q 400 508 480 525 Q 560 505 640 522 Q 720 502 800 518 Q 880 500 960 516 Q 1040 498 1120 515 Q 1200 500 1280 518 Q 1360 505 1460 522 L 1460 650 L-20 650Z"
+        fill="url(#forest-deep)" filter="url(#wc-edge)"/>
+      {/* Second forest layer */}
+      <path d="M -20 595 Q 100 568 220 582 Q 340 560 460 576 Q 580 558 700 572 Q 820 555 940 570 Q 1060 554 1180 568 Q 1300 552 1460 568 L 1460 670 L-20 670Z"
+        fill="url(#forest-mid)" filter="url(#wc-edge)"/>
+
+      {/* ── ULHAS RIVER — winding, prominent ── */}
+      {/* River body — wide, winding */}
+      <path d="M -20 695 Q 120 675 280 688 Q 400 680 520 692 Q 640 682 760 690 Q 880 682 1000 692 Q 1120 685 1240 695 Q 1360 688 1460 696 L 1460 730 Q 1360 722 1240 728 Q 1120 720 1000 728 Q 880 720 760 726 Q 640 718 520 726 Q 400 718 280 724 Q 120 718 -20 728Z"
+        fill="url(#ulhas)" filter="url(#wc-sharp)"/>
+      {/* River shimmer highlights */}
+      {[80,200,340,480,600,740,880,1020,1160,1300].map((x,i)=>(
+        <path key={i}
+          d={`M${x} ${706+i%3*4} Q${x+50} ${702+i%2*3} ${x+100} ${706+i%3*4}`}
+          stroke="white" strokeWidth={i%2===0?1.5:1} fill="none" opacity="0.35"/>
+      ))}
+      {/* River bank reflection */}
+      <path d="M -20 728 Q 200 740 460 732 Q 700 742 960 733 Q 1200 742 1460 734"
+        stroke="#a0c0e0" strokeWidth="1.5" fill="none" opacity="0.3"/>
+
+      {/* ── TALL TROPICAL TREES — Karjat-specific silhouettes ── */}
+      {/* Left bank trees */}
+      <g filter="url(#wc-edge)">
+        {/* Tall slim trees */}
+        {[30,58,90,118].map((x,i)=>(
+          <g key={i}>
+            <rect x={x} y={570+i%2*15} width={8+i%2*4} height={130-i%2*20} fill="#2d5030" opacity="0.7"/>
+            <ellipse cx={x+6} cy={570+i%2*15} rx={30+i*5} ry={45+i%2*10} fill="#3a6838" opacity="0.6"/>
+            <ellipse cx={x+4} cy={580+i%2*15} rx={24+i*4} ry={35} fill="#2d5a30" opacity="0.45"/>
+          </g>
+        ))}
+        {/* Wide banyan-style */}
+        <ellipse cx="175" cy="595" rx="70" ry="55" fill="#2a5028" opacity="0.65"/>
+        <ellipse cx="160" cy="615" rx="55" ry="42" fill="#3a6838" opacity="0.5"/>
+        <rect x="170" y="625" width="10" height="80" fill="#2a4025" opacity="0.65"/>
+        {/* Hanging roots suggestion */}
+        {[155,163,177,185].map((x,i)=>(
+          <path key={i} d={`M${x} 635 Q${x+2} 650 ${x+1} 665`}
+            stroke="#2a4025" strokeWidth="2" fill="none" opacity="0.4"/>
+        ))}
+      </g>
+
+      {/* Right bank trees */}
+      <g filter="url(#wc-edge)">
+        {[1300,1332,1362,1395,1420].map((x,i)=>(
+          <g key={i}>
+            <rect x={x} y={568+i%2*12} width={7+i%2*5} height={125-i%3*15} fill="#2d5030" opacity="0.65"/>
+            <ellipse cx={x+5} cy={568+i%2*12} rx={28+i%3*8} ry={42+i%2*8} fill="#3a6838" opacity="0.58"/>
+          </g>
+        ))}
+        <ellipse cx="1270" cy="588" rx="65" ry="52" fill="#2a5028" opacity="0.6"/>
+        <rect x="1264" y="618" width="12" height="90" fill="#2a4025" opacity="0.6"/>
+      </g>
+
+      {/* ── OLEANDER FLOWER CLUSTERS — pink blooms along riverbank ── */}
+      {[[110,745],[240,750],[400,742],[560,748],[700,744],[860,750],[1020,743],[1180,748],[1340,745]].map(([x,y],i) => (
+        <g key={i}>
+          {[0,1,2,3,4].map(j => {
+            const angle = (j/5)*Math.PI*2;
+            return <ellipse key={j}
+              cx={x + 12*Math.cos(angle)} cy={y + 8*Math.sin(angle)}
+              rx="10" ry="7"
+              fill={j%2===0?'#e878a8':'#f5a8c5'}
+              opacity="0.65"
+              transform={`rotate(${j*72},${x+12*Math.cos(angle)},${y+8*Math.sin(angle)})`}/>;
+          })}
+          <circle cx={x} cy={y} r="4" fill="#f8d050" opacity="0.75"/>
+          {/* Stems */}
+          <path d={`M${x} ${y+4} L${x-3} ${y+18} M${x} ${y+4} L${x+4} ${y+20}`}
+            stroke="#4a7030" strokeWidth="1.5" fill="none" opacity="0.5"/>
+        </g>
+      ))}
+
+      {/* ── FOREGROUND GRASSY BANK ── */}
+      <path d="M -20 800 Q 200 775 400 792 Q 600 778 720 795 Q 900 778 1100 792 Q 1300 778 1460 795 L 1460 900 L-20 900Z"
+        fill="#8a9850" opacity="0.45" filter="url(#wc-edge)"/>
+      <path d="M -20 840 Q 300 822 600 838 Q 900 822 1200 838 Q 1380 826 1460 840 L 1460 900 L-20 900Z"
+        fill="#a0a860" opacity="0.35"/>
+
+      {/* Grass strokes */}
+      {Array.from({length:50}).map((_,i) => {
+        const x = 10 + i*29; const y = 832 + (i%4)*10;
+        return <path key={i} d={`M${x} ${y+14} Q${x+3} ${y} ${x+7} ${y+10}`}
+          stroke="#607040" strokeWidth="1.5" fill="none" opacity="0.45"/>;
+      })}
+
+      {/* ── PAPER WASH OVERLAY — lighter to keep it crisper ── */}
+      <rect width="1440" height="900" fill="var(--bg)" opacity="0.22"/>
+    </svg>
+  );
+}
+// ─── GANESHA SVG ──────────────────────────────────────────────────────────────
+function GaneshaSVG({ size = 320 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg"
+      style={{filter:'drop-shadow(0 16px 48px rgba(180,120,40,0.35))'}}>
+      <defs>
+        <radialGradient id="gg-halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#f0d080" stopOpacity="0.45"/>
+          <stop offset="70%" stopColor="#e0b060" stopOpacity="0.15"/>
+          <stop offset="100%" stopColor="#e0b060" stopOpacity="0"/>
+        </radialGradient>
+        <radialGradient id="gg-body" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stopColor="#f5e8c0"/>
+          <stop offset="100%" stopColor="#d4a860"/>
+        </radialGradient>
+        <radialGradient id="gg-head" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stopColor="#faf0d0"/>
+          <stop offset="100%" stopColor="#e0c070"/>
+        </radialGradient>
+      </defs>
+
+      {/* ── HALO / PRABHAMANDALA ── */}
+      <circle cx="200" cy="195" r="165" fill="url(#gg-halo)"/>
+      <circle cx="200" cy="195" r="155" stroke="#c8943a" strokeWidth="1.5" fill="none" opacity="0.25"/>
+      <circle cx="200" cy="195" r="148" stroke="#c8943a" strokeWidth="0.8" fill="none" opacity="0.15" strokeDasharray="6 4"/>
+
+      {/* ── LOTUS PETALS (seat) ── */}
+      {Array.from({length:12}).map((_,i) => {
+        const a = (i/12)*Math.PI*2 - Math.PI/2;
+        const cx = 200 + 62*Math.cos(a), cy = 362 + 18*Math.sin(a);
+        return <ellipse key={i} cx={cx} cy={cy} rx="22" ry="14"
+          fill={i%2===0?"#e88aaa":"#f0aac0"} opacity="0.6"
+          transform={`rotate(${(i/12)*360},${cx},${cy})`}/>;
+      })}
+      <ellipse cx="200" cy="362" rx="68" ry="20" fill="#f0b8cc" opacity="0.35"/>
+
+      {/* ── BODY — large pot belly ── */}
+      <ellipse cx="200" cy="300" rx="92" ry="88" fill="url(#gg-body)" opacity="0.9"/>
+      <ellipse cx="200" cy="295" rx="78" ry="72" fill="#f8e8b0" opacity="0.5"/>
+      {/* Belly button */}
+      <circle cx="200" cy="308" r="6" fill="#c8943a" opacity="0.4"/>
+      {/* Dhoti waistband */}
+      <path d="M 118 332 Q 200 348 282 332" stroke="#c8943a" strokeWidth="2.5" fill="none" opacity="0.5"/>
+      <path d="M 122 337 Q 200 352 278 337" stroke="#c8943a" strokeWidth="1.5" fill="none" opacity="0.35"/>
+      {/* Dhoti folds */}
+      {[145,170,200,230,255].map((x,i)=>(
+        <path key={i} d={`M${x} 338 L${x+4} 358 L${x+8} 338`} stroke="#c8943a" strokeWidth="1" fill="none" opacity="0.3"/>
+      ))}
+
+      {/* ── FOUR ARMS ── */}
+      {/* Upper-left: holding lotus, raised */}
+      <path d="M 128 252 Q 90 228 72 202 Q 62 186 74 176 Q 85 167 96 180 Q 103 190 97 204"
+        stroke="#d4a840" strokeWidth="18" strokeLinecap="round" fill="none"/>
+      <path d="M 128 252 Q 90 228 72 202 Q 62 186 74 176 Q 85 167 96 180 Q 103 190 97 204"
+        stroke="#f0d070" strokeWidth="10" strokeLinecap="round" fill="none" opacity="0.6"/>
+      {/* Lotus flower */}
+      {[0,60,120,180,240,300].map((deg,i)=>(
+        <ellipse key={i} cx={88+10*Math.cos(deg*Math.PI/180)} cy={170+7*Math.sin(deg*Math.PI/180)}
+          rx="9" ry="6" fill={i%2===0?"#e878a8":"#f0a8c0"} opacity="0.85"
+          transform={`rotate(${deg},${88+10*Math.cos(deg*Math.PI/180)},${170+7*Math.sin(deg*Math.PI/180)})`}/>
+      ))}
+      <circle cx="88" cy="170" r="5" fill="#f8d840" opacity="0.9"/>
+
+      {/* Upper-right: Abhaya mudra (blessing), raised */}
+      <path d="M 272 252 Q 310 228 328 202 Q 338 186 326 176 Q 315 167 304 180 Q 297 190 303 204"
+        stroke="#d4a840" strokeWidth="18" strokeLinecap="round" fill="none"/>
+      <path d="M 272 252 Q 310 228 328 202 Q 338 186 326 176 Q 315 167 304 180 Q 297 190 303 204"
+        stroke="#f0d070" strokeWidth="10" strokeLinecap="round" fill="none" opacity="0.6"/>
+      {/* Hand open - fingers */}
+      <path d="M 308 174 Q 313 160 310 150 M 318 178 Q 325 164 323 154 M 326 186 Q 335 174 333 164"
+        stroke="#c8943a" strokeWidth="3.5" strokeLinecap="round" fill="none" opacity="0.7"/>
+      <path d="M 300 172 Q 303 158 300 148" stroke="#c8943a" strokeWidth="3.5" strokeLinecap="round" fill="none" opacity="0.7"/>
+
+      {/* Lower-left: resting on knee */}
+      <path d="M 120 288 Q 90 300 76 322 Q 70 338 82 344 Q 95 349 104 335 Q 110 324 102 318"
+        stroke="#d4a840" strokeWidth="18" strokeLinecap="round" fill="none"/>
+      <path d="M 120 288 Q 90 300 76 322 Q 70 338 82 344 Q 95 349 104 335 Q 110 324 102 318"
+        stroke="#f0d070" strokeWidth="10" strokeLinecap="round" fill="none" opacity="0.6"/>
+
+      {/* Lower-right: holding modak */}
+      <path d="M 280 288 Q 310 300 324 322 Q 330 338 318 344 Q 305 349 296 335 Q 290 324 298 318"
+        stroke="#d4a840" strokeWidth="18" strokeLinecap="round" fill="none"/>
+      <path d="M 280 288 Q 310 300 324 322 Q 330 338 318 344 Q 305 349 296 335 Q 290 324 298 318"
+        stroke="#f0d070" strokeWidth="10" strokeLinecap="round" fill="none" opacity="0.6"/>
+      {/* Modak — teardrop shape */}
+      <path d="M 308 352 Q 300 335 308 325 Q 316 335 324 352 Q 316 358 308 352Z" fill="#f0d060" opacity="0.85"/>
+      <path d="M 308 352 Q 310 340 314 330" stroke="#c8943a" strokeWidth="1.5" fill="none" opacity="0.5"/>
+
+      {/* ── LEFT EAR — big fan shape ── */}
+      <path d="M 122 162 Q 62 122 42 162 Q 24 200 52 228 Q 74 248 106 230 Q 122 220 120 198"
+        fill="#c8b0e8" opacity="0.55"/>
+      <path d="M 122 162 Q 62 122 42 162 Q 24 200 52 228 Q 74 248 106 230 Q 122 220 120 198"
+        stroke="#a888c8" strokeWidth="1.5" fill="none" opacity="0.4"/>
+      {/* Ear inner */}
+      <path d="M 118 170 Q 76 140 62 172 Q 50 200 72 218 Q 90 230 112 216"
+        fill="#e0c8f0" opacity="0.45"/>
+      <path d="M 114 178 Q 84 158 76 182 Q 68 204 88 214"
+        fill="#f0deff" opacity="0.3"/>
+
+      {/* ── RIGHT EAR — big fan shape ── */}
+      <path d="M 278 162 Q 338 122 358 162 Q 376 200 348 228 Q 326 248 294 230 Q 278 220 280 198"
+        fill="#c8b0e8" opacity="0.55"/>
+      <path d="M 278 162 Q 338 122 358 162 Q 376 200 348 228 Q 326 248 294 230 Q 278 220 280 198"
+        stroke="#a888c8" strokeWidth="1.5" fill="none" opacity="0.4"/>
+      <path d="M 282 170 Q 324 140 338 172 Q 350 200 328 218 Q 310 230 288 216"
+        fill="#e0c8f0" opacity="0.45"/>
+      <path d="M 286 178 Q 316 158 324 182 Q 332 204 312 214"
+        fill="#f0deff" opacity="0.3"/>
+
+      {/* ── HEAD ── */}
+      <ellipse cx="200" cy="188" rx="82" ry="86" fill="url(#gg-head)"/>
+      <ellipse cx="200" cy="185" rx="74" ry="78" fill="#fef8e0" opacity="0.4"/>
+
+      {/* ── CROWN / MUKUT ── */}
+      {/* Base band */}
+      <path d="M 132 120 Q 200 108 268 120" stroke="#c8943a" strokeWidth="4" fill="none" opacity="0.7"/>
+      {/* Crown spires — 3 tiers */}
+      <path d="M 148 118 Q 152 96 200 82 Q 248 96 252 118Z" fill="#c8943a" opacity="0.6"/>
+      <path d="M 158 114 Q 162 88 200 76 Q 238 88 242 114Z" fill="#d4a840" opacity="0.65"/>
+      <path d="M 172 110 L 200 68 L 228 110Z" fill="#e8c050" opacity="0.7"/>
+      {/* Crown jewels */}
+      <circle cx="200" cy="70" r="9" fill="#e87090" opacity="0.9"/>
+      <circle cx="200" cy="70" r="5" fill="#f8a0b8" opacity="0.8"/>
+      <circle cx="176" cy="84" r="6" fill="#c8943a" opacity="0.8"/>
+      <circle cx="224" cy="84" r="6" fill="#c8943a" opacity="0.8"/>
+      {[162,182,200,218,238].map((x,i)=>(
+        <circle key={i} cx={x} cy={112} r="4" fill={i%2===0?"#e8c050":"#f0d880"} opacity="0.7"/>
+      ))}
+
+      {/* ── FACE ── */}
+      {/* Tilaka / third eye */}
+      <path d="M 192 142 L 200 128 L 208 142 Q 200 138 192 142Z" fill="#e87090" opacity="0.85"/>
+      <circle cx="200" cy="138" r="5" fill="#e87090" opacity="0.9"/>
+      <circle cx="200" cy="138" r="2.5" fill="#8b0000" opacity="0.6"/>
+
+      {/* Eyes — large, expressive */}
+      <ellipse cx="172" cy="168" rx="14" ry="11" fill="white" opacity="0.95"/>
+      <ellipse cx="228" cy="168" rx="14" ry="11" fill="white" opacity="0.95"/>
+      <circle cx="172" cy="169" r="8" fill="#2a1040" opacity="0.9"/>
+      <circle cx="228" cy="169" r="8" fill="#2a1040" opacity="0.9"/>
+      <circle cx="174" cy="167" r="4" fill="#6840a0" opacity="0.6"/>
+      <circle cx="230" cy="167" r="4" fill="#6840a0" opacity="0.6"/>
+      <circle cx="175" cy="166" r="2" fill="white" opacity="0.9"/>
+      <circle cx="231" cy="166" r="2" fill="white" opacity="0.9"/>
+      {/* Eyelashes */}
+      <path d="M 160 160 Q 172 155 184 160" stroke="#2a1040" strokeWidth="2.5" fill="none" opacity="0.7" strokeLinecap="round"/>
+      <path d="M 216 160 Q 228 155 240 160" stroke="#2a1040" strokeWidth="2.5" fill="none" opacity="0.7" strokeLinecap="round"/>
+
+      {/* ── TRUNK — curves left, tips right ── THE KEY FEATURE */}
+      {/* Trunk base at nose */}
+      <ellipse cx="200" cy="208" rx="18" ry="10" fill="#e0c070" opacity="0.7"/>
+      {/* Trunk — thick stroked path, clearly an elephant trunk */}
+      <path d="M 210 212 Q 196 232 178 252 Q 155 275 138 295 Q 125 312 122 330 Q 120 346 132 350 Q 144 353 150 340 Q 154 328 144 323 Q 136 318 138 308"
+        stroke="#c8943a" strokeWidth="24" strokeLinecap="round" fill="none"/>
+      <path d="M 210 212 Q 196 232 178 252 Q 155 275 138 295 Q 125 312 122 330 Q 120 346 132 350 Q 144 353 150 340 Q 154 328 144 323 Q 136 318 138 308"
+        stroke="#e8c870" strokeWidth="16" strokeLinecap="round" fill="none"/>
+      <path d="M 210 212 Q 196 232 178 252 Q 155 275 138 295 Q 125 312 122 330 Q 120 346 132 350 Q 144 353 150 340 Q 154 328 144 323 Q 136 318 138 308"
+        stroke="#f8e898" strokeWidth="7" strokeLinecap="round" fill="none" opacity="0.7"/>
+      {/* Trunk wrinkles */}
+      {[[200,220],[185,240],[168,260],[150,280],[137,300],[126,318]].map(([x,y],i)=>(
+        <path key={i} d={`M${x-8} ${y} Q${x} ${y+5} ${x+8} ${y}`}
+          stroke="#c8943a" strokeWidth="1.5" fill="none" opacity="0.35"/>
+      ))}
+
+      {/* ── NECKLACE ── */}
+      <path d="M 132 228 Q 200 248 268 228" stroke="#c8943a" strokeWidth="2.5" fill="none" opacity="0.5"/>
+      {[132,152,170,186,200,214,230,248,268].map((x,i)=>(
+        <circle key={i} cx={x} cy={i===4?248:i===3||i===5?245:i===2||i===6?240:i===1||i===7?234:229}
+          r={i===4?6:5}
+          fill={i%3===0?'#e87090':i%3===1?'#c8943a':'#8060c0'} opacity="0.7"/>
+      ))}
+
+      {/* ── SACRED THREAD ── */}
+      <path d="M 148 238 Q 200 330 252 238" stroke="#c8943a" strokeWidth="1.8" fill="none" opacity="0.35" strokeDasharray="5 3"/>
+    </svg>
+  );
+}
+// ─── MANDALA SVG ──────────────────────────────────────────────────────────────
+function MandalaBg({ size=500, opacity=0.06 }) {
+  const rings = [40,80,120,160,200,240];
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{position:'absolute',pointerEvents:'none',opacity}}>
+      {rings.map((r,i)=>(
+        <React.Fragment key={i}>
+          <circle cx={size/2} cy={size/2} r={r} stroke="var(--gold)" strokeWidth="1" fill="none"/>
+          {Array.from({length:12*(i+1)}).map((_,j)=>{
+            const a = (j / (12*(i+1))) * Math.PI*2;
+            const x1 = size/2 + (r-6)*Math.cos(a), y1 = size/2 + (r-6)*Math.sin(a);
+            const x2 = size/2 + (r+6)*Math.cos(a), y2 = size/2 + (r+6)*Math.sin(a);
+            return <line key={j} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--gold)" strokeWidth="0.5" opacity="0.7"/>;
+          })}
+        </React.Fragment>
+      ))}
+    </svg>
+  );
+}
+
+// ─── PETALS ───────────────────────────────────────────────────────────────────
+function Petals() {
+  const items = Array.from({length:45}, (_,i) => {
+    const type = i % 5;
+    return {
+      id: i,
+      left: `${(i/45)*100 + (Math.random()-0.5)*8}%`,
+      size: type===2 ? 6 + Math.random()*6 : 7 + Math.random()*14,
+      delay: Math.random()*16,
+      duration: 7 + Math.random()*10,
+      color: type===0?'var(--rose)':type===1?'var(--gold)':type===2?'var(--primary)':type===3?'var(--saffron)':'var(--gold-light)',
+      shape: type===2 ? '50%' : type===4 ? '50% 0 50% 0' : '60% 40% 40% 60% / 60% 30% 70% 40%',
+      drift: (Math.random()-0.5)*120,
+    };
+  });
+  return (
+    <>
+      {items.map(p => (
+        <div key={p.id} className="petal" style={{
+          left: p.left, width: p.size, height: p.size*0.65,
+          background: p.color,
+          borderRadius: p.shape,
+          animationDelay: `${p.delay}s`,
+          animationDuration: `${p.duration}s`,
+          '--drift': `${p.drift}px`,
+        }}/>
+      ))}
+    </>
+  );
+}
+
+// ─── NAV ──────────────────────────────────────────────────────────────────────
+function Nav({ sections }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <nav>
+      <div className="nav-logo">V ♥ A</div>
+      <ul className="nav-links">
+        {sections.map(s => <li key={s.id}><a href={`#${s.id}`}>{s.label}</a></li>)}
+      </ul>
+      <button className="nav-mobile-btn" onClick={() => setOpen(!open)}>☰</button>
+      {open && (
+        <div style={{position:'fixed',top:64,left:0,right:0,background:'var(--bg)',borderBottom:'1px solid var(--border)',padding:'1rem 2rem',zIndex:99}}>
+          {sections.map(s => (
+            <a key={s.id} href={`#${s.id}`} onClick={() => setOpen(false)} style={{display:'block',padding:'0.75rem 0',color:'var(--text2)',textDecoration:'none',fontSize:'0.9rem',borderBottom:'1px solid var(--border)'}}>{s.label}</a>
+          ))}
+        </div>
+      )}
+    </nav>
+  );
+}
+
+// ─── COUNTDOWN ────────────────────────────────────────────────────────────────
+function Countdown() {
+  const [time, setTime] = useState({days:0,hours:0,mins:0,secs:0});
+  useEffect(() => {
+    const target = new Date('2026-12-11T00:00:00');
+    const tick = () => {
+      const now = new Date(), diff = target - now;
+      if (diff <= 0) { setTime({days:0,hours:0,mins:0,secs:0}); return; }
+      setTime({
+        days: Math.floor(diff/86400000),
+        hours: Math.floor((diff%86400000)/3600000),
+        mins: Math.floor((diff%3600000)/60000),
+        secs: Math.floor((diff%60000)/1000),
+      });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div className="countdown">
+      {[['days','Days'],['hours','Hours'],['mins','Mins'],['secs','Secs']].map(([k,l])=>(
+        <div key={k} className="countdown-unit">
+          <div className="countdown-num">{String(time[k]).padStart(2,'0')}</div>
+          <div className="countdown-label">{l}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── HERO ─────────────────────────────────────────────────────────────────────
+function Hero() {
+  return (
+    <section id="hero">
+      <OleanderLandscape/>
+      <Petals/>
+      <div style={{position:'relative',zIndex:1,textAlign:'center',padding:'0 2rem'}}>
+        <div style={{display:'flex',gap:'1.2rem',justifyContent:'center',flexWrap:'wrap',marginBottom:'1.5rem'}}>
+          <span style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'0.95rem',color:'var(--gold)',letterSpacing:'0.05em'}}>ॐ गं गणपतये नमः</span>
+          <span style={{color:'var(--gold)',opacity:0.4}}>·</span>
+          <span style={{fontFamily:"'Noto Serif Telugu',serif",fontSize:'0.95rem',color:'var(--gold)',opacity:0.85}}>ఓం గం గణపతయే నమః</span>
+        </div>
+        <div className="hero-names">
+          Varun Ram
+          <span className="hero-amp">&</span>
+          Anjani
+        </div>
+        <div className="hero-date">December 11–12, 2026</div>
+        <div className="hero-venue">Oleander Farms, Karjat, Maharashtra</div>
+        <Countdown/>
+        <div style={{marginTop:'2rem',fontSize:'0.8rem',color:'var(--text2)',letterSpacing:'0.1em'}}>
+          Two souls, one journey &nbsp;·&nbsp; A love story that began with a swipe ✨
+        </div>
+      </div>
+      <div className="scroll-cue">↓</div>
+    </section>
+  );
+}
+
+// ─── GANESHA SECTION ──────────────────────────────────────────────────────────
+function GaneshaSection() {
+  return (
+    <section id="ganesha">
+      <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)'}}>
+        <MandalaBg size={600} opacity={0.07}/>
+      </div>
+      <div className="section-inner" style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+        <div className="ganesha-inner">
+          <div className="wc-blob" style={{width:400,height:400,top:'0',left:'50%',transform:'translateX(-50%)',background:'var(--gold)',opacity:0.08}}/>
+          <img src="uploads/ganesha.webp" alt="Lord Ganesha" style={{width:300,height:300,objectFit:'contain',filter:'drop-shadow(0 12px 40px rgba(180,120,200,0.4))',marginBottom:'0.5rem'}}/>
+          <div style={{marginTop:'2rem',textAlign:'center',width:'100%'}}>
+            <div className="ganesha-title">Shubh Aarambh — An Auspicious Beginning</div>
+            <div className="ganesha-devanagari" style={{textAlign:'center'}}>वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ</div>
+            <div style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'clamp(1rem,2vw,1.4rem)',color:'var(--gold)',opacity:0.8,margin:'0.3rem 0 1rem',textAlign:'center'}}>
+              निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा
+            </div>
+            <div className="ganesha-subtitle" style={{textAlign:'center',margin:'0 auto'}}>
+              "O Lord Ganesha, of large form and mighty body, shining like a million suns — make all my endeavours free from obstacles, always."
+            </div>
+          </div>
+          <div className="mehndi-divider" style={{width:'100%',maxWidth:400,marginTop:'2rem'}}>
+            <span style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'1.8rem',color:'var(--gold)'}}>ॐ</span>
+          </div>
+          <div style={{fontFamily:'Cormorant Garamond, serif',fontStyle:'italic',fontSize:'1.1rem',color:'var(--text2)',maxWidth:500,textAlign:'center',margin:'0 auto'}}>
+            With the blessings of our families and Lord Ganesha, Varun Ram &amp; Anjani welcome you to celebrate their sacred union.
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── OUR STORY ────────────────────────────────────────────────────────────────
+function OurStory() {
+  const events = [
+    { emoji:'📱', year:'2024', heading:'A Swipe That Changed Everything', text:"It began on Dil Mil — a single match that set everything in motion. Neither of them knew it then, but they'd already found the one." },
+    { emoji:'☕', year:'First Date', heading:'Love at First Sight (Literally)', text:"After their very first date together, both Varun and Anjani realized something extraordinary had happened. No second date needed to confirm — they'd already fallen." },
+    { emoji:'✈️', year:'2024–2025', heading:'Houston to New Jersey, Every Other Week', text:"Anjani, a consultant based in Houston, would fly into NJ every other week. Those stolen evenings — dinners, walks, laughter — became the rhythm of their love story." },
+    { emoji:'🌎', year:'Adventures', heading:'Mexico City & Beyond', text:"They explored Mexico City together, and kept adding pins to their map across the US. Travel became their love language." },
+    { emoji:'💍', year:'January 26, 2026', heading:'London. A Ring. Forever.', text:"On a crisp morning in London, Varun got down on one knee. With the city as their witness, Anjani said yes — and the greatest adventure of their lives began." },
+    { emoji:'🌸', year:'December 2026', heading:'Oleander Farms, Texas', text:"Surrounded by 200 acres of breathtaking nature, their family, and their dearest friends, Varun & Anjani will say their vows under the open sky." },
+  ];
+  return (
+    <section id="story">
+      <div className="wc-blob" style={{width:500,height:500,top:'-100px',right:'-100px',background:'var(--rose)',opacity:0.08}}/>
+      <div className="section-inner">
+        <div className="section-eyebrow">How It Happened</div>
+        <div className="section-title">Our Story</div>
+        <div className="section-subtitle">From a dating app to a London proposal — a love built on spontaneity, distance, and a whole lot of travel.</div>
+        <div className="story-timeline">
+          {events.map((e,i) => (
+            <div key={i} className="story-item">
+              <div className="story-dot">{e.emoji}</div>
+              <div className="story-content">
+                <div className="story-year">{e.year}</div>
+                <div className="story-heading">{e.heading}</div>
+                <div className="story-text">{e.text}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── CELEBRATIONS ─────────────────────────────────────────────────────────────
+function Celebrations() {
+  const events = [
+    {
+      day: 'Day One · December 11, 2026',
+      name: 'Mehndi & Sangeet',
+      type: 'Henna · Music · Dance',
+      details: [
+        { icon:'🕓', text:'5:00 PM – Mehndi begins. Henna artists will be available for guests.' },
+        { icon:'🎶', text:'7:00 PM – Sangeet night. Music, dance performances, and celebrations.' },
+        { icon:'👗', text:'Dress Code: Festive Indian attire — bright colors encouraged!' },
+        { icon:'📍', text:'Oleander Farms · Pavilion & Lawn' },
+      ]
+    },
+    {
+      day: 'Day Two · December 12, 2026',
+      name: 'Wedding Ceremony',
+      type: 'Hindu Vivah Ceremony',
+      details: [
+        { icon:'🕙', text:'10:00 AM – Baraat procession.' },
+        { icon:'🙏', text:'11:00 AM – Sacred Hindu wedding ceremony under the mandap.' },
+        { icon:'🌿', text:'1:00 PM – Reception & lunch. Celebrate with family and friends.' },
+        { icon:'📍', text:'Oleander Farms · Grand Lawn & Lake View' },
+      ]
+    }
+  ];
+  return (
+    <section id="celebrations">
+      <div className="wc-blob" style={{width:450,height:450,bottom:'-100px',left:'-80px',background:'var(--gold)',opacity:0.09}}/>
+      <div className="section-inner">
+        <div className="section-eyebrow">The Celebrations</div>
+        <div className="section-title">Join Us for Two Days of Joy</div>
+        <div className="section-subtitle">A traditional Hindu wedding filled with color, music, devotion, and love — stretched across two unforgettable days.</div>
+        <div className="event-cards">
+          {events.map((e,i) => (
+            <div key={i} className="event-card">
+              <div style={{position:'absolute',top:0,right:0,width:120,height:120,overflow:'hidden',borderRadius:'0 12px 0 0',opacity:0.05}}>
+                <MandalaBg size={120} opacity={1}/>
+              </div>
+              <div className="event-day">{e.day}</div>
+              <div className="event-name">{e.name}</div>
+              <div className="event-type">{e.type}</div>
+              {e.details.map((d,j) => (
+                <div key={j} className="event-detail">
+                  <div className="event-icon">{d.icon}</div>
+                  <div className="event-detail-text">{d.text}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── OLEANDER FARMS ───────────────────────────────────────────────────────────
+function OleanderFarms() {
+  const features = [
+    { icon:'🌊', title:'The Lake & River', desc:'Set along the Ulhas River valley, the property shimmers with water — a serene backdrop for golden-hour photos and quiet moments.' },
+    { icon:'🌿', title:'Sahyadri Nature', desc:'Nestled in the lush Sahyadri foothills, Oleander Farms is draped in tropical trees, misty mountains, and vibrant green as far as the eye can see.' },
+    { icon:'✨', title:'Luxury Meets Wilderness', desc:'Oleander Farms blends high-end amenities with the raw, untouched beauty of Karjat — a chic retreat in the heart of Maharashtra\'s nature country.' },
+  ];
+  return (
+    <section id="oleander">
+      <div className="wc-blob" style={{width:400,height:400,top:'-50px',right:'-80px',background:'var(--primary)',opacity:0.09}}/>
+      <div className="section-inner">
+        <div className="section-eyebrow">The Venue</div>
+        <div className="section-title">Oleander Farms</div>
+        <div className="farm-grid">
+          <div>
+            <div className="section-subtitle" style={{marginTop:0}}>A breathtaking 200-acre sanctuary nestled in the Sahyadri foothills of Karjat, Maharashtra — just a short drive from Mumbai. Lush tropical forests, a shimmering lake, misty mountains, and open skies set the stage for a celebration of love unlike any other.</div>
+            <div className="farm-features">
+              {features.map((f,i) => (
+                <div key={i} className="farm-feature">
+                  <div className="farm-feature-icon">{f.icon}</div>
+                  <div className="farm-feature-text">
+                    <h4>{f.title}</h4>
+                    <p>{f.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="farm-img-placeholder">
+              <svg width="60" height="60" viewBox="0 0 60 60"><rect width="60" height="60" rx="4" fill="none" stroke="var(--border)" strokeWidth="1.5"/><path d="M8 45 Q20 25 35 35 Q45 42 52 28" stroke="var(--primary)" strokeWidth="2" fill="none"/><circle cx="20" cy="20" r="8" stroke="var(--gold)" strokeWidth="1.5" fill="none"/></svg>
+              <span style={{fontFamily:'monospace',fontSize:'0.7rem',color:'var(--text2)',textAlign:'center',padding:'0 1rem'}}>Oleander Farms photo</span>
+            </div>
+            <div className="farm-img-placeholder" style={{marginTop:'1rem',aspectRatio:'16/7'}}>
+              <svg width="60" height="40" viewBox="0 0 60 40"><rect width="60" height="40" rx="4" fill="none" stroke="var(--border)" strokeWidth="1.5"/><path d="M5 30 Q15 18 30 22 Q45 26 55 15" stroke="var(--primary)" strokeWidth="1.5" fill="none" opacity="0.5"/><ellipse cx="30" cy="32" rx="20" ry="5" stroke="var(--gold)" strokeWidth="1" fill="none" opacity="0.4"/></svg>
+              <span style={{fontFamily:'monospace',fontSize:'0.7rem',color:'var(--text2)',textAlign:'center',padding:'0 1rem'}}>Lake view panorama</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── TRAVEL & STAY ────────────────────────────────────────────────────────────
+function Travel() {
+  const cards = [
+    { tag:'Flying In', title:'Nearest Airports', body:'Chhatrapati Shivaji Maharaj International Airport (BOM), Mumbai, is the closest major hub — approximately 90 minutes from Oleander Farms. Pune Airport (PNQ) is also a convenient option.' },
+    { tag:'By Train', title:'Karjat Railway Station', body:'Karjat is well-connected by the Central Railway line from Mumbai CST. The Karjat station is just minutes from the venue — a scenic and easy option for many guests.' },
+    { tag:'Accommodation', title:'On-Site & Nearby Stays', body:'Oleander Farms offers accommodation on the property. Additional rooms have been blocked at nearby resorts. Details and booking links will be shared with your invitation.' },
+    { tag:'Good to Know', title:'Weather in December', body:'December in Karjat is absolutely gorgeous — dry season, clear skies, and temperatures around 22–28°C (72–82°F). Perfect weather for an outdoor celebration!' },
+  ];
+  return (
+    <section id="travel">
+      <div className="section-inner">
+        <div className="section-eyebrow">Getting Here</div>
+        <div className="section-title">Travel & Stay</div>
+        <div className="travel-cards">
+          {cards.map((c,i) => (
+            <div key={i} className="travel-card">
+              <div className="travel-tag">{c.tag}</div>
+              <h3>{c.title}</h3>
+              <p>{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── GALLERY ──────────────────────────────────────────────────────────────────
+function Gallery() {
+  const photos = [
+    {label:'London Proposal', tall:true},
+    {label:'Mexico City'},
+    {label:'Together'},
+    {label:'Family'},
+    {label:'Adventures'},
+    {label:'The Couple', tall:true},
+    {label:'Friends'},
+  ];
+  return (
+    <section id="gallery">
+      <div className="wc-blob" style={{width:500,height:500,top:'50%',left:'50%',transform:'translate(-50%,-50%)',background:'var(--rose)',opacity:0.06}}/>
+      <div className="section-inner">
+        <div className="section-eyebrow">Memories</div>
+        <div className="section-title">Our Gallery</div>
+        <div className="section-subtitle">Photos coming soon — check back closer to the wedding date!</div>
+        <div className="gallery-grid">
+          {photos.map((p,i) => (
+            <div key={i} className={`gallery-placeholder ${p.tall?'tall':''}`}>
+              <svg width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" rx="4" fill="none" stroke="var(--border)" strokeWidth="1.5"/><circle cx="14" cy="14" r="5" stroke="var(--gold)" strokeWidth="1" fill="none"/><path d="M4 30 L14 18 L22 26 L28 20 L36 30" stroke="var(--primary)" strokeWidth="1.5" fill="none"/></svg>
+              <span style={{fontFamily:'monospace',fontSize:'0.65rem',textAlign:'center'}}>{p.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── WEDDING PARTY ────────────────────────────────────────────────────────────
+function WeddingParty() {
+  const people = [
+    {initials:'V',name:'Varun Ram Khandavalli',role:'Groom'},
+    {initials:'A',name:'Anjani Agarwal',role:'Bride'},
+    {initials:'B',name:'Best Man',role:"Groom's Side"},
+    {initials:'M',name:'Maid of Honor',role:"Bride's Side"},
+    {initials:'G',name:'Groomsman',role:"Groom's Side"},
+    {initials:'B',name:'Bridesmaid',role:"Bride's Side"},
+  ];
+  return (
+    <section id="party">
+      <div className="section-inner">
+        <div className="section-eyebrow">The People We Love</div>
+        <div className="section-title">Wedding Party</div>
+        <div className="section-subtitle">The wonderful people standing beside us as we take our vows.</div>
+        <div className="party-grid">
+          {people.map((p,i) => (
+            <div key={i} className="party-card">
+              <div className="party-avatar">{p.initials}</div>
+              <div className="party-name">{p.name}</div>
+              <div className="party-role">{p.role}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{marginTop:'2rem',fontFamily:'Cormorant Garamond, serif',fontStyle:'italic',color:'var(--text2)',fontSize:'1rem'}}>
+          Full wedding party details coming soon!
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── FAQ ──────────────────────────────────────────────────────────────────────
+function FAQ() {
+  const [open, setOpen] = useState(null);
+  const faqs = [
+    {q:'What should I wear?', a:'Day 1 (Mehndi & Sangeet): Bright, festive Indian attire — lehengas, salwar kameez, sherwanis, or colorful western wear are all welcome! Day 2 (Wedding Ceremony): Traditional Indian attire preferred — sarees, lehengas, sherwanis. Please avoid white and black, as per Indian tradition.'},
+    {q:'Will both days be outdoors?', a:'The events will make the most of Oleander Farms\' stunning natural setting in Karjat. Parts of both days will be outdoors, so we recommend comfortable footwear for the lawns and light layers for the cool December evenings.'},
+    {q:'Are children welcome?', a:'Children are warmly welcome at both celebrations!'},
+    {q:'Is there a registry?', a:'Your presence is truly the only gift we need. If you\'d like to give something, we\'d appreciate contributions to our travel fund — more details to follow.'},
+    {q:'Can I take photos?', a:'Please enjoy taking photos throughout the celebrations! We do ask that during the sacred ceremony moments, you put phones away and be fully present with us.'},
+    {q:'What is the nearest airport?', a:'Mumbai CSIA (BOM) is the closest international hub, about 90 minutes from the venue. Karjat is also directly accessible by train from Mumbai CST. We will be arranging transport for guests — details to follow.'},
+  ];
+  return (
+    <section id="faq">
+      <div className="wc-blob" style={{width:400,height:400,bottom:'-80px',right:'-80px',background:'var(--primary)',opacity:0.07}}/>
+      <div className="section-inner">
+        <div className="section-eyebrow">Questions</div>
+        <div className="section-title">Frequently Asked</div>
+        <div className="faq-list">
+          {faqs.map((f,i) => (
+            <div key={i} className="faq-item">
+              <button className="faq-q" onClick={() => setOpen(open===i?null:i)}>
+                {f.q} <span style={{color:'var(--gold)',fontSize:'1.4rem',lineHeight:1}}>{open===i?'−':'+'}</span>
+              </button>
+              {open===i && <div className="faq-a">{f.a}</div>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── RSVP ─────────────────────────────────────────────────────────────────────
+function RSVP() {
+  const [form, setForm] = useState({name:'',email:'',guests:'1',attending:'yes',diet:'',events:[]});
+  const [submitted, setSubmitted] = useState(false);
+  const set = (k,v) => setForm(f => ({...f, [k]:v}));
+  const toggleEvent = (e) => {
+    setForm(f => ({...f, events: f.events.includes(e) ? f.events.filter(x=>x!==e) : [...f.events,e]}));
+  };
+  const submit = (e) => { e.preventDefault(); setSubmitted(true); };
+  return (
+    <section id="rsvp">
+      <div className="wc-blob" style={{width:500,height:500,top:'-100px',left:'-100px',background:'var(--gold)',opacity:0.07}}/>
+      <div className="section-inner">
+        <div style={{display:'flex',gap:'4rem',flexWrap:'wrap'}}>
+          <div style={{flex:'1',minWidth:280}}>
+            <div className="section-eyebrow">You're Invited</div>
+            <div className="section-title">RSVP</div>
+            <div className="section-subtitle">Please let us know if you can make it by <strong>September 1, 2026</strong>. We can't wait to celebrate with you!</div>
+            <div style={{marginTop:'2rem',fontFamily:'Cormorant Garamond, serif',fontSize:'1.6rem',color:'var(--gold)',lineHeight:1.4}}>
+              "The joy of celebrating<br/><em>with the people you love</em><br/>is the greatest gift of all."
+            </div>
+          </div>
+          <div style={{flex:'1.2',minWidth:300}}>
+            {submitted ? (
+              <div className="rsvp-success">
+                <div className="big-check">🎉</div>
+                <div style={{fontFamily:'Cormorant Garamond, serif',fontSize:'2rem',color:'var(--primary-deep)'}}>See you there!</div>
+                <div style={{color:'var(--text2)',marginTop:'0.5rem',fontSize:'0.9rem'}}>Thank you, we've received your RSVP and can't wait to celebrate with you!</div>
+              </div>
+            ) : (
+              <form className="rsvp-form" onSubmit={submit}>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Full Name</label>
+                    <input required value={form.name} onChange={e=>set('name',e.target.value)} placeholder="Your name"/>
+                  </div>
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input type="email" required value={form.email} onChange={e=>set('email',e.target.value)} placeholder="your@email.com"/>
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Attending?</label>
+                    <select value={form.attending} onChange={e=>set('attending',e.target.value)}>
+                      <option value="yes">Joyfully Accept!</option>
+                      <option value="no">Regretfully Decline</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Number of Guests</label>
+                    <select value={form.guests} onChange={e=>set('guests',e.target.value)}>
+                      {['1','2','3','4'].map(n => <option key={n} value={n}>{n}</option>)}
+                    </select>
+                  </div>
+                </div>
+                {form.attending === 'yes' && (
+                  <div className="form-group">
+                    <label>Which events will you attend?</label>
+                    <div style={{display:'flex',gap:'0.75rem',flexWrap:'wrap',marginTop:'0.25rem'}}>
+                      {['Mehndi & Sangeet (Dec 11)','Wedding Ceremony (Dec 12)'].map(ev => (
+                        <label key={ev} style={{display:'flex',alignItems:'center',gap:'0.4rem',cursor:'pointer',fontSize:'0.85rem',color:'var(--text2)'}}>
+                          <input type="checkbox" checked={form.events.includes(ev)} onChange={()=>toggleEvent(ev)}/>
+                          {ev}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <div className="form-group">
+                  <label>Dietary Requirements</label>
+                  <input value={form.diet} onChange={e=>set('diet',e.target.value)} placeholder="Vegetarian, allergies, etc."/>
+                </div>
+                <button type="submit" className="btn-primary">Send RSVP 🪷</button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── FOOTER ───────────────────────────────────────────────────────────────────
+function Footer() {
+  return (
+    <footer>
+      <div style={{position:'relative',display:'inline-block',marginBottom:'1rem'}}>
+        <MandalaBg size={120} opacity={0.12}/>
+        <div style={{position:'relative',fontFamily:'Cormorant Garamond, serif',fontSize:'2rem',color:'var(--gold)'}}>🪷</div>
+      </div>
+      <div className="footer-names">Varun Ram & Anjani</div>
+      <div style={{display:'flex',justifyContent:'center',gap:'1.5rem',margin:'0.4rem 0',flexWrap:'wrap',opacity:0.7}}>
+        <span style={{fontFamily:"'Noto Serif Telugu',serif",fontSize:'1.1rem',color:'var(--primary-deep)'}}>వరుణ్ &amp; అంజని</span>
+        <span style={{color:'var(--border)'}}>·</span>
+        <span style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'1.1rem',color:'var(--primary-deep)'}}>वरुण &amp; अंजनि</span>
+      </div>
+      <div className="footer-sub">December 11–12, 2026 · Oleander Farms, Karjat, Maharashtra</div>
+      <div style={{marginTop:'1rem',fontSize:'0.75rem',color:'var(--text2)',opacity:0.6}}>
+        With love & blessings ✨ &nbsp;·&nbsp; Designed with joy
+      </div>
+    </footer>
+  );
+}
+
+// ─── TWEAKS ───────────────────────────────────────────────────────────────────
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "marigold",
+  "showPetals": true,
+  "heroSize": 8
+}/*EDITMODE-END*/;
+
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  useEffect(() => {
+    document.body.className = `theme-${t.theme}`;
+  }, [t.theme]);
+
+  const sections = [
+    {id:'ganesha',label:'Blessings'},{id:'story',label:'Our Story'},
+    {id:'celebrations',label:'Celebrations'},{id:'oleander',label:'The Venue'},
+    {id:'party',label:'Wedding Party'},{id:'travel',label:'Travel'},
+    {id:'gallery',label:'Gallery'},{id:'faq',label:'FAQ'},{id:'rsvp',label:'RSVP'},
+  ];
+
+  return (
+    <>
+      <Nav sections={sections}/>
+      <Hero showPetals={t.showPetals}/>
+      <GaneshaSection/>
+      <OurStory/>
+      <Celebrations/>
+      <OleanderFarms/>
+      <WeddingParty/>
+      <Travel/>
+      <Gallery/>
+      <FAQ/>
+      <RSVP/>
+      <Footer/>
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Color Theme"/>
+        <TweakRadio label="Theme" value={t.theme}
+          options={['marigold','crimson','midnight']}
+          onChange={v => setTweak('theme', v)}/>
+        <TweakSection label="Hero"/>
+        <TweakToggle label="Falling Petals" value={t.showPetals}
+          onChange={v => setTweak('showPetals', v)}/>
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+<div id="root"></div>
+</body>
+</html>
