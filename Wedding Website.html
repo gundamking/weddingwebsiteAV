@@ -6,7 +6,7 @@
 <title>Anjani & Varun Ram — December 11–12, 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Noto+Serif+Telugu:wght@300;400&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Great+Vibes&family=Noto+Serif+Telugu:wght@300;400&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet"/>
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
@@ -159,36 +159,39 @@ section { position: relative; overflow: hidden; }
 .hero-card {
   position: relative; z-index: 1;
   text-align: center;
-  padding: 0 1.5rem;
+  padding: 2.5rem 2.75rem;
   max-width: 880px;
+  background: rgba(253,246,240,0.42);
+  backdrop-filter: blur(8px) saturate(108%);
+  -webkit-backdrop-filter: blur(8px) saturate(108%);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 28px;
+  box-shadow: 0 10px 40px rgba(60,40,80,0.12);
 }
+@media(max-width:640px){ .hero-card { padding: 1.75rem 1.25rem; border-radius: 20px; } }
 .hero-card, .hero-card * {
   text-shadow:
-    0 0 8px rgba(253,246,240,1),
-    0 0 16px rgba(253,246,240,0.95),
-    0 0 28px rgba(253,246,240,0.85),
-    0 1px 3px rgba(60,40,80,0.25);
+    0 1px 2px rgba(60,40,80,0.18),
+    0 0 14px rgba(253,246,240,0.6);
 }
 .hero-card .hero-names {
   text-shadow:
-    0 0 12px rgba(253,246,240,1),
-    0 0 24px rgba(253,246,240,0.95),
-    0 0 40px rgba(253,246,240,0.85),
-    0 2px 5px rgba(60,40,80,0.3);
+    0 2px 6px rgba(60,40,80,0.22),
+    0 0 24px rgba(253,246,240,0.55);
 }
 .hero-names {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(3.5rem, 10vw, 8rem);
-  font-weight: 300; letter-spacing: 0.03em;
-  color: var(--primary-deep);
-  line-height: 1;
+  font-family: 'Great Vibes', 'Cormorant Garamond', cursive;
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  font-weight: 400; letter-spacing: 0.01em;
+  color: #b07825;
+  line-height: 1.1;
 }
 .hero-amp {
-  display: block; font-style: italic; font-size: 0.55em;
-  color: var(--gold); margin: 0.1em 0;
+  display: block; font-style: normal; font-size: 0.6em;
+  color: var(--rose); margin: -0.05em 0;
 }
-.hero-date { font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text2); margin-top: 1.5rem; }
-.hero-venue { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--rose); margin-top: 0.4rem; }
+.hero-date { font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--primary-deep); margin-top: 1.5rem; font-weight: 500; }
+.hero-venue { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--primary-deep); margin-top: 0.4rem; }
 .countdown { display: flex; gap: 2rem; justify-content: center; margin-top: 2.5rem; }
 .countdown-unit { text-align: center; }
 .countdown-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; color: var(--primary-deep); line-height: 1; }
@@ -212,14 +215,14 @@ section { position: relative; overflow: hidden; }
   letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.5rem;
 }
 .ganesha-devanagari {
-  font-family: 'Tiro Devanagari Hindi', serif; font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--primary-deep);
+  font-family: 'Tiro Devanagari Hindi', serif; font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--gold);
   margin-bottom: 0.3rem; text-shadow: 0 0 30px var(--gold-light); text-align: center;
 }
 .ganesha-telugu {
   font-family: 'Noto Serif Telugu', serif; font-size: clamp(1.2rem, 2.5vw, 1.8rem);
   color: var(--gold); opacity: 0.8; margin-bottom: 1rem;
 }
-.ganesha-subtitle { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; color: var(--text2); max-width: 500px; }
+.ganesha-subtitle { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; color: var(--primary-deep); max-width: 500px; }
 
 /* STORY */
 #story { background: var(--bg); }
@@ -1407,9 +1410,9 @@ function Hero() {
       <Petals/>
       <div className="hero-card">
         <div style={{display:'flex',gap:'1.2rem',justifyContent:'center',flexWrap:'wrap',marginBottom:'1.5rem'}}>
-          <span style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'0.95rem',color:'var(--gold)',letterSpacing:'0.05em'}}>ॐ गं गणपतये नमः</span>
-          <span style={{color:'var(--gold)',opacity:0.4}}>·</span>
-          <span style={{fontFamily:"'Noto Serif Telugu',serif",fontSize:'0.95rem',color:'var(--gold)',opacity:0.85}}>ఓం గం గణపతయే నమః</span>
+          <span style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'1.05rem',color:'var(--primary-deep)',letterSpacing:'0.05em'}}>ॐ गं गणपतये नमः</span>
+          <span style={{color:'var(--primary-deep)',opacity:0.4}}>·</span>
+          <span style={{fontFamily:"'Noto Serif Telugu',serif",fontSize:'1.05rem',color:'var(--primary-deep)'}}>ఓం గం గణపతయే నమః</span>
         </div>
         <div className="hero-names">
           Anjani
@@ -1417,7 +1420,7 @@ function Hero() {
           Varun Ram
         </div>
         <div className="hero-date">December 11–12, 2026</div>
-        <div className="hero-venue">Oleander Farms, Karjat, Maharashtra</div>
+        <div className="hero-venue">Oleander Farms, Karjat, India</div>
         <Countdown/>
       </div>
       <div className="scroll-cue">↓</div>
@@ -1439,7 +1442,7 @@ function GaneshaSection() {
           <div style={{marginTop:'2rem',textAlign:'center',width:'100%'}}>
             <div className="ganesha-title">Shubh Aarambh — An Auspicious Beginning</div>
             <div className="ganesha-devanagari" style={{textAlign:'center'}}>वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ</div>
-            <div style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'clamp(1rem,2vw,1.4rem)',color:'var(--gold)',opacity:0.8,margin:'0.3rem 0 1rem',textAlign:'center'}}>
+            <div style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'clamp(1.4rem,3vw,2rem)',color:'var(--gold)',margin:'0.3rem 0 1rem',textAlign:'center'}}>
               निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा
             </div>
             <div className="ganesha-subtitle" style={{textAlign:'center',margin:'0 auto'}}>
@@ -1449,7 +1452,7 @@ function GaneshaSection() {
           <div className="mehndi-divider" style={{width:'100%',maxWidth:400,marginTop:'2rem'}}>
             <span style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'1.8rem',color:'var(--gold)'}}>ॐ</span>
           </div>
-          <div style={{fontFamily:'Cormorant Garamond, serif',fontStyle:'italic',fontSize:'1.1rem',color:'var(--text2)',maxWidth:500,textAlign:'center',margin:'0 auto'}}>
+          <div style={{fontFamily:'Cormorant Garamond, serif',fontStyle:'italic',fontSize:'1.1rem',color:'var(--primary-deep)',maxWidth:500,textAlign:'center',margin:'0 auto'}}>
             With the blessings of our families and Lord Ganesha, Anjani &amp; Varun Ram welcome you to celebrate their sacred union.
           </div>
         </div>
@@ -1467,10 +1470,10 @@ function CoupleIntro() {
       tagline: 'The Bride',
       base: 'Houston, Texas',
       paragraphs: [
-        "A consultant by profession and an adventurer at heart, Anjani lights up every room she walks into. She grew up surrounded by Telugu traditions, family dinners that ran late into the night, and a love for travel that has never quite settled.",
-        "Whether she's flying cross-country to see Varun Ram, exploring a new city, or hosting friends for dinner, she does it all with warmth, grace, and a smile that makes everyone feel right at home.",
+        "Born in India and raised between South Africa and Houston, Anjani lights up every room she walks into. A consultant by trade and an adventurer at heart, she grew up surrounded by Telugu traditions, family dinners that ran late into the night, and a love for travel that has never quite settled.",
+        "At home she's the manager and resident boss lady — every trip, dinner, and weekend agenda lives inside a meticulously color-coded Google Sheet, planned approximately three months in advance. She does it all with warmth, grace, and the kind of smile that makes everyone feel right at home.",
       ],
-      tags: ['Consultant','Telugu roots','Wanderer at heart'],
+      tags: ['Consultant','Telugu roots','Spreadsheet boss lady'],
     },
     {
       name: 'Varun Ram',
@@ -1478,9 +1481,9 @@ function CoupleIntro() {
       base: 'New Jersey',
       paragraphs: [
         "Steady, kind, and quietly hilarious — Varun Ram is the calm in every storm. He calls New Jersey home, where life moves at its own perfect pace: family dinners, long drives, and slow Sundays that stretch on forever.",
-        "Once a quiet observer, now Anjani's biggest cheerleader. He's the friend who shows up first, the partner who remembers the small things, and — as of January 2026 — engaged to the love of his life.",
+        "He's the most patient and genuinely kind person Anjani knows — a biotech mind who can launch into a thirty-minute monologue on cell therapy without warning, a Mario Kart sensei with infinite patience for a student who will never improve, a full-time human heater for a permanently cold partner, and somehow the only person who hears her never-ending list of asks and still thinks she's being reasonable.",
       ],
-      tags: ['New Jersey','Family-first','Steady soul'],
+      tags: ['Family-first','Steady soul','Human heater'],
     },
   ];
   return (
@@ -1493,7 +1496,7 @@ function CoupleIntro() {
         <div className="section-subtitle" style={{marginBottom:'3rem'}}>Two stories, one journey — a little about each of us before we say "I do."</div>
         <div className="bio-grid">
           {people.map((p,i)=>(
-            <div key={i} style={{background:'linear-gradient(160deg,var(--bg),var(--bg2))',border:'1px solid var(--border)',borderRadius:20,padding:'2.25rem 1.75rem',display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center'}}>
+            <div key={i} style={{background:'#ffffff',border:'1px solid var(--border)',borderRadius:20,padding:'2.25rem 1.75rem',display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',boxShadow:'0 4px 20px rgba(0,0,0,0.04)'}}>
               <div style={{aspectRatio:'1',width:'72%',maxWidth:240,borderRadius:'50%',background:'linear-gradient(135deg,var(--bg2),var(--bg))',border:'2px solid var(--border)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'0.5rem',marginBottom:'1.5rem'}}>
                 <svg width="44" height="44" viewBox="0 0 44 44"><rect width="44" height="44" rx="5" fill="none" stroke="var(--border)" strokeWidth="1.5"/><circle cx="14" cy="14" r="5" stroke="var(--gold)" strokeWidth="1.2" fill="none"/><path d="M4 36 L14 22 L22 28 L30 18 L40 36" stroke="var(--primary)" strokeWidth="1.5" fill="none"/></svg>
                 <span style={{fontSize:'0.65rem',color:'var(--text2)',letterSpacing:'0.1em',textTransform:'uppercase'}}>Photo coming soon</span>
@@ -1519,19 +1522,19 @@ function CoupleIntro() {
 
 function OurStory() {
   const events = [
-    { emoji:'📱', year:'2024', heading:'A Swipe That Changed Everything', place:'New Jersey', text:"It began on Dil Mil — a single match that set everything in motion. Neither of them knew it then, but they'd already found the one." },
+    { emoji:'📱', year:'2024', heading:'A Right Swipe That Changed Everything', place:'New Jersey', text:"It began on Dil Mil — a single match that set everything in motion. Neither of them knew it then, but they'd already found the one." },
     { emoji:'☕', year:'First Date', heading:'Love at First Sight', place:'New Jersey', text:"After their very first date, both Anjani and Varun Ram realized something extraordinary had happened. No second date needed to confirm — they'd already fallen." },
-    { emoji:'✈️', year:'2024–2025', heading:'Houston ↔ New Jersey', place:'Houston & NJ', text:"Anjani, a consultant based in Houston, would fly into NJ every other week. Those stolen evenings — dinners, walks, laughter — became the rhythm of their love story." },
-    { emoji:'🌮', year:'Adventures', heading:'Mexico City & Beyond', place:'Mexico City', text:"They explored Mexico City together, then kept adding pins across the US. Travel became their love language — and they were fluent." },
-    { emoji:'💍', year:'Jan 26, 2026', heading:'London. A Ring. Forever.', place:'London, UK', text:"On a crisp morning in London, Varun Ram got down on one knee. With the city as their witness, Anjani said yes — and the greatest adventure of their lives began." },
-    { emoji:'🌸', year:'Dec 2026', heading:'Oleander Farms, Karjat', place:'Karjat, Maharashtra', text:"200 breathtaking acres in the Sahyadri foothills, their family, their friends, and an open sky — the perfect stage for a love story's greatest chapter." },
+    { emoji:'✈️', year:'2024–2025', heading:'IAH ↔ EWR', place:'Houston & NJ', text:"Anjani, a consultant based in Houston, would fly into Newark every other week — and the airport runs became their love language. Varun took her to every Magic game in JC; she made him watch all of Gilmore Girls and turned him into an unapologetic coffee snob. To this day he gives her his biotech monologues, and they trade stocks-and-world-affairs talk on long picnic dates at the park." },
+    { emoji:'🌮', year:'Adventures', heading:'Mexico City, DC & SF', place:'Mexico City · DC · SF', text:"They explored Mexico City together, then kept adding pins — DC for the cherry blossoms, SF for the sourdough and the hills, and a hundred small detours in between. Travel became their love language — and they are fluent." },
+    { emoji:'💍', year:'Jan 23, 2026', heading:'London. A Ring. Forever.', place:'London, UK', text:"On a crisp afternoon in London, Varun Ram got down on one knee. With the city as their witness, Anjani said yes — and the greatest adventure of their lives began." },
+    { emoji:'🌸', year:'Dec 2026', heading:'Oleander Farms, Karjat', place:'Karjat, India', text:"200 breathtaking acres in the Sahyadri foothills, their family, their friends, and an open sky — under a tree, the perfect stage for a love story's greatest chapter." },
   ];
   return (
     <section id="story">
       <div className="section-inner">
         <div className="section-eyebrow">How It Happened</div>
         <div className="section-title">Our Story</div>
-        <div className="section-subtitle">From a dating app to a London proposal — a love built on spontaneity, distance, and a whole lot of travel.</div>
+        <div className="section-subtitle" style={{maxWidth:'none'}}>From a dating app to a London proposal — built on spontaneity, late-night calls, and butterflies that never went away.</div>
         <div className="story-path-container">
           <svg style={{position:'absolute',top:0,left:26,width:'calc(100% - 26px)',height:'100%',pointerEvents:'none'}} viewBox="0 0 600 900" preserveAspectRatio="none">
             <path d="M 26 60 C 400 60 100 210 400 250 C 600 280 100 410 400 450 C 600 480 100 610 400 650 C 600 680 100 780 400 820"
@@ -1566,12 +1569,12 @@ function OurStory() {
 function Celebrations() {
   const events = [
     { cardBg:'linear-gradient(135deg,#fff8e8,#fef0f5)', accent:'#e8a030', icon:'🌸',
-      day:'December 11, 2026 · Afternoon', name:'Welcome Lunch & Mehndi', type:'Arrival · Henna · Celebration',
+      day:'December 11, 2026 · Afternoon', name:'Welcome Lunch & Mehndi', type:'Arrival · Lunch · Henna',
       details:[
         {icon:'🍽️', text:'Afternoon — Welcome lunch for all arriving guests.'},
         {icon:'🌺', text:'Post-lunch — Mehndi begins. Henna artists available for all.'},
         {icon:'👗', text:'Dress Code: Bright festive Indian attire!'},
-        {icon:'📍', text:'Oleander Farms · Dining Pavilion & Lawn'},
+        {icon:'📍', text:'Oleander Farms · Central Lawn'},
       ]},
     { cardBg:'linear-gradient(135deg,#f0e8ff,#ffe8f5)', accent:'#9b59b6', icon:'🎶',
       day:'December 11, 2026 · Evening', name:'Sangeet Night', type:'Music · Dance · Joy',
@@ -1579,7 +1582,7 @@ function Celebrations() {
         {icon:'🎵', text:'Evening — Sangeet with performances from family and friends.'},
         {icon:'💃', text:'Dance the night away under the stars.'},
         {icon:'👗', text:'Dress Code: Festive & glam — sequins welcome!'},
-        {icon:'📍', text:'Oleander Farms · Grand Lawn & Stage'},
+        {icon:'📍', text:'Oleander Farms · Lakeside Lawn'},
       ]},
     { cardBg:'linear-gradient(135deg,#e8fff4,#e8f4ff)', accent:'#27ae60', icon:'🙏',
       day:'December 12, 2026 · Morning', name:'Snatakam & Brunch', type:'Sacred Ritual · Brunch',
@@ -1595,7 +1598,7 @@ function Celebrations() {
         {icon:'🌅', text:'Sunset — Sacred Hindu wedding ceremony under the open sky.'},
         {icon:'🔥', text:'Saptapadi — seven sacred vows around the sacred fire.'},
         {icon:'👗', text:'Dress Code: Elegant Indian attire. Avoid white & black.'},
-        {icon:'📍', text:'Oleander Farms · Lake View Mandap'},
+        {icon:'📍', text:'Oleander Farms · Hilltop Lawn'},
       ]},
   ];
   return (
@@ -1604,7 +1607,7 @@ function Celebrations() {
       <div className="section-inner">
         <div className="section-eyebrow">The Celebrations</div>
         <div className="section-title">Two Days of Joy</div>
-        <div className="section-subtitle">A traditional Hindu wedding filled with color, music, devotion, and love across two unforgettable days.</div>
+        <div className="section-subtitle" style={{maxWidth:'none'}}>A traditional Hindu wedding filled with color, music, devotion, and love across two unforgettable days.</div>
         <div className="event-cards">
           {events.map((e,i) => (
             <div key={i} className="event-card" style={{background:e.cardBg,borderTop:`4px solid ${e.accent}`}}>
@@ -1663,9 +1666,17 @@ function OleanderFarms() {
               <svg width="60" height="60" viewBox="0 0 60 60"><rect width="60" height="60" rx="4" fill="none" stroke="var(--border)" strokeWidth="1.5"/><path d="M8 45 Q20 25 35 35 Q45 42 52 28" stroke="var(--primary)" strokeWidth="2" fill="none"/><circle cx="20" cy="20" r="8" stroke="var(--gold)" strokeWidth="1.5" fill="none"/></svg>
               <span style={{fontFamily:'monospace',fontSize:'0.7rem',color:'var(--text2)',textAlign:'center',padding:'0 1rem'}}>Oleander Farms photo</span>
             </div>
-            <div className="farm-img-placeholder" style={{marginTop:'1rem',aspectRatio:'16/7'}}>
-              <svg width="60" height="40" viewBox="0 0 60 40"><rect width="60" height="40" rx="4" fill="none" stroke="var(--border)" strokeWidth="1.5"/><path d="M5 30 Q15 18 30 22 Q45 26 55 15" stroke="var(--primary)" strokeWidth="1.5" fill="none" opacity="0.5"/><ellipse cx="30" cy="32" rx="20" ry="5" stroke="var(--gold)" strokeWidth="1" fill="none" opacity="0.4"/></svg>
-              <span style={{fontFamily:'monospace',fontSize:'0.7rem',color:'var(--text2)',textAlign:'center',padding:'0 1rem'}}>Lake view panorama</span>
+            <div style={{marginTop:'1rem',borderRadius:12,overflow:'hidden',border:'1px solid var(--border)',background:'white'}}>
+              <a href="uploads/oleander-map.png" download style={{display:'block',textDecoration:'none',color:'inherit'}}>
+                <img src="uploads/oleander-map.png" alt="Oleander Farms property map" style={{width:'100%',display:'block',aspectRatio:'4/3',objectFit:'cover',background:'linear-gradient(135deg,var(--bg2),var(--bg))'}} onError={(e)=>{e.currentTarget.style.display='none';}}/>
+                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:'0.75rem',padding:'0.85rem 1rem',background:'var(--bg2)',borderTop:'1px solid var(--border)'}}>
+                  <div style={{display:'flex',flexDirection:'column'}}>
+                    <span style={{fontSize:'0.72rem',letterSpacing:'0.12em',textTransform:'uppercase',color:'var(--gold)'}}>Property Map</span>
+                    <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.05rem',color:'var(--primary-deep)'}}>Oleander Farms — find your way around</span>
+                  </div>
+                  <span style={{fontSize:'0.78rem',padding:'0.4rem 0.9rem',borderRadius:20,background:'var(--primary)',color:'white',whiteSpace:'nowrap'}}>⬇ Download</span>
+                </div>
+              </a>
             </div>
           </div>
         </div>
