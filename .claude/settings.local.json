@@ -2,7 +2,30 @@
   "permissions": {
     "allow": [
       "Bash(npx --version)",
-      "Bash(npx *)"
+      "Bash(npx *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git config *)",
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "Bash(unzip -o \"Website changes Part 1.docx\" -d /tmp/wcdocx)",
+      "Read(//tmp/wcdocx/**)",
+      "Bash(mkdir -p \"F:/programming/weddingwebsiteAV/.tmp/wcdocx\")",
+      "Bash(unzip -o \"Website changes Part 1.docx\" -d \".tmp/wcdocx\")",
+      "Bash(python3 *)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_resize",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "mcp__plugin_playwright_playwright__browser_close",
+      "Bash(kill %1)",
+      "Bash(curl *)",
+      "Bash(git *)",
+      "Bash(pkill -f \"http.server 5173\")",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //F //PID 1432)",
+      "Bash(taskkill //F //PID 28504)"
     ]
   }
 }
