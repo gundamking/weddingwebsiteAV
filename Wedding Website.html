@@ -1914,18 +1914,20 @@ function RSVP() {
 
   const isClosed = !!RSVP_CONFIG.closeDate && Date.now() > new Date(RSVP_CONFIG.closeDate).getTime();
 
+  // Debounced server lookup as the guest types; cancels stale in-flight requests.
   useEffect(() => {
     if (party || !search.trim()) { setMatches([]); setLooking(false); return; }
-    setLooking(true);
+    const ac = new AbortController();
     const handle = setTimeout(() => {
+      setLooking(true);
       const url = RSVP_CONFIG.apiUrl + '?action=lookup&q=' + encodeURIComponent(search.trim());
-      fetch(url)
+      fetch(url, { signal: ac.signal })
         .then(r => r.json())
         .then(d => { setMatches((d && d.matches) || []); })
-        .catch(() => { setMatches([]); })
+        .catch(err => { if (err.name !== 'AbortError') setMatches([]); })
         .finally(() => setLooking(false));
     }, 300);
-    return () => clearTimeout(handle);
+    return () => { clearTimeout(handle); ac.abort(); };
   }, [search, party]);
 
   const select = (p) => { setParty(p); setPartial(p.count); setAttendance('all'); setSearch(''); setMatches([]); };
