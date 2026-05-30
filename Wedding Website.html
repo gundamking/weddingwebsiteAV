@@ -2074,7 +2074,7 @@ function RSVP() {
                         <label>Step 3 — What music gets your party dancing? (pick any)</label>
                         <div style={{display:'flex',flexWrap:'wrap',gap:'0.5rem'}}>
                           {RSVP_CONFIG.genres.map(g => (
-                            <button key={g} type="button" onClick={()=>toggleGenre(g)}
+                            <button key={g} type="button" aria-pressed={genres.includes(g)} onClick={()=>toggleGenre(g)}
                               style={{padding:'0.45rem 0.9rem',borderRadius:20,cursor:'pointer',fontSize:'0.82rem',
                                 border:'1px solid ' + (genres.includes(g)?'var(--gold)':'var(--border)'),
                                 background: genres.includes(g)?'var(--gold)':'transparent',
@@ -2096,9 +2096,9 @@ function RSVP() {
                       <div style={{padding:'0.75rem 1rem',background:'rgba(200,60,60,0.08)',border:'1px solid rgba(200,60,60,0.3)',borderRadius:8,color:'#a33',fontSize:'0.85rem',marginBottom:'1rem'}}>{error}</div>
                     )}
 
-                    <button type="submit" disabled={submitting} className="rsvp-submit"
-                      style={{opacity:submitting?0.6:1,cursor:submitting?'wait':'pointer'}}>
-                      {submitting ? 'Sending…' : 'Send RSVP'}
+                    <button type="submit" disabled={submitting} className="btn-primary"
+                      style={{width:'100%',marginTop:'0.5rem',opacity:submitting?0.6:1,cursor:submitting?'wait':'pointer'}}>
+                      {submitting ? 'Sending…' : (attendance === 'none' ? 'Send our regrets 💌' : 'Send RSVP 🎉')}
                     </button>
                   </>
                 )}
