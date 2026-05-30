@@ -1882,16 +1882,15 @@ function FAQ() {
 }
 
 // ─── RSVP ─────────────────────────────────────────────────────────────────────
-// Replace the entries below with your real guest list. One entry per "head of party".
-// `count` is the total people in that party — they'll be RSVP'd for both Dec 11 & Dec 12.
-const PARTY_LIST = /*EDITME-PARTIES-BEGIN*/[
-  { id:'sample-rao',     name:'The Rao Family',       count:4 },
-  { id:'sample-doe',     name:'Jane Doe',             count:1 },
-  { id:'sample-smith',   name:'John & Mary Smith',    count:2 },
-  { id:'sample-patel',   name:'The Patel Family',     count:5 },
-  { id:'sample-kumar',   name:'Priya Kumar',          count:2 },
-  { id:'sample-iyer',    name:'The Iyer Family',      count:3 },
-]/*EDITME-PARTIES-END*/;
+const RSVP_CONFIG = /*EDITME-RSVP-CONFIG-BEGIN*/{
+  apiUrl: 'PASTE_APPS_SCRIPT_WEB_APP_URL',   // /exec URL from the Apps Script deployment
+  closeDate: '',                              // ISO mirror of Apps Script CLOSE_DATE; '' = open
+  genres: [
+    'Bollywood / Hindi', 'Punjabi & Bhangra', 'Telugu / Tollywood', 'Tamil & South',
+    'Hip-Hop / R&B', 'EDM / House', 'Western Pop', 'Classic / Retro Bollywood',
+    'Romantic & Slow', 'Garba / Dandiya'
+  ],
+}/*EDITME-RSVP-CONFIG-END*/;
 
 const RSVP_CONTACT = /*EDITME-CONTACT-BEGIN*/{
   email: 'anjanivarunwedding@gmail.com',
@@ -1902,25 +1901,60 @@ const RSVP_CONTACT = /*EDITME-CONTACT-BEGIN*/{
 
 function RSVP() {
   const [search, setSearch] = useState('');
+  const [matches, setMatches] = useState([]);
+  const [looking, setLooking] = useState(false);
   const [party, setParty] = useState(null);
   const [attendance, setAttendance] = useState('all'); // 'all' | 'partial' | 'none'
   const [partial, setPartial] = useState(1);
-  const [names, setNames] = useState('');
-  const [diet, setDiet] = useState('');
+  const [genres, setGenres] = useState([]);
+  const [note, setNote] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  const matches = (!party && search.trim())
-    ? PARTY_LIST.filter(p => p.name.toLowerCase().includes(search.toLowerCase().trim())).slice(0, 8)
-    : [];
+  const isClosed = !!RSVP_CONFIG.closeDate && Date.now() > new Date(RSVP_CONFIG.closeDate).getTime();
 
-  const select = (p) => { setParty(p); setPartial(p.count); setSearch(''); };
-  const reset = () => { setParty(null); setAttendance('all'); setPartial(1); setNames(''); setDiet(''); };
-  const submit = (e) => { e.preventDefault(); setSubmitted(true); };
+  useEffect(() => {
+    if (party || !search.trim()) { setMatches([]); setLooking(false); return; }
+    setLooking(true);
+    const handle = setTimeout(() => {
+      const url = RSVP_CONFIG.apiUrl + '?action=lookup&q=' + encodeURIComponent(search.trim());
+      fetch(url)
+        .then(r => r.json())
+        .then(d => { setMatches((d && d.matches) || []); })
+        .catch(() => { setMatches([]); })
+        .finally(() => setLooking(false));
+    }, 300);
+    return () => clearTimeout(handle);
+  }, [search, party]);
+
+  const select = (p) => { setParty(p); setPartial(p.count); setAttendance('all'); setSearch(''); setMatches([]); };
+  const reset = () => { setParty(null); setAttendance('all'); setPartial(1); setGenres([]); setNote(''); setError(''); };
+  const toggleGenre = (g) => setGenres(gs => gs.includes(g) ? gs.filter(x => x !== g) : [...gs, g]);
 
   const attendingCount = !party ? 0
     : attendance === 'all' ? party.count
     : attendance === 'partial' ? partial
     : 0;
+
+  const submit = (e) => {
+    e.preventDefault();
+    if (!party || submitting || isClosed) return;
+    setSubmitting(true); setError('');
+    fetch(RSVP_CONFIG.apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ partyId: party.id, comingCount: attendingCount, genres, note }),
+    })
+      .then(r => r.json())
+      .then(d => {
+        if (d && d.status === 'ok') setSubmitted(true);
+        else if (d && d.status === 'closed') setError('RSVPs are now closed. Please reach out to us directly.');
+        else setError('Something went wrong saving your RSVP. Please try again.');
+      })
+      .catch(() => setError('Could not reach the server. Please check your connection and try again.'))
+      .finally(() => setSubmitting(false));
+  };
 
   return (
     <section id="rsvp">
@@ -1931,14 +1965,22 @@ function RSVP() {
             <div className="section-eyebrow">You're Invited</div>
             <div className="section-title">RSVP</div>
             <div className="section-subtitle">
-              Please find your name below and let us know if you can make it by <strong>September 1, 2026</strong>. All guests are RSVP'd for both the Dec 11 &amp; Dec 12 celebrations.
+              Please find your name below and let us know if you can make it. All guests are RSVP'd for both the Dec 11 &amp; Dec 12 celebrations.
             </div>
             <div style={{marginTop:'2rem',fontFamily:'Cormorant Garamond, serif',fontSize:'1.6rem',color:'var(--gold)',lineHeight:1.4}}>
               "The joy of celebrating<br/><em>with the people you love</em><br/>is the greatest gift of all."
             </div>
           </div>
           <div style={{flex:'1.2',minWidth:300}}>
-            {submitted ? (
+            {isClosed ? (
+              <div className="rsvp-success" style={{padding:'2.5rem 1.5rem'}}>
+                <div className="big-check">💌</div>
+                <div style={{fontFamily:'Cormorant Garamond, serif',fontSize:'2.1rem',color:'var(--primary-deep)'}}>RSVPs are closed</div>
+                <div style={{color:'var(--text2)',marginTop:'0.75rem',fontSize:'0.95rem',lineHeight:1.7,maxWidth:420,margin:'0.75rem auto 0'}}>
+                  Our RSVP window has closed. If you still need to reach us, please use the contact details below.
+                </div>
+              </div>
+            ) : submitted ? (
               <div className="rsvp-success" style={{padding:'2.5rem 1.5rem'}}>
                 <div className="big-check">{attendingCount > 0 ? '🎉' : '💌'}</div>
                 <div style={{fontFamily:'Cormorant Garamond, serif',fontSize:'2.1rem',color:'var(--primary-deep)'}}>{attendingCount > 0 ? 'See you there!' : "You'll be missed."}</div>
@@ -1963,6 +2005,7 @@ function RSVP() {
                         placeholder="Type your name or family name..."
                       />
                     </div>
+                    {looking && <div style={{padding:'0.5rem 0.25rem',fontSize:'0.8rem',color:'var(--text2)'}}>Searching…</div>}
                     {matches.length > 0 && (
                       <div style={{border:'1px solid var(--border)',borderRadius:8,background:'var(--bg2)',marginTop:'-0.5rem',marginBottom:'1rem',maxHeight:280,overflowY:'auto'}}>
                         {matches.map(p => (
@@ -1975,7 +2018,7 @@ function RSVP() {
                         ))}
                       </div>
                     )}
-                    {search.trim() && matches.length === 0 && (
+                    {!looking && search.trim() && matches.length === 0 && (
                       <div style={{padding:'0.85rem 1rem',background:'var(--bg2)',borderRadius:8,fontSize:'0.85rem',color:'var(--text2)',marginBottom:'1rem',lineHeight:1.6}}>
                         No matches yet — try just your last name, or scroll down to contact us if you can't find your party.
                       </div>
@@ -1992,80 +2035,79 @@ function RSVP() {
                             We've reserved <strong style={{color:'var(--primary-deep)'}}>{party.count} {party.count===1?'seat':'seats'}</strong> for you across both Dec 11 &amp; Dec 12.
                           </div>
                         </div>
-                        <button type="button" onClick={reset} style={{background:'none',border:'none',color:'var(--text2)',fontSize:'0.78rem',cursor:'pointer',textDecoration:'underline'}}>change</button>
+                        <button type="button" onClick={reset} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',fontSize:'0.78rem',whiteSpace:'nowrap'}}>← not you?</button>
                       </div>
                     </div>
 
                     <div className="form-group">
-                      <label>Will you be joining us?</label>
-                      <div style={{display:'flex',flexDirection:'column',gap:'0.5rem',marginTop:'0.4rem'}}>
+                      <label>Step 2 — Will you be joining us?</label>
+                      <div style={{display:'flex',flexDirection:'column',gap:'0.5rem'}}>
                         {[
-                          ['all', `Joyfully accept — all ${party.count} of us will be there ✨`],
-                          ['partial', 'Some of us can make it'],
-                          ['none', 'Regretfully decline 💌'],
-                        ].map(([val,label]) => (
-                          <label key={val} style={{display:'flex',alignItems:'center',gap:'0.6rem',padding:'0.75rem 1rem',border:`1px solid ${attendance===val?'var(--primary)':'var(--border)'}`,borderRadius:8,cursor:'pointer',background:attendance===val?'var(--bg2)':'transparent',transition:'all 0.15s'}}>
-                            <input type="radio" name="attend" value={val} checked={attendance===val} onChange={()=>setAttendance(val)}/>
-                            <span style={{fontSize:'0.9rem',color:'var(--text)'}}>{label}</span>
-                          </label>
+                          {k:'all',    t:`Yes — all ${party.count} of us`},
+                          {k:'partial',t:'Yes — some of us'},
+                          {k:'none',   t:"Sorry, we can't make it"},
+                        ].map(opt => (
+                          <button key={opt.k} type="button" onClick={()=>setAttendance(opt.k)}
+                            style={{textAlign:'left',padding:'0.7rem 1rem',borderRadius:8,cursor:'pointer',
+                              border:'1px solid ' + (attendance===opt.k?'var(--gold)':'var(--border)'),
+                              background: attendance===opt.k?'var(--bg2)':'transparent',
+                              color:'var(--text)',fontSize:'0.9rem',fontFamily:"'DM Sans',sans-serif"}}>
+                            {attendance===opt.k ? '● ' : '○ '}{opt.t}
+                          </button>
                         ))}
                       </div>
                     </div>
 
-                    {attendance === 'partial' && (
+                    {attendance==='partial' && (
                       <div className="form-group">
-                        <label>How many of you can attend?</label>
-                        <select value={partial} onChange={e=>setPartial(parseInt(e.target.value,10))}>
-                          {Array.from({length:party.count},(_,i)=>i+1).map(n => (
-                            <option key={n} value={n}>{n} of {party.count}</option>
+                        <label>How many will attend?</label>
+                        <select value={partial} onChange={e=>setPartial(Number(e.target.value))}>
+                          {Array.from({length: party.count}, (_,i)=>i+1).map(n => (
+                            <option key={n} value={n}>{n} {n===1?'guest':'guests'}</option>
                           ))}
                         </select>
                       </div>
                     )}
 
-                    {attendance !== 'none' && (
-                      <>
-                        <div className="form-group">
-                          <label>Names of attendees {attendance==='partial' && <span style={{textTransform:'none',letterSpacing:0,color:'var(--gold)'}}>(so we know who to expect)</span>}</label>
-                          <textarea
-                            value={names}
-                            onChange={e=>setNames(e.target.value)}
-                            placeholder={attendance==='partial' ? 'e.g. Priya, Raj' : 'Optional — full names of all attendees, one per line'}
-                            rows={3}
-                          />
+                    {attendance!=='none' && (
+                      <div className="form-group">
+                        <label>Step 3 — What music gets your party dancing? (pick any)</label>
+                        <div style={{display:'flex',flexWrap:'wrap',gap:'0.5rem'}}>
+                          {RSVP_CONFIG.genres.map(g => (
+                            <button key={g} type="button" onClick={()=>toggleGenre(g)}
+                              style={{padding:'0.45rem 0.9rem',borderRadius:20,cursor:'pointer',fontSize:'0.82rem',
+                                border:'1px solid ' + (genres.includes(g)?'var(--gold)':'var(--border)'),
+                                background: genres.includes(g)?'var(--gold)':'transparent',
+                                color: genres.includes(g)?'#fff':'var(--text2)',fontFamily:"'DM Sans',sans-serif"}}>
+                              {g}
+                            </button>
+                          ))}
                         </div>
-                        <div className="form-group">
-                          <label>Dietary requirements / allergies</label>
-                          <textarea
-                            value={diet}
-                            onChange={e=>setDiet(e.target.value)}
-                            placeholder="Vegetarian, vegan, allergies, or any other notes"
-                            rows={2}
-                          />
-                        </div>
-                      </>
+                      </div>
                     )}
 
-                    <button type="submit" className="btn-primary" style={{marginTop:'0.5rem'}}>
-                      {attendance==='none' ? 'Send our regrets 💌' : 'Send RSVP 🪷'}
+                    <div className="form-group">
+                      <label>Anything else? (optional)</label>
+                      <textarea value={note} onChange={e=>setNote(e.target.value)} rows={2}
+                        placeholder="Song requests, dietary needs, a note for us..." />
+                    </div>
+
+                    {error && (
+                      <div style={{padding:'0.75rem 1rem',background:'rgba(200,60,60,0.08)',border:'1px solid rgba(200,60,60,0.3)',borderRadius:8,color:'#a33',fontSize:'0.85rem',marginBottom:'1rem'}}>{error}</div>
+                    )}
+
+                    <button type="submit" disabled={submitting} className="rsvp-submit"
+                      style={{opacity:submitting?0.6:1,cursor:submitting?'wait':'pointer'}}>
+                      {submitting ? 'Sending…' : 'Send RSVP'}
                     </button>
                   </>
                 )}
-
-                <div style={{marginTop:'2rem',padding:'1.1rem 1.25rem',background:'var(--bg2)',border:'1px solid var(--border)',borderRadius:8,fontSize:'0.82rem',color:'var(--text2)',lineHeight:1.7}}>
-                  <strong style={{color:'var(--primary-deep)',fontFamily:"'Cormorant Garamond',serif",fontSize:'1rem'}}>Can't find your name, or have an issue?</strong><br/>
-                  Email us at <a href={`mailto:${RSVP_CONTACT.email}`} style={{color:'var(--gold)',textDecoration:'none',borderBottom:'1px dotted var(--gold)'}}>{RSVP_CONTACT.email}</a> — or reach any of us directly:
-                  <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))',gap:'0.4rem 1rem',marginTop:'0.6rem'}}>
-                    {RSVP_CONTACT.contacts.map((c,i) => (
-                      <div key={i} style={{display:'flex',justifyContent:'space-between',gap:'0.5rem'}}>
-                        <span style={{color:'var(--text2)'}}>{c.name}</span>
-                        <a href={`tel:${c.phone.replace(/[\s()-]/g,'')}`} style={{color:'var(--gold)',textDecoration:'none',borderBottom:'1px dotted var(--gold)',whiteSpace:'nowrap'}}>{c.phone}</a>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </form>
             )}
+            <div style={{marginTop:'1.75rem',fontSize:'0.82rem',color:'var(--text2)',lineHeight:1.7,textAlign:'center'}}>
+              Can't find your party or need help? Email <a href={'mailto:'+RSVP_CONTACT.email} style={{color:'var(--gold)'}}>{RSVP_CONTACT.email}</a>
+              {RSVP_CONTACT.contacts.map((c,i)=>(<span key={i}><br/>{c.name}: {c.phone}</span>))}
+            </div>
           </div>
         </div>
       </div>
