@@ -5,9 +5,9 @@ the RSVP just talks to a Google Sheet through a small Apps Script web app.
 
 There are two config values you'll want to decide first (both optional to start):
 - **Genre list** — edit `ALLOWED_GENRES` in `rsvp/Code.gs` AND `RSVP_CONFIG.genres`
-  in `Wedding Website.html`. They MUST match exactly.
+  in `index.html`. They MUST match exactly.
 - **RSVP close date** — set `CLOSE_DATE` in `rsvp/Code.gs` AND `RSVP_CONFIG.closeDate`
-  in `Wedding Website.html` (same ISO value). Leave both `''` to stay open.
+  in `index.html` (same ISO value). Leave both `''` to stay open.
 
 ---
 
@@ -60,14 +60,14 @@ There are two config values you'll want to decide first (both optional to start)
 
 ## 3. Wire the website to the API
 
-In `Wedding Website.html`, find the `RSVP_CONFIG` block (near the RSVP component)
+In `index.html`, find the `RSVP_CONFIG` block (near the RSVP component)
 and set:
 - `apiUrl` → the `/exec` URL from step 2.7.
 - `closeDate` → the same ISO value as `CLOSE_DATE` (or `''`).
 - `genres` → must match `ALLOWED_GENRES` in `Code.gs`.
 
 Test locally before hosting: run `python -m http.server 8000` in the repo, open
-<http://localhost:8000/Wedding%20Website.html#rsvp>, type a known party name, and
+<http://localhost:8000/index.html#rsvp>, type a known party name, and
 confirm it appears and submitting writes a row to the **Responses** tab.
 
 ---
@@ -89,9 +89,8 @@ files for free and point the domain at the host.
 6. Wait for DNS to propagate (minutes to a few hours), then load
    `https://avtietheknot.com` and re-test the RSVP end-to-end.
 
-> The guest's main page URL is `…/Wedding Website.html`. If you want it to be the
-> root (just `avtietheknot.com`), rename/copy it to `index.html` before hosting,
-> or set the host's default route — optional, decide when hosting.
+> The site is served as `index.html`, so it loads at the bare domain
+> `https://avtietheknot.com` automatically — no extra host routing needed.
 
 ---
 
@@ -125,5 +124,5 @@ No separate dashboard — use the Sheet:
 | Responses land in | Sheet **Responses** tab |
 | Backend logic | `rsvp/logic.js` → Apps Script `logic.gs` |
 | Backend API | `rsvp/Code.gs` → Apps Script `Code.gs` |
-| API URL + close date + genres | `RSVP_CONFIG` in `Wedding Website.html` |
+| API URL + close date + genres | `RSVP_CONFIG` in `index.html` |
 | Server close date + genres + Sheet ID | top of `rsvp/Code.gs` |

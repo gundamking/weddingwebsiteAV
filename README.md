@@ -9,7 +9,7 @@ A single-file React site rendered in the browser via Babel — no build step. Dr
 Live-reload server during edits:
 
 ```bash
-npx live-server --port=5173 --entry-file="Wedding Website.html"
+npx live-server --port=5173 --entry-file="index.html"
 ```
 
 Then open http://127.0.0.1:5173/Wedding%20Website.html — the browser auto-refreshes whenever you save.
@@ -18,7 +18,7 @@ Then open http://127.0.0.1:5173/Wedding%20Website.html — the browser auto-refr
 
 ```
 weddingwebsiteav/
-├── Wedding Website.html    Main site — markup, styles, React components, all in one file
+├── index.html    Main site — markup, styles, React components, all in one file
 ├── tweaks-panel.jsx        Dev-only sidebar for theme/feature toggles (loaded by the HTML)
 ├── uploads/
 │   ├── hero-desktop.png    Watercolor hero background (Midjourney-generated)
