@@ -15,3 +15,10 @@ desktop.ini
 # Logs / temp
 *.log
 .tmp/
+
+# Private guest data — NEVER commit (contains phone numbers / emails)
+Attendee List.xlsx
+
+# Tooling / scratch
+.playwright-mcp/
+__pycache__/
