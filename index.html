@@ -1716,47 +1716,52 @@ function Travel() {
 
 // ─── GALLERY ──────────────────────────────────────────────────────────────────
 function Gallery() {
-  const [lightbox, setLightbox] = useState(null);
-  const photos = [
-    {label:'London Proposal 💍', tall:true},
-    {label:'Mexico City 🌮'},
-    {label:'Together ♥'},
-    {label:'Family 🌸'},
-    {label:'Adventures ✈️'},
-    {label:'The Couple', tall:true},
-    {label:'Friends 🎉'},
-  ];
+  const PHOTOS = Array.from({length: 61}, (_, i) => 'uploads/Gallery/g' + String(i+1).padStart(4,'0') + '.jpg');
+  const PAGE = 24;
+  const [visible, setVisible] = useState(PAGE);
+  const [open, setOpen] = useState(null);
+  useEffect(() => {
+    if (open === null) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(null);
+      else if (e.key === 'ArrowRight') setOpen(o => (o+1) % PHOTOS.length);
+      else if (e.key === 'ArrowLeft') setOpen(o => (o-1+PHOTOS.length) % PHOTOS.length);
+    };
+    window.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
+  }, [open]);
   return (
     <section id="gallery">
       <div className="wc-blob" style={{width:500,height:500,top:'50%',left:'50%',transform:'translate(-50%,-50%)',background:'var(--rose)',opacity:0.06}}/>
-      {lightbox !== null && (
-        <div className="lightbox-overlay" onClick={()=>setLightbox(null)}>
-          <span className="lightbox-close">×</span>
-          <div style={{background:'white',borderRadius:16,padding:'2rem',textAlign:'center',maxWidth:460}} onClick={e=>e.stopPropagation()}>
-            <div style={{width:320,height:280,background:'linear-gradient(135deg,var(--bg2),var(--bg))',borderRadius:8,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'0.75rem',margin:'0 auto 1rem'}}>
-              <svg width="44" height="44" viewBox="0 0 44 44"><rect width="44" height="44" rx="5" fill="none" stroke="var(--border)" strokeWidth="1.5"/><circle cx="14" cy="14" r="5" stroke="var(--gold)" strokeWidth="1.2" fill="none"/><path d="M4 36 L14 22 L22 28 L30 18 L40 36" stroke="var(--primary)" strokeWidth="1.5" fill="none"/></svg>
-              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.3rem',color:'var(--primary-deep)'}}>{photos[lightbox].label}</div>
-              <div style={{fontSize:'0.75rem',color:'var(--text2)',opacity:0.6}}>Photo coming soon — check back closer to the date!</div>
-            </div>
-            <button onClick={()=>setLightbox(null)} style={{padding:'0.5rem 1.5rem',borderRadius:'20px',border:'1px solid var(--border)',background:'none',cursor:'pointer',color:'var(--text2)',fontSize:'0.85rem'}}>Close</button>
-          </div>
-        </div>
-      )}
       <div className="section-inner">
         <div className="section-eyebrow">Memories</div>
         <div className="section-title">Our Gallery</div>
-        <div className="section-subtitle">Photos coming soon — click any photo to preview.</div>
+        <div className="section-subtitle">A few of our favorite moments together — tap any photo to view it full size.</div>
         <div className="gallery-grid">
-          {photos.map((p,i) => (
-            <div key={i} className={`gallery-item ${p.tall?'tall':''}`} onClick={()=>setLightbox(i)}>
-              <div className="gallery-placeholder" style={{height:'100%',minHeight:160}}>
-                <svg width="36" height="36" viewBox="0 0 36 36"><rect width="36" height="36" rx="4" fill="none" stroke="var(--border)" strokeWidth="1.5"/><circle cx="12" cy="12" r="4" stroke="var(--gold)" strokeWidth="1" fill="none"/><path d="M4 28 L12 18 L18 22 L24 16 L32 28" stroke="var(--primary)" strokeWidth="1.5" fill="none"/></svg>
-                <span style={{fontSize:'0.68rem',textAlign:'center',padding:'0 0.5rem'}}>{p.label}</span>
-              </div>
+          {PHOTOS.slice(0, visible).map((src,i) => (
+            <div key={i} className="gallery-item" onClick={()=>setOpen(i)}>
+              <img src={src} alt={'Memory '+(i+1)} loading="lazy" onError={(e)=>{e.currentTarget.parentElement.style.display='none';}}/>
             </div>
           ))}
         </div>
+        {visible < PHOTOS.length && (
+          <div style={{textAlign:'center',marginTop:'2.5rem'}}>
+            <button className="btn-primary" onClick={()=>setVisible(v=>Math.min(v+PAGE,PHOTOS.length))}>
+              Load more ({PHOTOS.length - visible} more)
+            </button>
+          </div>
+        )}
       </div>
+      {open !== null && (
+        <div className="lightbox-overlay" onClick={()=>setOpen(null)} style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+          <span className="lightbox-close" onClick={()=>setOpen(null)}>×</span>
+          <button aria-label="Previous" onClick={(e)=>{e.stopPropagation();setOpen(o=>(o-1+PHOTOS.length)%PHOTOS.length);}} style={{position:'absolute',left:'1rem',top:'50%',transform:'translateY(-50%)',width:48,height:48,borderRadius:'50%',border:'none',background:'rgba(255,255,255,0.15)',color:'#fff',fontSize:'2rem',cursor:'pointer'}}>‹</button>
+          <img src={PHOTOS[open]} alt={'Memory '+(open+1)} onClick={(e)=>e.stopPropagation()} style={{maxWidth:'92vw',maxHeight:'86vh',borderRadius:8,boxShadow:'0 12px 60px rgba(0,0,0,0.5)'}}/>
+          <button aria-label="Next" onClick={(e)=>{e.stopPropagation();setOpen(o=>(o+1)%PHOTOS.length);}} style={{position:'absolute',right:'1rem',top:'50%',transform:'translateY(-50%)',width:48,height:48,borderRadius:'50%',border:'none',background:'rgba(255,255,255,0.15)',color:'#fff',fontSize:'2rem',cursor:'pointer'}}>›</button>
+          <div style={{position:'absolute',bottom:'1.2rem',left:0,right:0,textAlign:'center',color:'rgba(255,255,255,0.7)',fontSize:'0.8rem',letterSpacing:'0.1em'}}>{open+1} / {PHOTOS.length}</div>
+        </div>
+      )}
     </section>
   );
 }

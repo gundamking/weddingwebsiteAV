@@ -22,3 +22,6 @@ Attendee List.xlsx
 # Tooling / scratch
 .playwright-mcp/
 __pycache__/
+
+# Raw unoptimized source photos (optimized copies live in uploads/Gallery/)
+uploads/Couple+Friends+Pictures/
