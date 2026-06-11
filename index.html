@@ -129,6 +129,8 @@ body.theme-midnight #gallery, body.theme-midnight #faq, body.theme-midnight #rsv
   background:linear-gradient(135deg, var(--bg2), var(--bg)); border:1px solid var(--border);
   display:flex; align-items:center; justify-content:center; gap:0.5rem;
   font-size:0.7rem; color:var(--text2); letter-spacing:0.05em; }
+.story-img { margin-top:0.75rem; width:100%; max-width:340px; height:170px; object-fit:cover;
+  border-radius:8px; border:1px solid var(--border); display:block; }
 
 /* SECTIONS */
 section { position: relative; overflow: hidden; }
@@ -1561,10 +1563,14 @@ function OurStory() {
                   </div>
                   <div className="story-heading">{e.heading}</div>
                   <div className="story-text">{e.text}</div>
-                  <div className="story-img-placeholder">
-                    <svg width="28" height="28" viewBox="0 0 28 28"><rect width="28" height="28" rx="3" fill="none" stroke="var(--border)" strokeWidth="1"/><circle cx="9" cy="9" r="3" stroke="var(--gold)" strokeWidth="0.8" fill="none"/><path d="M3 22 L9 14 L14 18 L18 13 L25 22" stroke="var(--primary)" strokeWidth="1" fill="none"/></svg>
-                    <span>Photo placeholder</span>
-                  </div>
+                  {e.img ? (
+                    <img className="story-img" src={e.img} alt={e.heading} loading="lazy"/>
+                  ) : (
+                    <div className="story-img-placeholder">
+                      <svg width="28" height="28" viewBox="0 0 28 28"><rect width="28" height="28" rx="3" fill="none" stroke="var(--border)" strokeWidth="1"/><circle cx="9" cy="9" r="3" stroke="var(--gold)" strokeWidth="0.8" fill="none"/><path d="M3 22 L9 14 L14 18 L18 13 L25 22" stroke="var(--primary)" strokeWidth="1" fill="none"/></svg>
+                      <span>Photo placeholder</span>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
