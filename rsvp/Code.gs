@@ -9,9 +9,9 @@ var PARTIES_TAB = 'Parties';
 var RESPONSES_TAB = 'Responses';
 var CLOSE_DATE = '2026-08-31T23:59:59-04:00';  // RSVPs close end of Aug 31, 2026 (ET)
 var ALLOWED_GENRES = [
-  'Bollywood / Hindi', 'Punjabi & Bhangra', 'Telugu / Tollywood', 'Tamil & South',
-  'Hip-Hop / R&B', 'EDM / House', 'Western Pop', 'Classic / Retro Bollywood',
-  'Romantic & Slow', 'Garba / Dandiya'
+  'Bollywood / Hindi', 'Punjabi & Bhangra', 'Telugu / Tollywood', 'Hip-Hop / R&B',
+  'EDM / House', 'Western Pop', 'Classic / Retro Bollywood', 'Romantic & Slow',
+  'Garba / Dandiya', '90s / 2000s Throwbacks'
 ]; // keep in sync with RSVP_CONFIG.genres in the website
 
 function jsonOut(obj) {
