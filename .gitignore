@@ -25,3 +25,8 @@ __pycache__/
 
 # Raw unoptimized source photos (optimized copies live in uploads/Gallery/)
 uploads/Couple+Friends+Pictures/
+
+# Review scratch (screenshots / contact sheets)
+review_contact_sheet.jpg
+*_after.jpeg
+gallery_after_fix.jpeg

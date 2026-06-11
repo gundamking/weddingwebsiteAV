@@ -112,6 +112,7 @@ body.theme-midnight #gallery, body.theme-midnight #faq, body.theme-midnight #rsv
 .gallery-item { cursor: pointer; border-radius: 8px; overflow: hidden; aspect-ratio: 1;
   transition: transform 0.2s, box-shadow 0.2s; }
 .gallery-item:hover { transform: scale(1.03); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .gallery-item.tall { grid-row: span 2; aspect-ratio: unset; }
 .lightbox-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:999;
   display:flex; align-items:center; justify-content:center; padding:2rem; cursor:pointer; }
@@ -1471,6 +1472,7 @@ function CoupleIntro() {
       name: 'Anjani',
       tagline: 'The Bride',
       base: 'Houston, Texas',
+      img: 'uploads/Bios/anjani.jpg',
       paragraphs: [
         "Anjani has never really stood still. Her family is from Bhopal, but she grew up all over the map — a childhood in India, her school years in South Africa, a senior year in Houston, then Georgia Tech and Kellogg, though no degree ever managed to slow her wanderlust down. By the time Varun met her she was flying between Houston and New Jersey every other week and making every airport run feel like the start of an adventure. The first thing he noticed was her eyes: the way they light up when she's curious, which is always. She listens like what you're saying is the most interesting thing in the world, and by the end of one conversation she'll have your whole life story out of you — and leave you feeling truly heard.",
         "She's the most thoughtful person Varun knows — smart, methodical, and careful in the way she speaks, thinks, and plans — but underneath it runs a restless, adventurous spirit. Having grown up across three continents, she travels like it's second nature: chasing the best food stall in a new city, saying yes to the unplanned detour, and turning an ordinary weekend into an expedition. From DC to Mexico City, San Francisco to Chicago, every trip with her feels like a whole new adventure beginning — and she's just as happy teaching him to do something he's never done as she is discovering something new herself.",
@@ -1482,6 +1484,7 @@ function CoupleIntro() {
       name: 'Varun',
       tagline: 'The Groom',
       base: 'New Jersey',
+      img: 'uploads/Bios/varun.jpg',
       paragraphs: [
         "Steady, kind, and quietly hilarious — Varun is the calm in every storm. He calls New Jersey home, where life moves at its own perfect pace: family dinners, long drives, and slow Sundays that stretch on forever.",
         "He's the most patient and genuinely kind person Anjani knows — a biotech mind who can launch into a thirty-minute monologue on cell therapy without warning, a Mario Kart sensei with infinite patience for a student who will never improve, a full-time human heater for a permanently cold partner, and somehow the only person who hears her never-ending list of asks and still thinks she's being reasonable.",
@@ -1500,10 +1503,14 @@ function CoupleIntro() {
         <div className="bio-grid">
           {people.map((p,i)=>(
             <div key={i} style={{background:'#ffffff',border:'1px solid var(--border)',borderRadius:20,padding:'2.25rem 1.75rem',display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',boxShadow:'0 4px 20px rgba(0,0,0,0.04)'}}>
-              <div style={{aspectRatio:'1',width:'72%',maxWidth:240,borderRadius:'50%',background:'linear-gradient(135deg,var(--bg2),var(--bg))',border:'2px solid var(--border)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'0.5rem',marginBottom:'1.5rem'}}>
-                <svg width="44" height="44" viewBox="0 0 44 44"><rect width="44" height="44" rx="5" fill="none" stroke="var(--border)" strokeWidth="1.5"/><circle cx="14" cy="14" r="5" stroke="var(--gold)" strokeWidth="1.2" fill="none"/><path d="M4 36 L14 22 L22 28 L30 18 L40 36" stroke="var(--primary)" strokeWidth="1.5" fill="none"/></svg>
-                <span style={{fontSize:'0.65rem',color:'var(--text2)',letterSpacing:'0.1em',textTransform:'uppercase'}}>Photo coming soon</span>
-              </div>
+              {p.img ? (
+                <img src={p.img} alt={p.name} style={{aspectRatio:'1',width:'72%',maxWidth:240,borderRadius:'50%',objectFit:'cover',border:'2px solid var(--border)',marginBottom:'1.5rem'}}/>
+              ) : (
+                <div style={{aspectRatio:'1',width:'72%',maxWidth:240,borderRadius:'50%',background:'linear-gradient(135deg,var(--bg2),var(--bg))',border:'2px solid var(--border)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'0.5rem',marginBottom:'1.5rem'}}>
+                  <svg width="44" height="44" viewBox="0 0 44 44"><rect width="44" height="44" rx="5" fill="none" stroke="var(--border)" strokeWidth="1.5"/><circle cx="14" cy="14" r="5" stroke="var(--gold)" strokeWidth="1.2" fill="none"/><path d="M4 36 L14 22 L22 28 L30 18 L40 36" stroke="var(--primary)" strokeWidth="1.5" fill="none"/></svg>
+                  <span style={{fontSize:'0.65rem',color:'var(--text2)',letterSpacing:'0.1em',textTransform:'uppercase'}}>Photo coming soon</span>
+                </div>
+              )}
               <div style={{fontSize:'0.7rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'var(--gold)',marginBottom:'0.4rem'}}>{p.tagline}</div>
               <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'2.4rem',color:'var(--primary-deep)',lineHeight:1.1,marginBottom:'0.3rem'}}>{p.name}</div>
               <div style={{fontFamily:"'Cormorant Garamond',serif",fontStyle:'italic',fontSize:'1rem',color:'var(--rose)',marginBottom:'1.5rem'}}>📍 {p.base}</div>
@@ -1890,7 +1897,7 @@ function FAQ() {
 // ─── RSVP ─────────────────────────────────────────────────────────────────────
 const RSVP_CONFIG = /*EDITME-RSVP-CONFIG-BEGIN*/{
   apiUrl: 'PASTE_APPS_SCRIPT_WEB_APP_URL',   // /exec URL from the Apps Script deployment
-  closeDate: '',                              // ISO mirror of Apps Script CLOSE_DATE; '' = open
+  closeDate: '2026-08-31T23:59:59-04:00',     // RSVPs close end of Aug 31, 2026 (ET)
   genres: [
     'Bollywood / Hindi', 'Punjabi & Bhangra', 'Telugu / Tollywood', 'Tamil & South',
     'Hip-Hop / R&B', 'EDM / House', 'Western Pop', 'Classic / Retro Bollywood',

@@ -7,7 +7,7 @@
 var SHEET_ID = 'PASTE_RSVP_SHEET_ID';      // from the RSVP sheet URL
 var PARTIES_TAB = 'Parties';
 var RESPONSES_TAB = 'Responses';
-var CLOSE_DATE = '';                        // ISO e.g. '2026-09-01T23:59:59-04:00'; '' = open
+var CLOSE_DATE = '2026-08-31T23:59:59-04:00';  // RSVPs close end of Aug 31, 2026 (ET)
 var ALLOWED_GENRES = [
   'Bollywood / Hindi', 'Punjabi & Bhangra', 'Telugu / Tollywood', 'Tamil & South',
   'Hip-Hop / R&B', 'EDM / House', 'Western Pop', 'Classic / Retro Bollywood',
