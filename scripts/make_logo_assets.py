@@ -58,8 +58,8 @@ nav = trans.crop(box)
 nav.save(NAV_OUT)
 print('wrote %s (%dx%d, transparent, trimmed)' % (NAV_OUT, nav.width, nav.height))
 
-# --- favicon: trimmed logo centered on a contrasting rounded brand tile ---
-tile_color = PURPLE if ink_lum > 140 else GOLD   # light ink -> purple tile, dark ink -> gold tile
+# --- favicon: trimmed logo centered on a white rounded tile, zoomed in close ---
+tile_color = (255, 255, 255)                      # white background
 S = 512
 tile = Image.new('RGBA', (S, S), tile_color + (255,))
 # rounded corners
@@ -69,7 +69,7 @@ ImageDraw.Draw(mask).rounded_rectangle([0, 0, S - 1, S - 1], radius=96, fill=255
 tile.putalpha(mask)
 
 logo = nav.copy()
-target = int(S * 0.74)
+target = int(S * 0.92)   # zoomed in close, minimal padding
 scale = min(target / logo.width, target / logo.height)
 logo = logo.resize((max(1, int(logo.width * scale)), max(1, int(logo.height * scale))), Image.LANCZOS)
 ox = (S - logo.width) // 2
