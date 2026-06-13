@@ -1563,14 +1563,6 @@ function OurStory() {
                   </div>
                   <div className="story-heading">{e.heading}</div>
                   <div className="story-text">{e.text}</div>
-                  {e.img ? (
-                    <img className="story-img" src={e.img} alt={e.heading} loading="lazy"/>
-                  ) : (
-                    <div className="story-img-placeholder">
-                      <svg width="28" height="28" viewBox="0 0 28 28"><rect width="28" height="28" rx="3" fill="none" stroke="var(--border)" strokeWidth="1"/><circle cx="9" cy="9" r="3" stroke="var(--gold)" strokeWidth="0.8" fill="none"/><path d="M3 22 L9 14 L14 18 L18 13 L25 22" stroke="var(--primary)" strokeWidth="1" fill="none"/></svg>
-                      <span>Photo placeholder</span>
-                    </div>
-                  )}
                 </div>
               </div>
             ))}
@@ -1677,10 +1669,7 @@ function OleanderFarms() {
             </div>
           </div>
           <div>
-            <div className="farm-img-placeholder">
-              <svg width="60" height="60" viewBox="0 0 60 60"><rect width="60" height="60" rx="4" fill="none" stroke="var(--border)" strokeWidth="1.5"/><path d="M8 45 Q20 25 35 35 Q45 42 52 28" stroke="var(--primary)" strokeWidth="2" fill="none"/><circle cx="20" cy="20" r="8" stroke="var(--gold)" strokeWidth="1.5" fill="none"/></svg>
-              <span style={{fontFamily:'monospace',fontSize:'0.7rem',color:'var(--text2)',textAlign:'center',padding:'0 1rem'}}>Oleander Farms photo</span>
-            </div>
+            <img src="uploads/oleander-farms.jpg" alt="Oleander Farms resort at dusk, reflected in the infinity pool" loading="lazy" style={{width:'100%',aspectRatio:'4/3',objectFit:'cover',borderRadius:12,border:'1px solid var(--border)',display:'block'}}/>
             <div style={{marginTop:'1rem',borderRadius:12,overflow:'hidden',border:'1px solid var(--border)',background:'white'}}>
               <a href="uploads/oleander-farms-map.pdf" download="Oleander-Farms-Map.pdf" target="_blank" rel="noopener" style={{display:'block',textDecoration:'none',color:'inherit'}}>
                 <img src="uploads/oleander-map.png" alt="Oleander Farms property map" style={{width:'100%',display:'block',aspectRatio:'4/3',objectFit:'cover',background:'linear-gradient(135deg,var(--bg2),var(--bg))'}} onError={(e)=>{e.currentTarget.style.display='none';}}/>
