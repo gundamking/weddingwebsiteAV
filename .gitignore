@@ -19,6 +19,9 @@ desktop.ini
 # Private guest data — NEVER commit (contains phone numbers / emails)
 Attendee List.xlsx
 
+# Local-only RSVP config — keeps the Apps Script web-app URL out of the public repo
+rsvp-config.local.js
+
 # Tooling / scratch
 .playwright-mcp/
 __pycache__/

@@ -4,7 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Anjani & Varun Ram — December 11–12, 2026</title>
-<link rel="icon" type="image/png" href="uploads/favicon.png"/>
+<link rel="icon" type="image/png" href="uploads/favicon.png?v=2"/>
+<link rel="apple-touch-icon" href="uploads/favicon.png?v=2"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Parisienne&family=Noto+Serif+Telugu:wght@300;400&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet"/>
@@ -390,6 +391,10 @@ footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 3
 </head>
 <body class="theme-marigold">
 
+<!-- Local-only runtime config (RSVP API URL). Gitignored — NOT committed, so the
+     Apps Script URL stays out of the public repo. Upload this file to the host
+     separately. Missing file just means RSVP is inert; the rest of the site works. -->
+<script src="rsvp-config.local.js"></script>
 <script type="text/babel" src="tweaks-panel.jsx"></script>
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
@@ -1476,9 +1481,8 @@ function CoupleIntro() {
       base: 'Houston, Texas',
       img: 'uploads/Bios/anjani.jpg',
       paragraphs: [
-        "Anjani has never really stood still. Her family is from Bhopal, but she grew up all over the map — a childhood in India, her school years in South Africa, a senior year in Houston, then Georgia Tech and Kellogg, though no degree ever managed to slow her wanderlust down. By the time Varun met her she was flying between Houston and New Jersey every other week and making every airport run feel like the start of an adventure. The first thing he noticed was her eyes: the way they light up when she's curious, which is always. She listens like what you're saying is the most interesting thing in the world, and by the end of one conversation she'll have your whole life story out of you — and leave you feeling truly heard.",
-        "She's the most thoughtful person Varun knows — smart, methodical, and careful in the way she speaks, thinks, and plans — but underneath it runs a restless, adventurous spirit. Having grown up across three continents, she travels like it's second nature: chasing the best food stall in a new city, saying yes to the unplanned detour, and turning an ordinary weekend into an expedition. From DC to Mexico City, San Francisco to Chicago, every trip with her feels like a whole new adventure beginning — and she's just as happy teaching him to do something he's never done as she is discovering something new herself.",
-        "For all that wanderlust, she's the steady center everyone orbits — the planner, the party organizer, the one who remembers the details and makes the reservations. Family and friends alike lean on her, and she shows up for all of them — anyone lucky enough to be in her circle.",
+        "Curious, kind, and endlessly on the move — Anjani is the steady center everyone orbits. Her family is from Bhopal, but she grew up across three continents, and the wanderlust never wore off.",
+        "She's the most thoughtful person Varun knows — smart, methodical, and careful in the way she speaks, thinks, and plans, with a restless, adventurous spirit underneath. She listens like what you're saying is the most interesting thing in the world, chases the best food stall in every new city, and is the one everyone leans on to remember the details and make the reservations.",
       ],
       tags: ['Consultant','Globe-trotter','Foodie'],
     },
@@ -1501,7 +1505,7 @@ function CoupleIntro() {
       <div className="section-inner">
         <div className="section-eyebrow">About Us</div>
         <div className="section-title">Meet the Couple</div>
-        <div className="section-subtitle" style={{marginBottom:'3rem'}}>Two stories, one journey — a little about each of us before we say "I do."</div>
+        <div className="section-subtitle" style={{marginBottom:'3rem'}}>Two stories, one journey — a little about each of us before we tie the knot.</div>
         <div className="bio-grid">
           {people.map((p,i)=>(
             <div key={i} style={{background:'#ffffff',border:'1px solid var(--border)',borderRadius:20,padding:'2.25rem 1.75rem',display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',boxShadow:'0 4px 20px rgba(0,0,0,0.04)'}}>
@@ -1790,9 +1794,9 @@ function Clothing() {
     { day:'December 12 · Snatakam & Lunch (Morning)', bg:'linear-gradient(135deg,#fff8e8,#fef0e8)',
       vibe:'Traditional Indian attire — sarees, dhotis, and kurta pajama all welcome.',
       note:'Please avoid black.',
-      men:['Kurta pajama','Dhoti / veshti with angavastram','Silk kurta'],
+      men:['Kurta pajama','Dhoti / veshti with angavastram'],
       menImg:'uploads/Inspo/men%20snatekam%20brunch%20outfit%20inspo.jpg',
-      women:['Saree'],
+      women:['Saree','Salwar kameez'],
       womenImg:'uploads/Inspo/women%20snatekam%20brunch%20outfit%20inspo.jpg' },
     { day:'December 12 · Wedding Ceremony (Sunset)', bg:'linear-gradient(135deg,#fff4e0,#ffe8e8)',
       vibe:'Timeless elegance in refined traditional or formal attire.',
@@ -1888,7 +1892,7 @@ function FAQ() {
 
 // ─── RSVP ─────────────────────────────────────────────────────────────────────
 const RSVP_CONFIG = /*EDITME-RSVP-CONFIG-BEGIN*/{
-  apiUrl: 'PASTE_APPS_SCRIPT_WEB_APP_URL',   // /exec URL from the Apps Script deployment
+  apiUrl: (typeof window !== 'undefined' && window.RSVP_API_URL) || '',   // set in rsvp-config.local.js (gitignored)
   closeDate: '2026-08-31T23:59:59-04:00',     // RSVPs close end of Aug 31, 2026 (ET)
   genres: [
     'Bollywood / Hindi', 'Punjabi & Bhangra', 'Telugu / Tollywood', 'Hip-Hop / R&B',
@@ -1900,7 +1904,7 @@ const RSVP_CONFIG = /*EDITME-RSVP-CONFIG-BEGIN*/{
 const RSVP_CONTACT = /*EDITME-CONTACT-BEGIN*/{
   email: 'anjanivarunwedding@gmail.com',
   contacts: [
-    { name: 'Wedding Planner (TBD)', phone: 'TBD' },
+    { name: 'Kaizen Global Events (RSVP)', phone: '+91 98334 57662' },
   ],
 }/*EDITME-CONTACT-END*/;
 
@@ -1973,12 +1977,6 @@ function RSVP() {
             <div className="section-title">RSVP</div>
             <div className="section-subtitle">
               Please find your name below and let us know if you can make it. All guests are RSVP'd for both the Dec 11 &amp; Dec 12 celebrations.
-            </div>
-            <div style={{marginTop:'2rem',fontFamily:'Cormorant Garamond, serif',fontSize:'1.6rem',color:'var(--gold)',lineHeight:1.85}}>
-              "The joy of celebrating<br/><em>with the people you love</em><br/>is the greatest gift of all."
-            </div>
-            <div style={{marginTop:'1.75rem',fontSize:'0.9rem',color:'var(--text2)',lineHeight:1.7,maxWidth:430}}>
-              Once you've RSVP'd, our wedding planner will reach out to confirm the details you'll need, help with a smooth arrival, and answer any questions along the way.
             </div>
           </div>
           <div style={{flex:'1.2',minWidth:300}}>
@@ -2115,10 +2113,15 @@ function RSVP() {
               </form>
             )}
             <div style={{marginTop:'1.75rem',fontSize:'0.82rem',color:'var(--text2)',lineHeight:1.7,textAlign:'center'}}>
+              Once you've RSVP'd, our wedding planner will reach out to confirm the details you'll need, help with a smooth arrival, and answer any questions along the way.
+              <br/><br/>
               Can't find your party or need help? Email <a href={'mailto:'+RSVP_CONTACT.email} style={{color:'var(--gold)'}}>{RSVP_CONTACT.email}</a>
               {RSVP_CONTACT.contacts.map((c,i)=>(<span key={i}><br/>{c.name}: {c.phone}</span>))}
             </div>
           </div>
+        </div>
+        <div style={{marginTop:'3.5rem',textAlign:'center',fontFamily:'Cormorant Garamond, serif',fontStyle:'italic',fontSize:'1.7rem',color:'var(--gold)',lineHeight:1.6}}>
+          "The joy of celebrating with the people you love is the greatest gift of all."
         </div>
       </div>
     </section>
@@ -2151,6 +2154,77 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "heroSize": 8
 }/*EDITMODE-END*/;
 
+// ─── BACKGROUND MUSIC ─────────────────────────────────────────────────────────
+// Self-hosted audio. Plays softly, loops, and starts automatically. Browsers
+// block audible autoplay until a user gesture, so the track begins muted on load
+// and fades up softly on the visitor's first tap/click/keypress. A small toggle
+// in the bottom-right lets visitors pause/resume.
+const MUSIC_SRC = 'uploads/wedding-music.mp3';
+const MUSIC_VOLUME = 0.06; // minimal background level (0–1)
+function MusicPlayer() {
+  const audioRef = useRef(null);
+  const started = useRef(false);
+  const [playing, setPlaying] = useState(false);
+
+  // Bring the sound up softly (used by both the auto-start gesture and the button).
+  const startAudible = () => {
+    const a = audioRef.current; if (!a) return;
+    started.current = true;
+    a.muted = false;
+    a.volume = MUSIC_VOLUME;
+    a.play().catch(() => {});
+  };
+
+  useEffect(() => {
+    const a = audioRef.current; if (!a) return;
+    a.volume = MUSIC_VOLUME;
+    a.muted = true;            // muted autoplay is always permitted…
+    a.play().catch(() => {});  // …keep it rolling silently in the background
+    const onPlay = () => setPlaying(true);
+    const onPause = () => setPlaying(false);
+    a.addEventListener('play', onPlay);
+    a.addEventListener('pause', onPause);
+    // Fade the sound up on the visitor's first interaction.
+    const unmute = () => { if (started.current) return; startAudible(); cleanupEvs(); };
+    const evs = ['pointerdown','keydown','touchstart'];
+    const cleanupEvs = () => evs.forEach(ev => window.removeEventListener(ev, unmute));
+    evs.forEach(ev => window.addEventListener(ev, unmute, { passive:true }));
+    return () => { cleanupEvs(); a.removeEventListener('play', onPlay); a.removeEventListener('pause', onPause); };
+  }, []);
+
+  const toggle = () => {
+    const a = audioRef.current; if (!a) return;
+    if (a.paused || a.muted) startAudible();  // also serves as the first gesture
+    else a.pause();
+  };
+
+  return (
+    <>
+      <audio ref={audioRef} src={MUSIC_SRC} loop preload="auto"
+        style={{position:'fixed',width:0,height:0,opacity:0,pointerEvents:'none'}}/>
+      <button onClick={toggle} aria-label={playing ? 'Pause music' : 'Play music'}
+        title={playing ? 'Pause music' : 'Play music'}
+        style={{position:'fixed',right:18,bottom:18,zIndex:200,width:44,height:44,
+          borderRadius:'50%',border:'1px solid var(--border)',background:'var(--bg)',
+          color:'var(--gold)',cursor:'pointer',boxShadow:'0 4px 16px rgba(0,0,0,0.12)',
+          display:'flex',alignItems:'center',justifyContent:'center',opacity:0.85,
+          transition:'opacity 0.2s, transform 0.2s'}}
+        onMouseEnter={e=>{e.currentTarget.style.opacity='1';e.currentTarget.style.transform='scale(1.06)';}}
+        onMouseLeave={e=>{e.currentTarget.style.opacity='0.85';e.currentTarget.style.transform='scale(1)';}}>
+        {playing ? (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>
+          </svg>
+        ) : (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        )}
+      </button>
+    </>
+  );
+}
+
 function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
 
@@ -2180,6 +2254,7 @@ function App() {
       <FAQ/>
       <RSVP/>
       <Footer/>
+      <MusicPlayer/>
       <TweaksPanel title="Tweaks">
         <TweakSection label="Color Theme"/>
         <TweakRadio label="Theme" value={t.theme}
