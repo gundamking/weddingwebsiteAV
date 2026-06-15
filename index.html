@@ -1463,7 +1463,7 @@ function GaneshaSection() {
             <span style={{fontFamily:"'Tiro Devanagari Hindi',serif",fontSize:'1.8rem',color:'var(--gold)'}}>ॐ</span>
           </div>
           <div style={{fontFamily:'Cormorant Garamond, serif',fontStyle:'italic',fontSize:'1.1rem',color:'var(--primary-deep)',maxWidth:500,textAlign:'center',margin:'0 auto'}}>
-            With the blessings of our families and Lord Ganesha, Anjani &amp; Varun welcome you to celebrate their sacred union.
+            With the blessings of our families and Lord Ganesha, the Agrawal and Khandavalli families welcome you to celebrate their sacred union.
           </div>
         </div>
       </div>
@@ -1479,7 +1479,7 @@ function CoupleIntro() {
       name: 'Anjani',
       tagline: 'The Bride',
       base: 'Houston, Texas',
-      img: 'uploads/Bios/anjani.jpg',
+      img: 'uploads/Bios/anjani.jpeg',
       paragraphs: [
         "Curious, kind, and endlessly on the move — Anjani is the steady center everyone orbits. Her family is from Bhopal, but she grew up across three continents, and the wanderlust never wore off.",
         "She's the most thoughtful person Varun knows — smart, methodical, and careful in the way she speaks, thinks, and plans, with a restless, adventurous spirit underneath. She listens like what you're saying is the most interesting thing in the world, chases the best food stall in every new city, and is the one everyone leans on to remember the details and make the reservations.",
@@ -1780,7 +1780,7 @@ function Clothing() {
       men:['Kurta pajama in bright colors','Nehru jacket over kurta','Indo-western welcome'],
       menColors:['#e8a030','#9b59b6','#27ae60'],
       menImg:'uploads/Inspo/men%20mehndi%20outfit%20inspo.jpg',
-      women:['Salwar kameez / churidar','Anarkali suits','Bright lehengas'],
+      women:['Saree','Salwar kameez / churidar','Anarkali suits','Bright lehengas'],
       womenColors:['#e87090','#9b59b6','#e8a030'],
       womenImg:'uploads/Inspo/women%20mehndi%20outfit%20inspo.jpg' },
     { day:'December 11 · Sangeet Evening', bg:'linear-gradient(135deg,#f0e8ff,#ffe8f5)',
@@ -1800,7 +1800,6 @@ function Clothing() {
       womenImg:'uploads/Inspo/women%20snatekam%20brunch%20outfit%20inspo.jpg' },
     { day:'December 12 · Wedding Ceremony (Sunset)', bg:'linear-gradient(135deg,#fff4e0,#ffe8e8)',
       vibe:'Timeless elegance in refined traditional or formal attire.',
-      note:'Kindly avoid shades of orange and sage green.',
       men:['Sherwani in jewel tones','Silk kurta with embroidery','Bandhgala / Indo-western fusion'],
       menColors:['#7c4d9e','#c8913a','#e07830'],
       menImg:'uploads/Inspo/men%20ceremony%20inspo%20outfit.jpg',
@@ -1837,15 +1836,6 @@ function Clothing() {
                         </div>
                       ))}
                     </div>
-                    {col.img ? (
-                      <div style={{aspectRatio:'4/5',borderRadius:8,overflow:'hidden',border:'1px solid var(--border)',background:'linear-gradient(135deg,var(--bg),var(--bg2))'}}>
-                        <img src={col.img} alt={`${col.label} attire inspiration`} loading="lazy" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} onError={(e)=>{e.currentTarget.style.display='none';}}/>
-                      </div>
-                    ) : (
-                      <div style={{height:90,borderRadius:8,background:'linear-gradient(135deg,var(--bg),var(--bg2))',border:'1px solid var(--border)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.7rem',color:'var(--text2)',gap:'0.5rem'}}>
-                        Attire inspiration
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
@@ -2019,9 +2009,8 @@ function RSVP() {
                         {matches.map(p => (
                           <button
                             key={p.id} type="button" onClick={()=>select(p)}
-                            style={{display:'flex',width:'100%',justifyContent:'space-between',alignItems:'center',padding:'0.8rem 1rem',background:'none',border:'none',borderBottom:'1px solid var(--border)',cursor:'pointer',textAlign:'left',color:'var(--text)'}}>
+                            style={{display:'flex',width:'100%',alignItems:'center',padding:'0.8rem 1rem',background:'none',border:'none',borderBottom:'1px solid var(--border)',cursor:'pointer',textAlign:'left',color:'var(--text)'}}>
                             <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.05rem'}}>{p.name}</span>
-                            <span style={{fontSize:'0.72rem',color:'var(--gold)',letterSpacing:'0.05em'}}>{p.count} {p.count===1?'seat':'seats'}</span>
                           </button>
                         ))}
                       </div>
