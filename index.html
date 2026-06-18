@@ -1722,7 +1722,7 @@ function Travel() {
 
 // ─── GALLERY ──────────────────────────────────────────────────────────────────
 function Gallery() {
-  const PHOTOS = Array.from({length: 61}, (_, i) => i+1).filter(n => n !== 37).map(n => 'uploads/Gallery/g' + String(n).padStart(4,'0') + '.jpg');
+  const PHOTOS = [1,8,15,24,28,30,31,39,41,42,45,52,53,57,60].map(n => 'uploads/Gallery/g' + String(n).padStart(4,'0') + '.jpg');
   const PAGE = 24;
   const [visible, setVisible] = useState(PAGE);
   const [open, setOpen] = useState(null);
