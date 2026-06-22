@@ -1883,7 +1883,7 @@ function FAQ() {
 // ─── RSVP ─────────────────────────────────────────────────────────────────────
 const RSVP_CONFIG = /*EDITME-RSVP-CONFIG-BEGIN*/{
   apiUrl: (typeof window !== 'undefined' && window.RSVP_API_URL) || '',   // set in rsvp-config.local.js (gitignored)
-  closeDate: '2026-08-31T23:59:59-04:00',     // RSVPs close end of Aug 31, 2026 (ET)
+  closeDate: '2026-08-15T23:59:59-04:00',     // RSVPs close end of Aug 15, 2026 (ET)
   genres: [
     'Bollywood / Hindi', 'Punjabi & Bhangra', 'Telugu / Tollywood', 'Hip-Hop / R&B',
     'EDM / House', 'Western Pop', 'Classic / Retro Bollywood', 'Romantic & Slow',
@@ -1967,6 +1967,9 @@ function RSVP() {
             <div className="section-title">RSVP</div>
             <div className="section-subtitle">
               Please find your name below and let us know if you can make it. All guests are RSVP'd for both the Dec 11 &amp; Dec 12 celebrations.
+            </div>
+            <div className="section-subtitle" style={{marginTop:'1rem',fontWeight:600,color:'var(--gold)'}}>
+              Kindly RSVP by August 15, 2026.
             </div>
           </div>
           <div style={{flex:'1.2',minWidth:300}}>
