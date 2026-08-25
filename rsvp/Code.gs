@@ -11,7 +11,7 @@
 //   5) Copy the /exec URL into RSVP_CONFIG.apiUrl in index.html.
 
 var TAB_NAME = 'rsvp sheet';                      // exact name of the website-facing tab
-var CLOSE_DATE = '2026-08-31T23:59:59-04:00';     // keep in sync with RSVP_CONFIG.closeDate
+var CLOSE_DATE = '2026-09-15T23:59:59-04:00';     // keep in sync with RSVP_CONFIG.closeDate
 var ALLOWED_GENRES = [
   'Bollywood / Hindi', 'Punjabi & Bhangra', 'Telugu / Tollywood', 'Hip-Hop / R&B',
   'EDM / House', 'Western Pop', 'Classic / Retro Bollywood', 'Romantic & Slow',
